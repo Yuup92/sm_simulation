@@ -17,98 +17,98 @@ network CompleteNetwork7
         }
 
     submodules:
-        node0: BasicNode {
+        node_0: BasicNode {
             @display("p=164,38");
         }
-        node1: BasicNode {
+        node_1: BasicNode {
 
             @display("p=52,87");
         }
-        node2: BasicNode {
+        node_2: BasicNode {
             @display("p=103,250");
         }
-        node3: BasicNode {
+        node_3: BasicNode {
             @display("p=35,188");
         }
-        node4: BasicNode {
+        node_4: BasicNode {
             @display("p=219,259");
         }
-        node5: BasicNode {
+        node_5: BasicNode {
             @display("p=281,202");
         }
-        node6: BasicNode {
+        node_6: BasicNode {
             @display("p=303,87");
         }
     connections:
         //Node0
-        node0.out++ --> Channel --> node1.in++;
-        node0.in++ <-- Channel <-- node1.out++;
+        node_0.out++ --> Channel --> node_1.in++;
+        node_0.in++ <-- Channel <-- node_1.out++;
 
-        node0.out++ --> Channel --> node2.in++;
-        node0.in++ <-- Channel <-- node2.out++;
+        node_0.out++ --> Channel --> node_2.in++;
+        node_0.in++ <-- Channel <-- node_2.out++;
 
-        node0.out++ --> Channel --> node3.in++;
-        node0.in++ <-- Channel <-- node3.out++;
+        node_0.out++ --> Channel --> node_3.in++;
+        node_0.in++ <-- Channel <-- node_3.out++;
 
-        node0.out++ --> Channel --> node4.in++;
-        node0.in++ <-- Channel <-- node4.out++;
+        node_0.out++ --> Channel --> node_4.in++;
+        node_0.in++ <-- Channel <-- node_4.out++;
 
-        node0.out++ --> Channel --> node5.in++;
-        node0.in++ <-- Channel <-- node5.out++;
+        node_0.out++ --> Channel --> node_5.in++;
+        node_0.in++ <-- Channel <-- node_5.out++;
 
-        node0.out++ --> Channel --> node6.in++;
-        node0.in++ <-- Channel <-- node6.out++;
+        node_0.out++ --> Channel --> node_6.in++;
+        node_0.in++ <-- Channel <-- node_6.out++;
         
         
         // Node1
-        node1.out++ --> Channel --> node2.in++;
-        node1.in++ <-- Channel <-- node2.out++;
+        node_1.out++ --> Channel --> node_2.in++;
+        node_1.in++ <-- Channel <-- node_2.out++;
 
-        node1.out++ --> Channel --> node3.in++;
-        node1.in++ <-- Channel <-- node3.out++;
+        node_1.out++ --> Channel --> node_3.in++;
+        node_1.in++ <-- Channel <-- node_3.out++;
 
-        node1.out++ --> Channel --> node4.in++;
-        node1.in++ <-- Channel <-- node4.out++;
+        node_1.out++ --> Channel --> node_4.in++;
+        node_1.in++ <-- Channel <-- node_4.out++;
 
-        node1.out++ --> Channel --> node5.in++;
-        node1.in++ <-- Channel <-- node5.out++;
+        node_1.out++ --> Channel --> node_5.in++;
+        node_1.in++ <-- Channel <-- node_5.out++;
 
-        node1.out++ --> Channel --> node6.in++;
-        node1.in++ <-- Channel <-- node6.out++;      
+        node_1.out++ --> Channel --> node_6.in++;
+        node_1.in++ <-- Channel <-- node_6.out++;      
         
         //Node2
-        node2.out++ --> Channel --> node3.in++;
-        node2.in++ <-- Channel <-- node3.out++;
+        node_2.out++ --> Channel --> node_3.in++;
+        node_2.in++ <-- Channel <-- node_3.out++;
 
-        node2.out++ --> Channel --> node4.in++;
-        node2.in++ <-- Channel <-- node4.out++;
+        node_2.out++ --> Channel --> node_4.in++;
+        node_2.in++ <-- Channel <-- node_4.out++;
 
-        node2.out++ --> Channel --> node5.in++;
-        node2.in++ <-- Channel <-- node5.out++;
+        node_2.out++ --> Channel --> node_5.in++;
+        node_2.in++ <-- Channel <-- node_5.out++;
 
-        node2.out++ --> Channel --> node6.in++;
-        node2.in++ <-- Channel <-- node6.out++;
+        node_2.out++ --> Channel --> node_6.in++;
+        node_2.in++ <-- Channel <-- node_6.out++;
         
         // Node3
-        node3.out++ --> Channel --> node4.in++;
-        node3.in++ <-- Channel <-- node4.out++;
+        node_3.out++ --> Channel --> node_4.in++;
+        node_3.in++ <-- Channel <-- node_4.out++;
 
-        node3.out++ --> Channel --> node5.in++;
-        node3.in++ <-- Channel <-- node5.out++;
+        node_3.out++ --> Channel --> node_5.in++;
+        node_3.in++ <-- Channel <-- node_5.out++;
 
-        node3.out++ --> Channel --> node6.in++;
-        node3.in++ <-- Channel <-- node6.out++;
+        node_3.out++ --> Channel --> node_6.in++;
+        node_3.in++ <-- Channel <-- node_6.out++;
         
         // Node4
-        node4.out++ --> Channel --> node5.in++;
-        node4.in++ <-- Channel <-- node5.out++;
+        node_4.out++ --> Channel --> node_5.in++;
+        node_4.in++ <-- Channel <-- node_5.out++;
 
-        node4.out++ --> Channel --> node6.in++;
-        node4.in++ <-- Channel <-- node6.out++;
+        node_4.out++ --> Channel --> node_6.in++;
+        node_4.in++ <-- Channel <-- node_6.out++;
         
         // Node5
-        node5.out++ --> Channel --> node6.in++;
-        node5.in++ <-- Channel <-- node6.out++;      
+        node_5.out++ --> Channel --> node_6.in++;
+        node_5.in++ <-- Channel <-- node_6.out++;      
 }
 
 
