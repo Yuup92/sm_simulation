@@ -18,4 +18,6 @@ message BasicMessage
     int source;
     int destination;
     int scalar_clock;
+    int src_node_id;
+    bool ack;
 }

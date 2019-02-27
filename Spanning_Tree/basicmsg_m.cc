@@ -184,6 +184,8 @@ BasicMessage::BasicMessage(const char *name, short kind) : ::omnetpp::cMessage(n
     this->source = 0;
     this->destination = 0;
     this->scalar_clock = 0;
+    this->src_node_id = 0;
+    this->ack = false;
 }
 
 BasicMessage::BasicMessage(const BasicMessage& other) : ::omnetpp::cMessage(other)
@@ -208,6 +210,8 @@ void BasicMessage::copy(const BasicMessage& other)
     this->source = other.source;
     this->destination = other.destination;
     this->scalar_clock = other.scalar_clock;
+    this->src_node_id = other.src_node_id;
+    this->ack = other.ack;
 }
 
 void BasicMessage::parsimPack(omnetpp::cCommBuffer *b) const
@@ -216,6 +220,8 @@ void BasicMessage::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->source);
     doParsimPacking(b,this->destination);
     doParsimPacking(b,this->scalar_clock);
+    doParsimPacking(b,this->src_node_id);
+    doParsimPacking(b,this->ack);
 }
 
 void BasicMessage::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -224,6 +230,8 @@ void BasicMessage::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->source);
     doParsimUnpacking(b,this->destination);
     doParsimUnpacking(b,this->scalar_clock);
+    doParsimUnpacking(b,this->src_node_id);
+    doParsimUnpacking(b,this->ack);
 }
 
 int BasicMessage::getSource() const
@@ -254,6 +262,26 @@ int BasicMessage::getScalar_clock() const
 void BasicMessage::setScalar_clock(int scalar_clock)
 {
     this->scalar_clock = scalar_clock;
+}
+
+int BasicMessage::getSrc_node_id() const
+{
+    return this->src_node_id;
+}
+
+void BasicMessage::setSrc_node_id(int src_node_id)
+{
+    this->src_node_id = src_node_id;
+}
+
+bool BasicMessage::getAck() const
+{
+    return this->ack;
+}
+
+void BasicMessage::setAck(bool ack)
+{
+    this->ack = ack;
 }
 
 class BasicMessageDescriptor : public omnetpp::cClassDescriptor
@@ -321,7 +349,7 @@ const char *BasicMessageDescriptor::getProperty(const char *propertyname) const
 int BasicMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 3+basedesc->getFieldCount() : 3;
+    return basedesc ? 5+basedesc->getFieldCount() : 5;
 }
 
 unsigned int BasicMessageDescriptor::getFieldTypeFlags(int field) const
@@ -336,8 +364,10 @@ unsigned int BasicMessageDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<3) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<5) ? fieldTypeFlags[field] : 0;
 }
 
 const char *BasicMessageDescriptor::getFieldName(int field) const
@@ -352,8 +382,10 @@ const char *BasicMessageDescriptor::getFieldName(int field) const
         "source",
         "destination",
         "scalar_clock",
+        "src_node_id",
+        "ack",
     };
-    return (field>=0 && field<3) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<5) ? fieldNames[field] : nullptr;
 }
 
 int BasicMessageDescriptor::findField(const char *fieldName) const
@@ -363,6 +395,8 @@ int BasicMessageDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='s' && strcmp(fieldName, "source")==0) return base+0;
     if (fieldName[0]=='d' && strcmp(fieldName, "destination")==0) return base+1;
     if (fieldName[0]=='s' && strcmp(fieldName, "scalar_clock")==0) return base+2;
+    if (fieldName[0]=='s' && strcmp(fieldName, "src_node_id")==0) return base+3;
+    if (fieldName[0]=='a' && strcmp(fieldName, "ack")==0) return base+4;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -378,8 +412,10 @@ const char *BasicMessageDescriptor::getFieldTypeString(int field) const
         "int",
         "int",
         "int",
+        "int",
+        "bool",
     };
-    return (field>=0 && field<3) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<5) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **BasicMessageDescriptor::getFieldPropertyNames(int field) const
@@ -449,6 +485,8 @@ std::string BasicMessageDescriptor::getFieldValueAsString(void *object, int fiel
         case 0: return long2string(pp->getSource());
         case 1: return long2string(pp->getDestination());
         case 2: return long2string(pp->getScalar_clock());
+        case 3: return long2string(pp->getSrc_node_id());
+        case 4: return bool2string(pp->getAck());
         default: return "";
     }
 }
@@ -466,6 +504,8 @@ bool BasicMessageDescriptor::setFieldValueAsString(void *object, int field, int 
         case 0: pp->setSource(string2long(value)); return true;
         case 1: pp->setDestination(string2long(value)); return true;
         case 2: pp->setScalar_clock(string2long(value)); return true;
+        case 3: pp->setSrc_node_id(string2long(value)); return true;
+        case 4: pp->setAck(string2bool(value)); return true;
         default: return false;
     }
 }

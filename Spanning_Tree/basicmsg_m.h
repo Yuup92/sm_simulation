@@ -26,6 +26,8 @@
  *     int source;
  *     int destination;
  *     int scalar_clock;
+ *     int src_node_id;
+ *     bool ack;
  * }
  * </pre>
  */
@@ -35,6 +37,8 @@ class BasicMessage : public ::omnetpp::cMessage
     int source;
     int destination;
     int scalar_clock;
+    int src_node_id;
+    bool ack;
 
   private:
     void copy(const BasicMessage& other);
@@ -59,6 +63,10 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setDestination(int destination);
     virtual int getScalar_clock() const;
     virtual void setScalar_clock(int scalar_clock);
+    virtual int getSrc_node_id() const;
+    virtual void setSrc_node_id(int src_node_id);
+    virtual bool getAck() const;
+    virtual void setAck(bool ack);
 };
 
 inline void doParsimPacking(omnetpp::cCommBuffer *b, const BasicMessage& obj) {obj.parsimPack(b);}
