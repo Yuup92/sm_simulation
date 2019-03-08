@@ -27,7 +27,20 @@
  *     int destination;
  *     int scalar_clock;
  *     int src_node_id;
+ * 
  *     bool ack;
+ * 
+ *     int root_node;
+ *     bool start_spanning_tree = false;
+ * 
+ *     bool spanning_request = false;
+ * 
+ *     bool spanning_request_ack = false;
+ *     int spanning_tree_level;
+ * 
+ *     bool spanning_decline_request = false;
+ * 
+ * 
  * }
  * </pre>
  */
@@ -39,6 +52,12 @@ class BasicMessage : public ::omnetpp::cMessage
     int scalar_clock;
     int src_node_id;
     bool ack;
+    int root_node;
+    bool start_spanning_tree;
+    bool spanning_request;
+    bool spanning_request_ack;
+    int spanning_tree_level;
+    bool spanning_decline_request;
 
   private:
     void copy(const BasicMessage& other);
@@ -67,6 +86,18 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setSrc_node_id(int src_node_id);
     virtual bool getAck() const;
     virtual void setAck(bool ack);
+    virtual int getRoot_node() const;
+    virtual void setRoot_node(int root_node);
+    virtual bool getStart_spanning_tree() const;
+    virtual void setStart_spanning_tree(bool start_spanning_tree);
+    virtual bool getSpanning_request() const;
+    virtual void setSpanning_request(bool spanning_request);
+    virtual bool getSpanning_request_ack() const;
+    virtual void setSpanning_request_ack(bool spanning_request_ack);
+    virtual int getSpanning_tree_level() const;
+    virtual void setSpanning_tree_level(int spanning_tree_level);
+    virtual bool getSpanning_decline_request() const;
+    virtual void setSpanning_decline_request(bool spanning_decline_request);
 };
 
 inline void doParsimPacking(omnetpp::cCommBuffer *b, const BasicMessage& obj) {obj.parsimPack(b);}

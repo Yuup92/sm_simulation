@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <basicmsg_m.h>
 #include <NodeClock.h>
+#include <Neighbours.h>
 
 using namespace omnetpp;
 
@@ -17,9 +18,21 @@ class BasicNode : public cSimpleModule
         int ack_counter;
         bool leader;
 
+        bool part_of_tree;
+        int tree_level;
+        int parent_node;
+        int child_nodes[2];
+        int num_of_child_nodes;
+
+        Neighbours connected_neighbours;
+
         virtual std::string parseNodeID(const char* nodeName);
+
         virtual BasicMessage* generateLeaderMessage();
         virtual BasicMessage* generateAckMessage();
+        virtual BasicMessage* generateStartSpanningTreeMessage();
+        virtual BasicMessage* generateSpanningTreeRequest();
+        virtual BasicMessage* generateSpanningTreeAck();
 
         virtual bool receivingAck();
 
@@ -31,6 +44,10 @@ class BasicNode : public cSimpleModule
 
         virtual void broadcastLeaderRequest();
         virtual void broadcastStartSpanningTree();
+
+        virtual void spanningTreeRequest();
+        virtual void acceptSpanningTreeRequest(int arrival_gate);
+        virtual void declineSpanningTreeRequest(int arrival_gate);
 };
 
 Define_Module(BasicNode);
@@ -43,8 +60,16 @@ void BasicNode::initialize()
 
 void BasicNode::initialize_parameters()
 {
+    // Leader election
     leader = false;
     ack_counter = 0;
+
+    // Spanning Tree
+    part_of_tree = false;
+    tree_level = -1;
+    num_of_child_nodes = 0;
+
+    connected_neighbours = Neighbours(gateSize("out"));
 
     // Get node ID or generate randomly
     if(true) {
@@ -55,6 +80,7 @@ void BasicNode::initialize_parameters()
     }
 
     EV << "Node " << getFullName() << " has id: " << node_id << "\n";
+
 }
 
 void BasicNode::broadcastLeaderRequest()
@@ -73,6 +99,43 @@ void BasicNode::broadcastStartSpanningTree()
     }
 }
 
+void BasicNode::spanningTreeRequest()
+{
+    int requests = 2;
+
+    int *gate_request_list = connected_neighbours.get_random_gates(requests);
+
+    for (int i = 0; i < requests; i++)
+    {
+        BasicMessage *msg = generateSpanningTreeRequest();
+        send(msg, "out", *(gate_request_list + i));
+    }
+}
+
+void BasicNode::acceptSpanningTreeRequest(int arrival_gate)
+{
+    BasicMessage *msg = generateSpanningTreeAck();
+    send(msg, "out", arrival_gate);
+}
+
+void BasicNode::declineSpanningTreeRequest(int arrival_gate)
+{
+    clock.increment_time();
+
+    char msgname[40];
+    sprintf(msgname, "Accept child");
+
+    BasicMessage *msg = new BasicMessage(msgname);
+
+    msg->setScalar_clock(clock.get_scalar_time());
+    msg->setSrc_node_id(node_id);
+    msg->setAck(false);
+
+    msg->setSpanning_decline_request(true);
+
+    send(msg, "out", arrival_gate);
+}
+
 void BasicNode::handleMessage(cMessage *msg)
 {
     // https://stackoverflow.com/questions/40873629/omnet-adding-functionalities-to-handlemessage-in-my-class
@@ -83,12 +146,41 @@ void BasicNode::handleMessage(cMessage *msg)
     int arrival = msg->getArrivalGate()->getIndex();
     bool isMsgAck = basicmsg->getAck();
 
-    if ((!isMsgAck) && (node_id < incoming_node_id)) {
+    bool start_spanning_tree_search = basicmsg->getStart_spanning_tree();
+    bool spanning_request = basicmsg->getSpanning_request();
+    bool spanning_request_ack = basicmsg->getSpanning_request_ack();
+    bool spanning_decline = basicmsg->getSpanning_decline_request();
+
+    if (spanning_decline) {
+        if (!part_of_tree) {
+            spanningTreeRequest();
+        }
+    } else if (spanning_request_ack) {
+        if (!part_of_tree) {
+            part_of_tree = true;
+            parent_node = arrival;
+            tree_level = basicmsg->getSpanning_tree_level() + 1;
+            EV << "Node: " << getFullName()<< " has joined the tree at level: " << tree_level;
+        }
+
+    } else if (spanning_request) {
+        if ((part_of_tree) && (num_of_child_nodes < 2)){
+            acceptSpanningTreeRequest(arrival);
+            child_nodes[num_of_child_nodes] = arrival;
+            num_of_child_nodes++;
+        } else {
+            declineSpanningTreeRequest(arrival);
+        }
+    } else if (start_spanning_tree_search) {
+        spanningTreeRequest();
+    } else if ((!isMsgAck) && (node_id < incoming_node_id)) {
         BasicMessage * ack_msg = generateAckMessage();
         send(ack_msg, "out", arrival);
     } else if (isMsgAck) {
         if (receivingAck()) {
-
+            broadcastStartSpanningTree();
+            part_of_tree = true;
+            tree_level = 0;
         }
     }
 
@@ -147,6 +239,62 @@ BasicMessage * BasicNode::generateAckMessage()
     msg->setScalar_clock(clock.get_scalar_time());
     msg->setSrc_node_id(node_id);
     msg->setAck(true);
+
+    return msg;
+}
+
+BasicMessage * BasicNode::generateStartSpanningTreeMessage()
+{
+    clock.increment_time();
+
+    char msgname[60];
+    sprintf(msgname, "Leader has been elected: %d. Starting Spanning tree process", node_id);
+
+    BasicMessage *msg = new BasicMessage(msgname);
+
+    msg->setScalar_clock(clock.get_scalar_time());
+    msg->setSrc_node_id(node_id);
+    msg->setAck(false);
+
+    msg->setStart_spanning_tree(true);
+    msg->setRoot_node(node_id);
+
+    return msg;
+}
+
+BasicMessage * BasicNode::generateSpanningTreeRequest()
+{
+    clock.increment_time();
+
+    char msgname[40];
+    sprintf(msgname, "Requesting to join spanning tree");
+
+    BasicMessage *msg = new BasicMessage(msgname);
+
+    msg->setScalar_clock(clock.get_scalar_time());
+    msg->setSrc_node_id(node_id);
+    msg->setAck(false);
+
+    msg->setSpanning_request(true);
+
+    return msg;
+}
+
+BasicMessage * BasicNode::generateSpanningTreeAck()
+{
+    clock.increment_time();
+
+    char msgname[40];
+    sprintf(msgname, "Accept child");
+
+    BasicMessage *msg = new BasicMessage(msgname);
+
+    msg->setScalar_clock(clock.get_scalar_time());
+    msg->setSrc_node_id(node_id);
+    msg->setAck(false);
+
+    msg->setSpanning_request_ack(true);
+    msg->setSpanning_tree_level(tree_level);
 
     return msg;
 }

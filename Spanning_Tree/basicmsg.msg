@@ -19,5 +19,18 @@ message BasicMessage
     int destination;
     int scalar_clock;
     int src_node_id;
+    
     bool ack;
+        
+    int root_node;
+    bool start_spanning_tree = false;
+    
+    bool spanning_request = false;
+    
+    bool spanning_request_ack = false;
+    int spanning_tree_level;
+    
+    bool spanning_decline_request = false;
+    
+    
 }
