@@ -32,5 +32,7 @@ message BasicMessage
     
     bool spanning_decline_request = false;
     
+    bool down_broadcast = false;    
+    bool up_broadcast_reply = false;
     
 }

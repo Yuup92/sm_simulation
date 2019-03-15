@@ -1,9 +1,12 @@
 #include <NodeClock.h>
 #include <stdio.h>
+#include <omnetpp.h>
 
 NodeClock::NodeClock(void)
 {
     scalar_time = 0;
+
+    WATCH(scalar_time);
 }
 
 void NodeClock::increment_time(void)

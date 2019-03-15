@@ -192,6 +192,8 @@ BasicMessage::BasicMessage(const char *name, short kind) : ::omnetpp::cMessage(n
     this->spanning_request_ack = false;
     this->spanning_tree_level = 0;
     this->spanning_decline_request = false;
+    this->down_broadcast = false;
+    this->up_broadcast_reply = false;
 }
 
 BasicMessage::BasicMessage(const BasicMessage& other) : ::omnetpp::cMessage(other)
@@ -224,6 +226,8 @@ void BasicMessage::copy(const BasicMessage& other)
     this->spanning_request_ack = other.spanning_request_ack;
     this->spanning_tree_level = other.spanning_tree_level;
     this->spanning_decline_request = other.spanning_decline_request;
+    this->down_broadcast = other.down_broadcast;
+    this->up_broadcast_reply = other.up_broadcast_reply;
 }
 
 void BasicMessage::parsimPack(omnetpp::cCommBuffer *b) const
@@ -240,6 +244,8 @@ void BasicMessage::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->spanning_request_ack);
     doParsimPacking(b,this->spanning_tree_level);
     doParsimPacking(b,this->spanning_decline_request);
+    doParsimPacking(b,this->down_broadcast);
+    doParsimPacking(b,this->up_broadcast_reply);
 }
 
 void BasicMessage::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -256,6 +262,8 @@ void BasicMessage::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->spanning_request_ack);
     doParsimUnpacking(b,this->spanning_tree_level);
     doParsimUnpacking(b,this->spanning_decline_request);
+    doParsimUnpacking(b,this->down_broadcast);
+    doParsimUnpacking(b,this->up_broadcast_reply);
 }
 
 int BasicMessage::getSource() const
@@ -368,6 +376,26 @@ void BasicMessage::setSpanning_decline_request(bool spanning_decline_request)
     this->spanning_decline_request = spanning_decline_request;
 }
 
+bool BasicMessage::getDown_broadcast() const
+{
+    return this->down_broadcast;
+}
+
+void BasicMessage::setDown_broadcast(bool down_broadcast)
+{
+    this->down_broadcast = down_broadcast;
+}
+
+bool BasicMessage::getUp_broadcast_reply() const
+{
+    return this->up_broadcast_reply;
+}
+
+void BasicMessage::setUp_broadcast_reply(bool up_broadcast_reply)
+{
+    this->up_broadcast_reply = up_broadcast_reply;
+}
+
 class BasicMessageDescriptor : public omnetpp::cClassDescriptor
 {
   private:
@@ -433,7 +461,7 @@ const char *BasicMessageDescriptor::getProperty(const char *propertyname) const
 int BasicMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 11+basedesc->getFieldCount() : 11;
+    return basedesc ? 13+basedesc->getFieldCount() : 13;
 }
 
 unsigned int BasicMessageDescriptor::getFieldTypeFlags(int field) const
@@ -456,8 +484,10 @@ unsigned int BasicMessageDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<11) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<13) ? fieldTypeFlags[field] : 0;
 }
 
 const char *BasicMessageDescriptor::getFieldName(int field) const
@@ -480,8 +510,10 @@ const char *BasicMessageDescriptor::getFieldName(int field) const
         "spanning_request_ack",
         "spanning_tree_level",
         "spanning_decline_request",
+        "down_broadcast",
+        "up_broadcast_reply",
     };
-    return (field>=0 && field<11) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<13) ? fieldNames[field] : nullptr;
 }
 
 int BasicMessageDescriptor::findField(const char *fieldName) const
@@ -499,6 +531,8 @@ int BasicMessageDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request_ack")==0) return base+8;
     if (fieldName[0]=='s' && strcmp(fieldName, "spanning_tree_level")==0) return base+9;
     if (fieldName[0]=='s' && strcmp(fieldName, "spanning_decline_request")==0) return base+10;
+    if (fieldName[0]=='d' && strcmp(fieldName, "down_broadcast")==0) return base+11;
+    if (fieldName[0]=='u' && strcmp(fieldName, "up_broadcast_reply")==0) return base+12;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -522,8 +556,10 @@ const char *BasicMessageDescriptor::getFieldTypeString(int field) const
         "bool",
         "int",
         "bool",
+        "bool",
+        "bool",
     };
-    return (field>=0 && field<11) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<13) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **BasicMessageDescriptor::getFieldPropertyNames(int field) const
@@ -601,6 +637,8 @@ std::string BasicMessageDescriptor::getFieldValueAsString(void *object, int fiel
         case 8: return bool2string(pp->getSpanning_request_ack());
         case 9: return long2string(pp->getSpanning_tree_level());
         case 10: return bool2string(pp->getSpanning_decline_request());
+        case 11: return bool2string(pp->getDown_broadcast());
+        case 12: return bool2string(pp->getUp_broadcast_reply());
         default: return "";
     }
 }
@@ -626,6 +664,8 @@ bool BasicMessageDescriptor::setFieldValueAsString(void *object, int field, int 
         case 8: pp->setSpanning_request_ack(string2bool(value)); return true;
         case 9: pp->setSpanning_tree_level(string2long(value)); return true;
         case 10: pp->setSpanning_decline_request(string2bool(value)); return true;
+        case 11: pp->setDown_broadcast(string2bool(value)); return true;
+        case 12: pp->setUp_broadcast_reply(string2bool(value)); return true;
         default: return false;
     }
 }

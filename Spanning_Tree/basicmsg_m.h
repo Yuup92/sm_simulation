@@ -40,6 +40,8 @@
  * 
  *     bool spanning_decline_request = false;
  * 
+ *     bool down_broadcast = false;
+ *     bool up_broadcast_reply = false;
  * 
  * }
  * </pre>
@@ -58,6 +60,8 @@ class BasicMessage : public ::omnetpp::cMessage
     bool spanning_request_ack;
     int spanning_tree_level;
     bool spanning_decline_request;
+    bool down_broadcast;
+    bool up_broadcast_reply;
 
   private:
     void copy(const BasicMessage& other);
@@ -98,6 +102,10 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setSpanning_tree_level(int spanning_tree_level);
     virtual bool getSpanning_decline_request() const;
     virtual void setSpanning_decline_request(bool spanning_decline_request);
+    virtual bool getDown_broadcast() const;
+    virtual void setDown_broadcast(bool down_broadcast);
+    virtual bool getUp_broadcast_reply() const;
+    virtual void setUp_broadcast_reply(bool up_broadcast_reply);
 };
 
 inline void doParsimPacking(omnetpp::cCommBuffer *b, const BasicMessage& obj) {obj.parsimPack(b);}
