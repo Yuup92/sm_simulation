@@ -8,6 +8,10 @@
 #include <NodeClock.h>
 #include <Neighbours.h>
 
+#include <MessageBuffer.h>
+#include <BufferedMessage.h>
+#include <MessageGenerator.h>
+
 using namespace omnetpp;
 
 class BasicNode : public cSimpleModule
@@ -32,12 +36,14 @@ class BasicNode : public cSimpleModule
 
         Neighbours connected_neighbours;
 
+        MessageBuffer message_buffer;
+
         cMessage *event;    // pointer to the event object which will be used for timing
         cMessage *broadcast_tree; // variable to remember the message until its sent back
 
         virtual std::string parseNodeID(const char* nodeName);
 
-        virtual BasicMessage* generateLeaderMessage();
+        // virtual BasicMessage* generateLeaderMessage();
         virtual BasicMessage* generateAckMessage();
         virtual BasicMessage* generateStartSpanningTreeMessage();
         virtual BasicMessage* generateSpanningTreeRequest();
@@ -122,10 +128,27 @@ void BasicNode::initialize_parameters()
 
 void BasicNode::broadcastLeaderRequest()
 {
-    for (int i = 0; i < 6; i++) {
-        BasicMessage *msg = generateLeaderMessage();
-        send(msg, "out", i);
+    // https://stackoverflow.com/questions/3919850/conversion-from-myitem-to-non-scalar-type-myitem-requested
+    for (int i = 0; i < 6; i++)
+    {
+        BasicMessage * msg = MessageGenerator::generateLeaderMessage(node_id,i);
+        BufferedMessage * buf_msg = new BufferedMessage(msg, i);
+        message_buffer.addMessage(buf_msg);
     }
+
+    int messages_in_buffer = message_buffer.getMessageCount();
+
+    for (int i = 0; i < messages_in_buffer; i++)
+    {
+        BufferedMessage * buf_msg = message_buffer.getMessage();
+        EV << "src: " << node_id << " is sending a message to: " << buf_msg->getOutGateInt() << "\n";
+        send(buf_msg->getMessage(), "out", buf_msg->getOutGateInt());
+    }
+
+//    for (int i = 0; i < 6; i++) {
+//        BasicMessage *msg = generateLeaderMessage();
+//        send(msg, "out", i);
+//    }
 }
 
 void BasicNode::broadcastStartSpanningTree()
@@ -306,29 +329,29 @@ bool BasicNode::receivingAck()
 
 }
 
-BasicMessage* BasicNode::generateLeaderMessage()
-{
-    clock.increment_time();
-
-    int src = getIndex();
-
-    char msgname[40];
-    sprintf(msgname, "Message sent from node: %d", src);
-
-    // Creating message
-    BasicMessage *msg = new BasicMessage(msgname);
-    msg->setSource(src);
-
-    EV << "Scalar clock for src: " << src << " is currently: " << clock.get_scalar_time() << "\n";
-
-    msg->setScalar_clock(clock.get_scalar_time());
-    msg->setSrc_node_id(node_id);
-    msg->setAck(false);
-
-    ack_counter++;
-
-    return msg;
-}
+//BasicMessage* BasicNode::generateLeaderMessage()
+//{
+//    clock.increment_time();
+//
+//    int src = getIndex();
+//
+//    char msgname[40];
+//    sprintf(msgname, "Message sent from node: %d", src);
+//
+//    // Creating message
+//    BasicMessage *msg = new BasicMessage(msgname);
+//    msg->setSource(src);
+//
+//    EV << "Scalar clock for src: " << src << " is currently: " << clock.get_scalar_time() << "\n";
+//
+//    msg->setScalar_clock(clock.get_scalar_time());
+//    msg->setSrc_node_id(node_id);
+//    msg->setAck(false);
+//
+//    ack_counter++;
+//
+//    return msg;
+//}
 
 BasicMessage * BasicNode::generateAckMessage()
 {
