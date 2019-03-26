@@ -12,7 +12,8 @@ class BufferedMessage
 {
     public:
         BufferedMessage(void);
-        ~BufferedMessage(void);
+        // ~BufferedMessage(void);
+
         BufferedMessage(cMessage*, int);
         cMessage * message;
         int out_gate_int;

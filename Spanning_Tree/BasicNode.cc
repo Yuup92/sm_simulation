@@ -41,16 +41,9 @@ class BasicNode : public cSimpleModule
         cMessage *event;    // pointer to the event object which will be used for timing
         cMessage *broadcast_tree; // variable to remember the message until its sent back
 
-        virtual std::string parseNodeID(const char* nodeName);
+        virtual void sendMessagesFromBuffer(void);
 
-        // virtual BasicMessage* generateLeaderMessage();
-        virtual BasicMessage* generateAckMessage();
-        virtual BasicMessage* generateStartSpanningTreeMessage();
-        virtual BasicMessage* generateSpanningTreeRequest();
-        virtual BasicMessage* generateSpanningTreeAck();
-        virtual BasicMessage* generateSpanningTreeDecline();
-        virtual BasicMessage* generateSpanningTreeBroadCast();
-        virtual BasicMessage* generateSpanningTreeBroadCastReply();
+        virtual std::string parseNodeID(const char* nodeName);
 
         virtual bool receivingAck();
 
@@ -126,6 +119,19 @@ void BasicNode::initialize_parameters()
 
 }
 
+void BasicNode::sendMessagesFromBuffer(void)
+{
+    int messages_in_buffer = message_buffer.getMessageCount();
+
+    for (int i = 0; i < messages_in_buffer; i++)
+    {
+        BufferedMessage * buf_msg = message_buffer.getMessage();
+        EV << "src: " << node_id << " is sending a message to: " << buf_msg->getOutGateInt() << "\n";
+        send(buf_msg->getMessage(), "out", buf_msg->getOutGateInt());
+        delete(buf_msg);
+    }
+}
+
 void BasicNode::broadcastLeaderRequest()
 {
     // https://stackoverflow.com/questions/3919850/conversion-from-myitem-to-non-scalar-type-myitem-requested
@@ -136,26 +142,15 @@ void BasicNode::broadcastLeaderRequest()
         message_buffer.addMessage(buf_msg);
     }
 
-    int messages_in_buffer = message_buffer.getMessageCount();
+    sendMessagesFromBuffer();
 
-    for (int i = 0; i < messages_in_buffer; i++)
-    {
-        BufferedMessage * buf_msg = message_buffer.getMessage();
-        EV << "src: " << node_id << " is sending a message to: " << buf_msg->getOutGateInt() << "\n";
-        send(buf_msg->getMessage(), "out", buf_msg->getOutGateInt());
-    }
-
-//    for (int i = 0; i < 6; i++) {
-//        BasicMessage *msg = generateLeaderMessage();
-//        send(msg, "out", i);
-//    }
 }
 
 void BasicNode::broadcastStartSpanningTree()
 {
     // Start spanningtree search
     for (int i = 0; i < 6; i++) {
-        BasicMessage *msg = generateStartSpanningTreeMessage();
+        BasicMessage *msg = MessageGenerator::generateStartSpanningTreeMessage(node_id);
         send(msg, "out", i);
     }
 
@@ -174,7 +169,7 @@ void BasicNode::broadcastDownSpanningTree()
 
     // Send messages along the tree
     for (int i = 0; i < num_of_child_nodes; i++) {
-        BasicMessage *msg = generateSpanningTreeBroadCast();
+        BasicMessage *msg = MessageGenerator::generateSpanningTreeBroadCast(node_id);
         EV << "Sending message down the tree to: " << child_nodes[i];
         send(msg, "out", child_nodes[i]);
         node_messages_sent++;
@@ -191,7 +186,7 @@ void BasicNode::broadcastDownSpanningTree()
 
 void BasicNode::replyTreeBroadcast(int out_gate)
 {
-    BasicMessage *msg = generateSpanningTreeBroadCastReply();
+    BasicMessage *msg = MessageGenerator::generateSpanningTreeBroadCastReply(node_id);
     send(msg, "out", out_gate);
 }
 
@@ -203,7 +198,7 @@ void BasicNode::spanningTreeRequest()
 
     for (int i = 0; i < requests; i++)
     {
-        BasicMessage *msg = generateSpanningTreeRequest();
+        BasicMessage *msg = MessageGenerator::generateSpanningTreeRequest(node_id);
         send(msg, "out", *(gate_request_list + i));
     }
 
@@ -212,13 +207,13 @@ void BasicNode::spanningTreeRequest()
 
 void BasicNode::acceptSpanningTreeRequest(int arrival_gate)
 {
-    BasicMessage *msg = generateSpanningTreeAck();
+    BasicMessage *msg = MessageGenerator::generateSpanningTreeAck(node_id, tree_level);
     send(msg, "out", arrival_gate);
 }
 
 void BasicNode::declineSpanningTreeRequest(int arrival_gate)
 {
-    BasicMessage *msg = generateSpanningTreeDecline();
+    BasicMessage *msg = MessageGenerator::generateSpanningTreeDecline(node_id);
     send(msg, "out", arrival_gate);
 }
 
@@ -300,7 +295,7 @@ void BasicNode::handleMessage(cMessage *msg)
         scheduleAt((simTime() + 10.0), event);
 
     } else if ((!isMsgAck) && (node_id < incoming_node_id)) {
-        BasicMessage * ack_msg = generateAckMessage();
+        BasicMessage * ack_msg = MessageGenerator::generateAckMessage(node_id);
         send(ack_msg, "out", arrival);
     } else if (isMsgAck) {
         if (receivingAck()) {
@@ -327,156 +322,6 @@ bool BasicNode::receivingAck()
 
     return leader;
 
-}
-
-//BasicMessage* BasicNode::generateLeaderMessage()
-//{
-//    clock.increment_time();
-//
-//    int src = getIndex();
-//
-//    char msgname[40];
-//    sprintf(msgname, "Message sent from node: %d", src);
-//
-//    // Creating message
-//    BasicMessage *msg = new BasicMessage(msgname);
-//    msg->setSource(src);
-//
-//    EV << "Scalar clock for src: " << src << " is currently: " << clock.get_scalar_time() << "\n";
-//
-//    msg->setScalar_clock(clock.get_scalar_time());
-//    msg->setSrc_node_id(node_id);
-//    msg->setAck(false);
-//
-//    ack_counter++;
-//
-//    return msg;
-//}
-
-BasicMessage * BasicNode::generateAckMessage()
-{
-    clock.increment_time();
-
-    char msgname[120];
-    sprintf(msgname, "Ack from: %d", node_id);
-
-    BasicMessage *msg = new BasicMessage(msgname);
-
-    msg->setScalar_clock(clock.get_scalar_time());
-    msg->setSrc_node_id(node_id);
-    msg->setAck(true);
-
-    return msg;
-}
-
-BasicMessage * BasicNode::generateStartSpanningTreeMessage()
-{
-    clock.increment_time();
-
-    char msgname[120];
-    sprintf(msgname, "Leader has been elected: %d. Starting Spanning tree process", node_id);
-
-    BasicMessage *msg = new BasicMessage(msgname);
-
-    msg->setScalar_clock(clock.get_scalar_time());
-    msg->setSrc_node_id(node_id);
-    msg->setAck(false);
-
-    msg->setStart_spanning_tree(true);
-    msg->setRoot_node(node_id);
-
-    return msg;
-}
-
-BasicMessage * BasicNode::generateSpanningTreeRequest()
-{
-    clock.increment_time();
-
-    char msgname[40];
-    sprintf(msgname, "Requesting to join spanning tree");
-
-    BasicMessage *msg = new BasicMessage(msgname);
-
-    msg->setScalar_clock(clock.get_scalar_time());
-    msg->setSrc_node_id(node_id);
-    msg->setAck(false);
-
-    msg->setSpanning_request(true);
-
-    return msg;
-}
-
-BasicMessage * BasicNode::generateSpanningTreeAck()
-{
-    clock.increment_time();
-
-    char msgname[40];
-    sprintf(msgname, "Accept child");
-
-    BasicMessage *msg = new BasicMessage(msgname);
-
-    msg->setScalar_clock(clock.get_scalar_time());
-    msg->setSrc_node_id(node_id);
-    msg->setAck(false);
-
-    msg->setSpanning_request_ack(true);
-    msg->setSpanning_tree_level(tree_level);
-
-    return msg;
-}
-
-BasicMessage * BasicNode::generateSpanningTreeDecline()
-{
-    clock.increment_time();
-
-    char msgname[40];
-    sprintf(msgname, "Decline child");
-
-    BasicMessage *msg = new BasicMessage(msgname);
-
-    msg->setScalar_clock(clock.get_scalar_time());
-    msg->setSrc_node_id(node_id);
-    msg->setAck(false);
-
-    msg->setSpanning_decline_request(true);
-
-    return msg;
-}
-
-BasicMessage * BasicNode::generateSpanningTreeBroadCast()
-{
-    clock.increment_time();
-
-    char msgname[40];
-    sprintf(msgname, "Broadcast request through tree");
-
-    BasicMessage *msg = new BasicMessage(msgname);
-
-    msg->setScalar_clock(clock.get_scalar_time());
-    msg->setSrc_node_id(node_id);
-    msg->setAck(false);
-
-    msg->setDown_broadcast(true);
-
-    return msg;
-}
-
-BasicMessage * BasicNode::generateSpanningTreeBroadCastReply()
-{
-    clock.increment_time();
-
-    char msgname[40];
-    sprintf(msgname, "Reply to broadcast request");
-
-    BasicMessage *msg = new BasicMessage(msgname);
-
-    msg->setScalar_clock(clock.get_scalar_time());
-    msg->setSrc_node_id(node_id);
-    msg->setAck(false);
-
-    msg->setUp_broadcast_reply(true);
-
-    return msg;
 }
 
 // based on https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
