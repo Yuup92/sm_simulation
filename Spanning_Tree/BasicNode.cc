@@ -11,6 +11,7 @@
 #include <MessageBuffer.h>
 #include <BufferedMessage.h>
 #include <MessageGenerator.h>
+#include <LeaderElection.h>
 
 using namespace omnetpp;
 
@@ -35,6 +36,7 @@ class BasicNode : public cSimpleModule
         int down_request_gate;
 
         Neighbours connected_neighbours;
+        LeaderElection leader_election;
 
         MessageBuffer message_buffer;
 
@@ -107,6 +109,8 @@ void BasicNode::initialize_parameters()
     // Neighbours
     connected_neighbours = Neighbours(gateSize("out"));
 
+    leader_election.setMsgBuf(message_buffer);
+
     // Get node ID or generate randomly
     if(false) {
         std::string id_string = this->parseNodeID(getFullName());
@@ -121,7 +125,10 @@ void BasicNode::initialize_parameters()
 
 void BasicNode::sendMessagesFromBuffer(void)
 {
+    message_buffer = leader_election.getMessageBuffer();
     int messages_in_buffer = message_buffer.getMessageCount();
+
+    EV << "Number of messages in buffer: " << messages_in_buffer << "\n";
 
     for (int i = 0; i < messages_in_buffer; i++)
     {
@@ -134,14 +141,7 @@ void BasicNode::sendMessagesFromBuffer(void)
 
 void BasicNode::broadcastLeaderRequest()
 {
-    // https://stackoverflow.com/questions/3919850/conversion-from-myitem-to-non-scalar-type-myitem-requested
-    for (int i = 0; i < 6; i++)
-    {
-        BasicMessage * msg = MessageGenerator::generateLeaderMessage(node_id,i);
-        BufferedMessage * buf_msg = new BufferedMessage(msg, i);
-        message_buffer.addMessage(buf_msg);
-    }
-
+    leader_election.broadcastLeaderRequest();
     sendMessagesFromBuffer();
 
 }

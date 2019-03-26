@@ -1,6 +1,5 @@
 #include <MessageGenerator.h>
 
-
 // Leader Election
 
 BasicMessage * MessageGenerator::generateLeaderMessage(int src, int destination)

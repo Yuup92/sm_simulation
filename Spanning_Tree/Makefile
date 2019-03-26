@@ -33,6 +33,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 OBJS = \
     $O/BasicNode.o \
     $O/BufferedMessage.o \
+    $O/LeaderElection.o \
     $O/MessageBuffer.o \
     $O/MessageGenerator.o \
     $O/Neighbours.o \

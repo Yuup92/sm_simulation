@@ -1,6 +1,11 @@
+#ifndef MESSAGEBUFFER_H__
+#define MESSAGEBUFFER_H__
+
 #include <list>
 #include <BufferedMessage.h>
 #include <basicmsg_m.h>
+
+
 
 class MessageBuffer
 {
@@ -21,3 +26,5 @@ class MessageBuffer
         int messages_in_buffer;
         std::list<BufferedMessage*> messages;
 };
+
+#endif
