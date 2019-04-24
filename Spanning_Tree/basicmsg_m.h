@@ -27,6 +27,8 @@
  *     int destination;
  *     int scalar_clock;
  *     int src_node_id;
+ *     int type;
+ *     int leaderId;
  * 
  *     bool ack;
  * 
@@ -53,6 +55,8 @@ class BasicMessage : public ::omnetpp::cMessage
     int destination;
     int scalar_clock;
     int src_node_id;
+    int type;
+    int leaderId;
     bool ack;
     int root_node;
     bool start_spanning_tree;
@@ -88,6 +92,10 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setScalar_clock(int scalar_clock);
     virtual int getSrc_node_id() const;
     virtual void setSrc_node_id(int src_node_id);
+    virtual int getType() const;
+    virtual void setType(int type);
+    virtual int getLeaderId() const;
+    virtual void setLeaderId(int leaderId);
     virtual bool getAck() const;
     virtual void setAck(bool ack);
     virtual int getRoot_node() const;

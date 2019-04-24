@@ -19,6 +19,8 @@ message BasicMessage
     int destination;
     int scalar_clock;
     int src_node_id;
+    int type;
+    int leaderId;
     
     bool ack;
         

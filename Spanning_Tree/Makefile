@@ -36,6 +36,7 @@ OBJS = \
     $O/LeaderElection.o \
     $O/MessageBuffer.o \
     $O/MessageGenerator.o \
+    $O/MessageType.o \
     $O/Neighbours.o \
     $O/NodeClock.o \
     $O/basicmsg_m.o

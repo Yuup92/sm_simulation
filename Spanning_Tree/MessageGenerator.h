@@ -3,6 +3,7 @@
 
 #include <BufferedMessage.h>
 #include <basicmsg_m.h>
+#include <MessageType.h>
 
 // Tags for message type and who it needs to be refered to:
 // Leader Election: LE
@@ -16,8 +17,9 @@ class MessageGenerator
         MessageGenerator(){};
 
         // Leader messages:
-        static BasicMessage * generateLeaderMessage(int, int);
-        static BasicMessage * generateAckMessage(int);
+        static BasicMessage * generateLeaderMessage(int);
+        static BasicMessage * generateLeaderAckMessage(int);
+        static BasicMessage * generateElectedLeaderMessage(int);
 
         // Spanning Tree:
         static BasicMessage * generateStartSpanningTreeMessage(int);

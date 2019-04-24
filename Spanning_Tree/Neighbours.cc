@@ -40,6 +40,11 @@ void Neighbours::set_number_of_neighbours(int out_gate_size)
     num_of_neighbours = out_gate_size;
 }
 
+int Neighbours::get_amount_of_neighbours(void)
+{
+    return num_of_neighbours;
+}
+
 int * Neighbours::get_random_gate_list()
 {
     return random_gate_list;

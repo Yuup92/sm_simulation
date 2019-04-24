@@ -185,6 +185,8 @@ BasicMessage::BasicMessage(const char *name, short kind) : ::omnetpp::cMessage(n
     this->destination = 0;
     this->scalar_clock = 0;
     this->src_node_id = 0;
+    this->type = 0;
+    this->leaderId = 0;
     this->ack = false;
     this->root_node = 0;
     this->start_spanning_tree = false;
@@ -219,6 +221,8 @@ void BasicMessage::copy(const BasicMessage& other)
     this->destination = other.destination;
     this->scalar_clock = other.scalar_clock;
     this->src_node_id = other.src_node_id;
+    this->type = other.type;
+    this->leaderId = other.leaderId;
     this->ack = other.ack;
     this->root_node = other.root_node;
     this->start_spanning_tree = other.start_spanning_tree;
@@ -237,6 +241,8 @@ void BasicMessage::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->destination);
     doParsimPacking(b,this->scalar_clock);
     doParsimPacking(b,this->src_node_id);
+    doParsimPacking(b,this->type);
+    doParsimPacking(b,this->leaderId);
     doParsimPacking(b,this->ack);
     doParsimPacking(b,this->root_node);
     doParsimPacking(b,this->start_spanning_tree);
@@ -255,6 +261,8 @@ void BasicMessage::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->destination);
     doParsimUnpacking(b,this->scalar_clock);
     doParsimUnpacking(b,this->src_node_id);
+    doParsimUnpacking(b,this->type);
+    doParsimUnpacking(b,this->leaderId);
     doParsimUnpacking(b,this->ack);
     doParsimUnpacking(b,this->root_node);
     doParsimUnpacking(b,this->start_spanning_tree);
@@ -304,6 +312,26 @@ int BasicMessage::getSrc_node_id() const
 void BasicMessage::setSrc_node_id(int src_node_id)
 {
     this->src_node_id = src_node_id;
+}
+
+int BasicMessage::getType() const
+{
+    return this->type;
+}
+
+void BasicMessage::setType(int type)
+{
+    this->type = type;
+}
+
+int BasicMessage::getLeaderId() const
+{
+    return this->leaderId;
+}
+
+void BasicMessage::setLeaderId(int leaderId)
+{
+    this->leaderId = leaderId;
 }
 
 bool BasicMessage::getAck() const
@@ -461,7 +489,7 @@ const char *BasicMessageDescriptor::getProperty(const char *propertyname) const
 int BasicMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 13+basedesc->getFieldCount() : 13;
+    return basedesc ? 15+basedesc->getFieldCount() : 15;
 }
 
 unsigned int BasicMessageDescriptor::getFieldTypeFlags(int field) const
@@ -486,8 +514,10 @@ unsigned int BasicMessageDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<13) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<15) ? fieldTypeFlags[field] : 0;
 }
 
 const char *BasicMessageDescriptor::getFieldName(int field) const
@@ -503,6 +533,8 @@ const char *BasicMessageDescriptor::getFieldName(int field) const
         "destination",
         "scalar_clock",
         "src_node_id",
+        "type",
+        "leaderId",
         "ack",
         "root_node",
         "start_spanning_tree",
@@ -513,7 +545,7 @@ const char *BasicMessageDescriptor::getFieldName(int field) const
         "down_broadcast",
         "up_broadcast_reply",
     };
-    return (field>=0 && field<13) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<15) ? fieldNames[field] : nullptr;
 }
 
 int BasicMessageDescriptor::findField(const char *fieldName) const
@@ -524,15 +556,17 @@ int BasicMessageDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='d' && strcmp(fieldName, "destination")==0) return base+1;
     if (fieldName[0]=='s' && strcmp(fieldName, "scalar_clock")==0) return base+2;
     if (fieldName[0]=='s' && strcmp(fieldName, "src_node_id")==0) return base+3;
-    if (fieldName[0]=='a' && strcmp(fieldName, "ack")==0) return base+4;
-    if (fieldName[0]=='r' && strcmp(fieldName, "root_node")==0) return base+5;
-    if (fieldName[0]=='s' && strcmp(fieldName, "start_spanning_tree")==0) return base+6;
-    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request")==0) return base+7;
-    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request_ack")==0) return base+8;
-    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_tree_level")==0) return base+9;
-    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_decline_request")==0) return base+10;
-    if (fieldName[0]=='d' && strcmp(fieldName, "down_broadcast")==0) return base+11;
-    if (fieldName[0]=='u' && strcmp(fieldName, "up_broadcast_reply")==0) return base+12;
+    if (fieldName[0]=='t' && strcmp(fieldName, "type")==0) return base+4;
+    if (fieldName[0]=='l' && strcmp(fieldName, "leaderId")==0) return base+5;
+    if (fieldName[0]=='a' && strcmp(fieldName, "ack")==0) return base+6;
+    if (fieldName[0]=='r' && strcmp(fieldName, "root_node")==0) return base+7;
+    if (fieldName[0]=='s' && strcmp(fieldName, "start_spanning_tree")==0) return base+8;
+    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request")==0) return base+9;
+    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request_ack")==0) return base+10;
+    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_tree_level")==0) return base+11;
+    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_decline_request")==0) return base+12;
+    if (fieldName[0]=='d' && strcmp(fieldName, "down_broadcast")==0) return base+13;
+    if (fieldName[0]=='u' && strcmp(fieldName, "up_broadcast_reply")==0) return base+14;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -549,6 +583,8 @@ const char *BasicMessageDescriptor::getFieldTypeString(int field) const
         "int",
         "int",
         "int",
+        "int",
+        "int",
         "bool",
         "int",
         "bool",
@@ -559,7 +595,7 @@ const char *BasicMessageDescriptor::getFieldTypeString(int field) const
         "bool",
         "bool",
     };
-    return (field>=0 && field<13) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<15) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **BasicMessageDescriptor::getFieldPropertyNames(int field) const
@@ -630,15 +666,17 @@ std::string BasicMessageDescriptor::getFieldValueAsString(void *object, int fiel
         case 1: return long2string(pp->getDestination());
         case 2: return long2string(pp->getScalar_clock());
         case 3: return long2string(pp->getSrc_node_id());
-        case 4: return bool2string(pp->getAck());
-        case 5: return long2string(pp->getRoot_node());
-        case 6: return bool2string(pp->getStart_spanning_tree());
-        case 7: return bool2string(pp->getSpanning_request());
-        case 8: return bool2string(pp->getSpanning_request_ack());
-        case 9: return long2string(pp->getSpanning_tree_level());
-        case 10: return bool2string(pp->getSpanning_decline_request());
-        case 11: return bool2string(pp->getDown_broadcast());
-        case 12: return bool2string(pp->getUp_broadcast_reply());
+        case 4: return long2string(pp->getType());
+        case 5: return long2string(pp->getLeaderId());
+        case 6: return bool2string(pp->getAck());
+        case 7: return long2string(pp->getRoot_node());
+        case 8: return bool2string(pp->getStart_spanning_tree());
+        case 9: return bool2string(pp->getSpanning_request());
+        case 10: return bool2string(pp->getSpanning_request_ack());
+        case 11: return long2string(pp->getSpanning_tree_level());
+        case 12: return bool2string(pp->getSpanning_decline_request());
+        case 13: return bool2string(pp->getDown_broadcast());
+        case 14: return bool2string(pp->getUp_broadcast_reply());
         default: return "";
     }
 }
@@ -657,15 +695,17 @@ bool BasicMessageDescriptor::setFieldValueAsString(void *object, int field, int 
         case 1: pp->setDestination(string2long(value)); return true;
         case 2: pp->setScalar_clock(string2long(value)); return true;
         case 3: pp->setSrc_node_id(string2long(value)); return true;
-        case 4: pp->setAck(string2bool(value)); return true;
-        case 5: pp->setRoot_node(string2long(value)); return true;
-        case 6: pp->setStart_spanning_tree(string2bool(value)); return true;
-        case 7: pp->setSpanning_request(string2bool(value)); return true;
-        case 8: pp->setSpanning_request_ack(string2bool(value)); return true;
-        case 9: pp->setSpanning_tree_level(string2long(value)); return true;
-        case 10: pp->setSpanning_decline_request(string2bool(value)); return true;
-        case 11: pp->setDown_broadcast(string2bool(value)); return true;
-        case 12: pp->setUp_broadcast_reply(string2bool(value)); return true;
+        case 4: pp->setType(string2long(value)); return true;
+        case 5: pp->setLeaderId(string2long(value)); return true;
+        case 6: pp->setAck(string2bool(value)); return true;
+        case 7: pp->setRoot_node(string2long(value)); return true;
+        case 8: pp->setStart_spanning_tree(string2bool(value)); return true;
+        case 9: pp->setSpanning_request(string2bool(value)); return true;
+        case 10: pp->setSpanning_request_ack(string2bool(value)); return true;
+        case 11: pp->setSpanning_tree_level(string2long(value)); return true;
+        case 12: pp->setSpanning_decline_request(string2bool(value)); return true;
+        case 13: pp->setDown_broadcast(string2bool(value)); return true;
+        case 14: pp->setUp_broadcast_reply(string2bool(value)); return true;
         default: return false;
     }
 }
