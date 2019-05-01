@@ -27,7 +27,29 @@
  *     int destination;
  *     int scalar_clock;
  *     int src_node_id;
+ * 
+ *     int pulseNum;
+ * 
  *     int type;
+ *     int subType;
+ * 
+ *     // Spanning Tree Params:
+ *     int spanningTreeId;
+ *     int spanningTreeIndexList;
+ *     int weightEdgeSpanningTree;
+ * 
+ *     int levelNode;
+ *     int fragmentName;
+ *     int nodeState;
+ *     int bestWeight;
+ * 
+ *     // Otherthings...
+ * 
+ *     int inspection;
+ * 
+ *     int lowestIdFragment;
+ *     int rootNodeId;
+ * 
  *     int leaderId;
  * 
  *     bool ack;
@@ -55,7 +77,19 @@ class BasicMessage : public ::omnetpp::cMessage
     int destination;
     int scalar_clock;
     int src_node_id;
+    int pulseNum;
     int type;
+    int subType;
+    int spanningTreeId;
+    int spanningTreeIndexList;
+    int weightEdgeSpanningTree;
+    int levelNode;
+    int fragmentName;
+    int nodeState;
+    int bestWeight;
+    int inspection;
+    int lowestIdFragment;
+    int rootNodeId;
     int leaderId;
     bool ack;
     int root_node;
@@ -92,8 +126,32 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setScalar_clock(int scalar_clock);
     virtual int getSrc_node_id() const;
     virtual void setSrc_node_id(int src_node_id);
+    virtual int getPulseNum() const;
+    virtual void setPulseNum(int pulseNum);
     virtual int getType() const;
     virtual void setType(int type);
+    virtual int getSubType() const;
+    virtual void setSubType(int subType);
+    virtual int getSpanningTreeId() const;
+    virtual void setSpanningTreeId(int spanningTreeId);
+    virtual int getSpanningTreeIndexList() const;
+    virtual void setSpanningTreeIndexList(int spanningTreeIndexList);
+    virtual int getWeightEdgeSpanningTree() const;
+    virtual void setWeightEdgeSpanningTree(int weightEdgeSpanningTree);
+    virtual int getLevelNode() const;
+    virtual void setLevelNode(int levelNode);
+    virtual int getFragmentName() const;
+    virtual void setFragmentName(int fragmentName);
+    virtual int getNodeState() const;
+    virtual void setNodeState(int nodeState);
+    virtual int getBestWeight() const;
+    virtual void setBestWeight(int bestWeight);
+    virtual int getInspection() const;
+    virtual void setInspection(int inspection);
+    virtual int getLowestIdFragment() const;
+    virtual void setLowestIdFragment(int lowestIdFragment);
+    virtual int getRootNodeId() const;
+    virtual void setRootNodeId(int rootNodeId);
     virtual int getLeaderId() const;
     virtual void setLeaderId(int leaderId);
     virtual bool getAck() const;

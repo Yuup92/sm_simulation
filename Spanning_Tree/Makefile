@@ -39,6 +39,8 @@ OBJS = \
     $O/MessageType.o \
     $O/Neighbours.o \
     $O/NodeClock.o \
+    $O/QueuedMessage.o \
+    $O/SpanningTree.o \
     $O/basicmsg_m.o
 
 # Message files

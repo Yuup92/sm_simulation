@@ -1,0 +1,1629 @@
+E # 0 t 0 m 1 ce -1 msg -1
+SB v 1284 rid General-0-20190501-13:20:18-3855 b 1000
+KF p -1 c "" s ""
+MC id 1 c omnetpp::cModule t CompleteNetwork7 n CompleteNetwork7 cm 1
+MS id 1 d bgb=436,425
+MC id 2 c BasicNode t BasicNode pid 1 n node_0
+MS id 2 d p=164,38;i=misc/node
+MC id 3 c BasicNode t BasicNode pid 1 n node_1
+MS id 3 d p=52,87;i=misc/node
+MC id 4 c BasicNode t BasicNode pid 1 n node_2
+MS id 4 d p=103,250;i=misc/node
+MC id 5 c BasicNode t BasicNode pid 1 n node_3
+MS id 5 d p=35,188;i=misc/node
+MC id 6 c BasicNode t BasicNode pid 1 n node_4
+MS id 6 d p=219,259;i=misc/node
+MC id 7 c BasicNode t BasicNode pid 1 n node_5
+MS id 7 d p=281,202;i=misc/node
+MC id 8 c BasicNode t BasicNode pid 1 n node_6
+MS id 8 d p=303,87;i=misc/node
+GC m 2 g 2621440 n out i 0 o 1
+GC m 3 g 1048576 n in i 0 o 0
+CC sm 2 sg 2621440 dm 3 dg 1048576
+CS sm 2 sg 2621440 d ""
+GC m 3 g 2621440 n out i 0 o 1
+GC m 2 g 1048576 n in i 0 o 0
+CC sm 3 sg 2621440 dm 2 dg 1048576
+CS sm 3 sg 2621440 d ""
+GC m 2 g 2621441 n out i 1 o 1
+GC m 4 g 1048576 n in i 0 o 0
+CC sm 2 sg 2621441 dm 4 dg 1048576
+CS sm 2 sg 2621441 d ""
+GC m 4 g 2621440 n out i 0 o 1
+GC m 2 g 1048577 n in i 1 o 0
+CC sm 4 sg 2621440 dm 2 dg 1048577
+CS sm 4 sg 2621440 d ""
+GC m 2 g 2621442 n out i 2 o 1
+GC m 5 g 1048576 n in i 0 o 0
+CC sm 2 sg 2621442 dm 5 dg 1048576
+CS sm 2 sg 2621442 d ""
+GC m 5 g 2621440 n out i 0 o 1
+GC m 2 g 1048578 n in i 2 o 0
+CC sm 5 sg 2621440 dm 2 dg 1048578
+CS sm 5 sg 2621440 d ""
+GC m 2 g 2621443 n out i 3 o 1
+GC m 6 g 1048576 n in i 0 o 0
+CC sm 2 sg 2621443 dm 6 dg 1048576
+CS sm 2 sg 2621443 d ""
+GC m 6 g 2621440 n out i 0 o 1
+GC m 2 g 1048579 n in i 3 o 0
+CC sm 6 sg 2621440 dm 2 dg 1048579
+CS sm 6 sg 2621440 d ""
+GC m 2 g 2621444 n out i 4 o 1
+GC m 7 g 1048576 n in i 0 o 0
+CC sm 2 sg 2621444 dm 7 dg 1048576
+CS sm 2 sg 2621444 d ""
+GC m 7 g 2621440 n out i 0 o 1
+GC m 2 g 1048580 n in i 4 o 0
+CC sm 7 sg 2621440 dm 2 dg 1048580
+CS sm 7 sg 2621440 d ""
+GC m 2 g 2621445 n out i 5 o 1
+GC m 8 g 1048576 n in i 0 o 0
+CC sm 2 sg 2621445 dm 8 dg 1048576
+CS sm 2 sg 2621445 d ""
+GC m 8 g 2621440 n out i 0 o 1
+GC m 2 g 1048581 n in i 5 o 0
+CC sm 8 sg 2621440 dm 2 dg 1048581
+CS sm 8 sg 2621440 d ""
+GC m 3 g 2621441 n out i 1 o 1
+GC m 4 g 1048577 n in i 1 o 0
+CC sm 3 sg 2621441 dm 4 dg 1048577
+CS sm 3 sg 2621441 d ""
+GC m 4 g 2621441 n out i 1 o 1
+GC m 3 g 1048577 n in i 1 o 0
+CC sm 4 sg 2621441 dm 3 dg 1048577
+CS sm 4 sg 2621441 d ""
+GC m 3 g 2621442 n out i 2 o 1
+GC m 5 g 1048577 n in i 1 o 0
+CC sm 3 sg 2621442 dm 5 dg 1048577
+CS sm 3 sg 2621442 d ""
+GC m 5 g 2621441 n out i 1 o 1
+GC m 3 g 1048578 n in i 2 o 0
+CC sm 5 sg 2621441 dm 3 dg 1048578
+CS sm 5 sg 2621441 d ""
+GC m 3 g 2621443 n out i 3 o 1
+GC m 6 g 1048577 n in i 1 o 0
+CC sm 3 sg 2621443 dm 6 dg 1048577
+CS sm 3 sg 2621443 d ""
+GC m 6 g 2621441 n out i 1 o 1
+GC m 3 g 1048579 n in i 3 o 0
+CC sm 6 sg 2621441 dm 3 dg 1048579
+CS sm 6 sg 2621441 d ""
+GC m 3 g 2621444 n out i 4 o 1
+GC m 7 g 1048577 n in i 1 o 0
+CC sm 3 sg 2621444 dm 7 dg 1048577
+CS sm 3 sg 2621444 d ""
+GC m 7 g 2621441 n out i 1 o 1
+GC m 3 g 1048580 n in i 4 o 0
+CC sm 7 sg 2621441 dm 3 dg 1048580
+CS sm 7 sg 2621441 d ""
+GC m 3 g 2621445 n out i 5 o 1
+GC m 8 g 1048577 n in i 1 o 0
+CC sm 3 sg 2621445 dm 8 dg 1048577
+CS sm 3 sg 2621445 d ""
+GC m 8 g 2621441 n out i 1 o 1
+GC m 3 g 1048581 n in i 5 o 0
+CC sm 8 sg 2621441 dm 3 dg 1048581
+CS sm 8 sg 2621441 d ""
+GC m 4 g 2621442 n out i 2 o 1
+GC m 5 g 1048578 n in i 2 o 0
+CC sm 4 sg 2621442 dm 5 dg 1048578
+CS sm 4 sg 2621442 d ""
+GC m 5 g 2621442 n out i 2 o 1
+GC m 4 g 1048578 n in i 2 o 0
+CC sm 5 sg 2621442 dm 4 dg 1048578
+CS sm 5 sg 2621442 d ""
+GC m 4 g 2621443 n out i 3 o 1
+GC m 6 g 1048578 n in i 2 o 0
+CC sm 4 sg 2621443 dm 6 dg 1048578
+CS sm 4 sg 2621443 d ""
+GC m 6 g 2621442 n out i 2 o 1
+GC m 4 g 1048579 n in i 3 o 0
+CC sm 6 sg 2621442 dm 4 dg 1048579
+CS sm 6 sg 2621442 d ""
+GC m 4 g 2621444 n out i 4 o 1
+GC m 7 g 1048578 n in i 2 o 0
+CC sm 4 sg 2621444 dm 7 dg 1048578
+CS sm 4 sg 2621444 d ""
+GC m 7 g 2621442 n out i 2 o 1
+GC m 4 g 1048580 n in i 4 o 0
+CC sm 7 sg 2621442 dm 4 dg 1048580
+CS sm 7 sg 2621442 d ""
+GC m 4 g 2621445 n out i 5 o 1
+GC m 8 g 1048578 n in i 2 o 0
+CC sm 4 sg 2621445 dm 8 dg 1048578
+CS sm 4 sg 2621445 d ""
+GC m 8 g 2621442 n out i 2 o 1
+GC m 4 g 1048581 n in i 5 o 0
+CC sm 8 sg 2621442 dm 4 dg 1048581
+CS sm 8 sg 2621442 d ""
+GC m 5 g 2621443 n out i 3 o 1
+GC m 6 g 1048579 n in i 3 o 0
+CC sm 5 sg 2621443 dm 6 dg 1048579
+CS sm 5 sg 2621443 d ""
+GC m 6 g 2621443 n out i 3 o 1
+GC m 5 g 1048579 n in i 3 o 0
+CC sm 6 sg 2621443 dm 5 dg 1048579
+CS sm 6 sg 2621443 d ""
+GC m 5 g 2621444 n out i 4 o 1
+GC m 7 g 1048579 n in i 3 o 0
+CC sm 5 sg 2621444 dm 7 dg 1048579
+CS sm 5 sg 2621444 d ""
+GC m 7 g 2621443 n out i 3 o 1
+GC m 5 g 1048580 n in i 4 o 0
+CC sm 7 sg 2621443 dm 5 dg 1048580
+CS sm 7 sg 2621443 d ""
+GC m 5 g 2621445 n out i 5 o 1
+GC m 8 g 1048579 n in i 3 o 0
+CC sm 5 sg 2621445 dm 8 dg 1048579
+CS sm 5 sg 2621445 d ""
+GC m 8 g 2621443 n out i 3 o 1
+GC m 5 g 1048581 n in i 5 o 0
+CC sm 8 sg 2621443 dm 5 dg 1048581
+CS sm 8 sg 2621443 d ""
+GC m 6 g 2621444 n out i 4 o 1
+GC m 7 g 1048580 n in i 4 o 0
+CC sm 6 sg 2621444 dm 7 dg 1048580
+CS sm 6 sg 2621444 d ""
+GC m 7 g 2621444 n out i 4 o 1
+GC m 6 g 1048580 n in i 4 o 0
+CC sm 7 sg 2621444 dm 6 dg 1048580
+CS sm 7 sg 2621444 d ""
+GC m 6 g 2621445 n out i 5 o 1
+GC m 8 g 1048580 n in i 4 o 0
+CC sm 6 sg 2621445 dm 8 dg 1048580
+CS sm 6 sg 2621445 d ""
+GC m 8 g 2621444 n out i 4 o 1
+GC m 6 g 1048581 n in i 5 o 0
+CC sm 8 sg 2621444 dm 6 dg 1048581
+CS sm 8 sg 2621444 d ""
+GC m 7 g 2621445 n out i 5 o 1
+GC m 8 g 1048581 n in i 5 o 0
+CC sm 7 sg 2621445 dm 8 dg 1048581
+CS sm 7 sg 2621445 d ""
+GC m 8 g 2621445 n out i 5 o 1
+GC m 7 g 1048581 n in i 5 o 0
+CC sm 8 sg 2621445 dm 7 dg 1048581
+CS sm 8 sg 2621445 d ""
+MB sm 1 tm 2 m initialize(0)
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  numneighbours: 6
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  numneighbours: 6
+CM id 0 tid 0 eid 0 etid 0 c omnetpp::cMessage n event pe -1
+BS id 0 tid 0 eid 0 etid 0 c omnetpp::cMessage n event pe 0
+ES t 1
+CM id 1 tid 1 eid 1 etid 1 c omnetpp::cMessage n "weight request" pe -1
+CM id 2 tid 2 eid 2 etid 2 c omnetpp::cMessage n "weight request" pe -1
+CM id 3 tid 3 eid 3 etid 3 c omnetpp::cMessage n "weight request" pe -1
+CM id 4 tid 4 eid 4 etid 4 c omnetpp::cMessage n "weight request" pe -1
+CM id 5 tid 5 eid 5 etid 5 c omnetpp::cMessage n "weight request" pe -1
+CM id 6 tid 6 eid 6 etid 6 c omnetpp::cMessage n "weight request" pe -1
+ME
+MB sm 1 tm 3 m initialize(0)
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  numneighbours: 6
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  numneighbours: 6
+CM id 7 tid 7 eid 7 etid 7 c omnetpp::cMessage n event pe -1
+BS id 7 tid 7 eid 7 etid 7 c omnetpp::cMessage n event pe 0
+ES t 1
+CM id 8 tid 8 eid 8 etid 8 c omnetpp::cMessage n "weight request" pe -1
+CM id 9 tid 9 eid 9 etid 9 c omnetpp::cMessage n "weight request" pe -1
+CM id 10 tid 10 eid 10 etid 10 c omnetpp::cMessage n "weight request" pe -1
+CM id 11 tid 11 eid 11 etid 11 c omnetpp::cMessage n "weight request" pe -1
+CM id 12 tid 12 eid 12 etid 12 c omnetpp::cMessage n "weight request" pe -1
+CM id 13 tid 13 eid 13 etid 13 c omnetpp::cMessage n "weight request" pe -1
+ME
+MB sm 1 tm 4 m initialize(0)
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  numneighbours: 6
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  numneighbours: 6
+CM id 14 tid 14 eid 14 etid 14 c omnetpp::cMessage n event pe -1
+BS id 14 tid 14 eid 14 etid 14 c omnetpp::cMessage n event pe 0
+ES t 1
+CM id 15 tid 15 eid 15 etid 15 c omnetpp::cMessage n "weight request" pe -1
+CM id 16 tid 16 eid 16 etid 16 c omnetpp::cMessage n "weight request" pe -1
+CM id 17 tid 17 eid 17 etid 17 c omnetpp::cMessage n "weight request" pe -1
+CM id 18 tid 18 eid 18 etid 18 c omnetpp::cMessage n "weight request" pe -1
+CM id 19 tid 19 eid 19 etid 19 c omnetpp::cMessage n "weight request" pe -1
+CM id 20 tid 20 eid 20 etid 20 c omnetpp::cMessage n "weight request" pe -1
+ME
+MB sm 1 tm 5 m initialize(0)
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  numneighbours: 6
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  numneighbours: 6
+CM id 21 tid 21 eid 21 etid 21 c omnetpp::cMessage n event pe -1
+BS id 21 tid 21 eid 21 etid 21 c omnetpp::cMessage n event pe 0
+ES t 1
+CM id 22 tid 22 eid 22 etid 22 c omnetpp::cMessage n "weight request" pe -1
+CM id 23 tid 23 eid 23 etid 23 c omnetpp::cMessage n "weight request" pe -1
+CM id 24 tid 24 eid 24 etid 24 c omnetpp::cMessage n "weight request" pe -1
+CM id 25 tid 25 eid 25 etid 25 c omnetpp::cMessage n "weight request" pe -1
+CM id 26 tid 26 eid 26 etid 26 c omnetpp::cMessage n "weight request" pe -1
+CM id 27 tid 27 eid 27 etid 27 c omnetpp::cMessage n "weight request" pe -1
+ME
+MB sm 1 tm 6 m initialize(0)
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  numneighbours: 6
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  numneighbours: 6
+CM id 28 tid 28 eid 28 etid 28 c omnetpp::cMessage n event pe -1
+BS id 28 tid 28 eid 28 etid 28 c omnetpp::cMessage n event pe 0
+ES t 1
+CM id 29 tid 29 eid 29 etid 29 c omnetpp::cMessage n "weight request" pe -1
+CM id 30 tid 30 eid 30 etid 30 c omnetpp::cMessage n "weight request" pe -1
+CM id 31 tid 31 eid 31 etid 31 c omnetpp::cMessage n "weight request" pe -1
+CM id 32 tid 32 eid 32 etid 32 c omnetpp::cMessage n "weight request" pe -1
+CM id 33 tid 33 eid 33 etid 33 c omnetpp::cMessage n "weight request" pe -1
+CM id 34 tid 34 eid 34 etid 34 c omnetpp::cMessage n "weight request" pe -1
+ME
+MB sm 1 tm 7 m initialize(0)
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  numneighbours: 6
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  numneighbours: 6
+CM id 35 tid 35 eid 35 etid 35 c omnetpp::cMessage n event pe -1
+BS id 35 tid 35 eid 35 etid 35 c omnetpp::cMessage n event pe 0
+ES t 1
+CM id 36 tid 36 eid 36 etid 36 c omnetpp::cMessage n "weight request" pe -1
+CM id 37 tid 37 eid 37 etid 37 c omnetpp::cMessage n "weight request" pe -1
+CM id 38 tid 38 eid 38 etid 38 c omnetpp::cMessage n "weight request" pe -1
+CM id 39 tid 39 eid 39 etid 39 c omnetpp::cMessage n "weight request" pe -1
+CM id 40 tid 40 eid 40 etid 40 c omnetpp::cMessage n "weight request" pe -1
+CM id 41 tid 41 eid 41 etid 41 c omnetpp::cMessage n "weight request" pe -1
+ME
+MB sm 1 tm 8 m initialize(0)
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  numneighbours: 6
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  numneighbours: 6
+CM id 42 tid 42 eid 42 etid 42 c omnetpp::cMessage n event pe -1
+BS id 42 tid 42 eid 42 etid 42 c omnetpp::cMessage n event pe 0
+ES t 1
+CM id 43 tid 43 eid 43 etid 43 c omnetpp::cMessage n "weight request" pe -1
+CM id 44 tid 44 eid 44 etid 44 c omnetpp::cMessage n "weight request" pe -1
+CM id 45 tid 45 eid 45 etid 45 c omnetpp::cMessage n "weight request" pe -1
+CM id 46 tid 46 eid 46 etid 46 c omnetpp::cMessage n "weight request" pe -1
+CM id 47 tid 47 eid 47 etid 47 c omnetpp::cMessage n "weight request" pe -1
+CM id 48 tid 48 eid 48 etid 48 c omnetpp::cMessage n "weight request" pe -1
+ME
+
+E # 1 t 1 m 2 ce 0 msg 0
+DM id 0 tid 0 eid 0 etid 0 c omnetpp::cMessage n event pe 1
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 300 to address: 0 
+BS id 1 tid 1 eid 1 etid 1 c BasicMessage n "weight request" pe 0
+SH sm 2 sg 2621440 pd 0.1
+ES t 1.1
+CL id 1 tid 1 eid 1 etid 1 c BasicMessage n "weight request" pe 1 cid 49
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 300 to address: 1 
+BS id 2 tid 2 eid 2 etid 2 c BasicMessage n "weight request" pe 0
+SH sm 2 sg 2621441 pd 0.1
+ES t 1.1
+CL id 2 tid 2 eid 2 etid 2 c BasicMessage n "weight request" pe 1 cid 50
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 300 to address: 2 
+BS id 3 tid 3 eid 3 etid 3 c BasicMessage n "weight request" pe 0
+SH sm 2 sg 2621442 pd 0.1
+ES t 1.1
+CL id 3 tid 3 eid 3 etid 3 c BasicMessage n "weight request" pe 1 cid 51
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 300 to address: 3 
+BS id 4 tid 4 eid 4 etid 4 c BasicMessage n "weight request" pe 0
+SH sm 2 sg 2621443 pd 0.1
+ES t 1.1
+CL id 4 tid 4 eid 4 etid 4 c BasicMessage n "weight request" pe 1 cid 52
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 300 to address: 4 
+BS id 5 tid 5 eid 5 etid 5 c BasicMessage n "weight request" pe 0
+SH sm 2 sg 2621444 pd 0.1
+ES t 1.1
+CL id 5 tid 5 eid 5 etid 5 c BasicMessage n "weight request" pe 1 cid 53
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 300 to address: 5 
+BS id 6 tid 6 eid 6 etid 6 c BasicMessage n "weight request" pe 0
+SH sm 2 sg 2621445 pd 0.1
+ES t 1.1
+CL id 6 tid 6 eid 6 etid 6 c BasicMessage n "weight request" pe 1 cid 54
+- INFO (BasicNode)CompleteNetwork7.node_0: Node: node_0 has level: 80
+- INFO (BasicNode)CompleteNetwork7.node_0: Node: node_0 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_0:  
+- INFO (BasicNode)CompleteNetwork7.node_0:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  fragmentName: 1804289383
+CM id 55 tid 55 eid 55 etid 55 c omnetpp::cMessage n event pe -1
+BS id 55 tid 55 eid 55 etid 55 c omnetpp::cMessage n event pe 1
+ES t 2
+
+E # 2 t 1 m 3 ce 0 msg 7
+DM id 7 tid 7 eid 7 etid 7 c omnetpp::cMessage n event pe 2
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 300 to address: 0 
+BS id 8 tid 8 eid 8 etid 8 c BasicMessage n "weight request" pe 0
+SH sm 3 sg 2621440 pd 0.1
+ES t 1.1
+CL id 8 tid 8 eid 8 etid 8 c BasicMessage n "weight request" pe 2 cid 56
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 300 to address: 1 
+BS id 9 tid 9 eid 9 etid 9 c BasicMessage n "weight request" pe 0
+SH sm 3 sg 2621441 pd 0.1
+ES t 1.1
+CL id 9 tid 9 eid 9 etid 9 c BasicMessage n "weight request" pe 2 cid 57
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 300 to address: 2 
+BS id 10 tid 10 eid 10 etid 10 c BasicMessage n "weight request" pe 0
+SH sm 3 sg 2621442 pd 0.1
+ES t 1.1
+CL id 10 tid 10 eid 10 etid 10 c BasicMessage n "weight request" pe 2 cid 58
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 300 to address: 3 
+BS id 11 tid 11 eid 11 etid 11 c BasicMessage n "weight request" pe 0
+SH sm 3 sg 2621443 pd 0.1
+ES t 1.1
+CL id 11 tid 11 eid 11 etid 11 c BasicMessage n "weight request" pe 2 cid 59
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 300 to address: 4 
+BS id 12 tid 12 eid 12 etid 12 c BasicMessage n "weight request" pe 0
+SH sm 3 sg 2621444 pd 0.1
+ES t 1.1
+CL id 12 tid 12 eid 12 etid 12 c BasicMessage n "weight request" pe 2 cid 60
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 300 to address: 5 
+BS id 13 tid 13 eid 13 etid 13 c BasicMessage n "weight request" pe 0
+SH sm 3 sg 2621445 pd 0.1
+ES t 1.1
+CL id 13 tid 13 eid 13 etid 13 c BasicMessage n "weight request" pe 2 cid 61
+- INFO (BasicNode)CompleteNetwork7.node_1: Node: node_1 has level: 0
+- INFO (BasicNode)CompleteNetwork7.node_1: Node: node_1 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_1:  
+- INFO (BasicNode)CompleteNetwork7.node_1:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  fragmentName: 846930886
+CM id 62 tid 62 eid 62 etid 62 c omnetpp::cMessage n event pe -1
+BS id 62 tid 62 eid 62 etid 62 c omnetpp::cMessage n event pe 2
+ES t 2
+
+E # 3 t 1 m 4 ce 0 msg 14
+DM id 14 tid 14 eid 14 etid 14 c omnetpp::cMessage n event pe 3
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 300 to address: 0 
+BS id 15 tid 15 eid 15 etid 15 c BasicMessage n "weight request" pe 0
+SH sm 4 sg 2621440 pd 0.1
+ES t 1.1
+CL id 15 tid 15 eid 15 etid 15 c BasicMessage n "weight request" pe 3 cid 63
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 300 to address: 1 
+BS id 16 tid 16 eid 16 etid 16 c BasicMessage n "weight request" pe 0
+SH sm 4 sg 2621441 pd 0.1
+ES t 1.1
+CL id 16 tid 16 eid 16 etid 16 c BasicMessage n "weight request" pe 3 cid 64
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 300 to address: 2 
+BS id 17 tid 17 eid 17 etid 17 c BasicMessage n "weight request" pe 0
+SH sm 4 sg 2621442 pd 0.1
+ES t 1.1
+CL id 17 tid 17 eid 17 etid 17 c BasicMessage n "weight request" pe 3 cid 65
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 300 to address: 3 
+BS id 18 tid 18 eid 18 etid 18 c BasicMessage n "weight request" pe 0
+SH sm 4 sg 2621443 pd 0.1
+ES t 1.1
+CL id 18 tid 18 eid 18 etid 18 c BasicMessage n "weight request" pe 3 cid 66
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 300 to address: 4 
+BS id 19 tid 19 eid 19 etid 19 c BasicMessage n "weight request" pe 0
+SH sm 4 sg 2621444 pd 0.1
+ES t 1.1
+CL id 19 tid 19 eid 19 etid 19 c BasicMessage n "weight request" pe 3 cid 67
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 300 to address: 5 
+BS id 20 tid 20 eid 20 etid 20 c BasicMessage n "weight request" pe 0
+SH sm 4 sg 2621445 pd 0.1
+ES t 1.1
+CL id 20 tid 20 eid 20 etid 20 c BasicMessage n "weight request" pe 3 cid 68
+- INFO (BasicNode)CompleteNetwork7.node_2: Node: node_2 has level: 1686310080
+- INFO (BasicNode)CompleteNetwork7.node_2: Node: node_2 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_2:  
+- INFO (BasicNode)CompleteNetwork7.node_2:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  fragmentName: 1681692777
+CM id 69 tid 69 eid 69 etid 69 c omnetpp::cMessage n event pe -1
+BS id 69 tid 69 eid 69 etid 69 c omnetpp::cMessage n event pe 3
+ES t 2
+
+E # 4 t 1 m 5 ce 0 msg 21
+DM id 21 tid 21 eid 21 etid 21 c omnetpp::cMessage n event pe 4
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 300 to address: 0 
+BS id 22 tid 22 eid 22 etid 22 c BasicMessage n "weight request" pe 0
+SH sm 5 sg 2621440 pd 0.1
+ES t 1.1
+CL id 22 tid 22 eid 22 etid 22 c BasicMessage n "weight request" pe 4 cid 70
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 300 to address: 1 
+BS id 23 tid 23 eid 23 etid 23 c BasicMessage n "weight request" pe 0
+SH sm 5 sg 2621441 pd 0.1
+ES t 1.1
+CL id 23 tid 23 eid 23 etid 23 c BasicMessage n "weight request" pe 4 cid 71
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 300 to address: 2 
+BS id 24 tid 24 eid 24 etid 24 c BasicMessage n "weight request" pe 0
+SH sm 5 sg 2621442 pd 0.1
+ES t 1.1
+CL id 24 tid 24 eid 24 etid 24 c BasicMessage n "weight request" pe 4 cid 72
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 300 to address: 3 
+BS id 25 tid 25 eid 25 etid 25 c BasicMessage n "weight request" pe 0
+SH sm 5 sg 2621443 pd 0.1
+ES t 1.1
+CL id 25 tid 25 eid 25 etid 25 c BasicMessage n "weight request" pe 4 cid 73
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 300 to address: 4 
+BS id 26 tid 26 eid 26 etid 26 c BasicMessage n "weight request" pe 0
+SH sm 5 sg 2621444 pd 0.1
+ES t 1.1
+CL id 26 tid 26 eid 26 etid 26 c BasicMessage n "weight request" pe 4 cid 74
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 300 to address: 5 
+BS id 27 tid 27 eid 27 etid 27 c BasicMessage n "weight request" pe 0
+SH sm 5 sg 2621445 pd 0.1
+ES t 1.1
+CL id 27 tid 27 eid 27 etid 27 c BasicMessage n "weight request" pe 4 cid 75
+- INFO (BasicNode)CompleteNetwork7.node_3: Node: node_3 has level: 32
+- INFO (BasicNode)CompleteNetwork7.node_3: Node: node_3 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_3:  
+- INFO (BasicNode)CompleteNetwork7.node_3:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  fragmentName: 1714636915
+CM id 76 tid 76 eid 76 etid 76 c omnetpp::cMessage n event pe -1
+BS id 76 tid 76 eid 76 etid 76 c omnetpp::cMessage n event pe 4
+ES t 2
+
+E # 5 t 1 m 6 ce 0 msg 28
+DM id 28 tid 28 eid 28 etid 28 c omnetpp::cMessage n event pe 5
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 300 to address: 0 
+BS id 29 tid 29 eid 29 etid 29 c BasicMessage n "weight request" pe 0
+SH sm 6 sg 2621440 pd 0.1
+ES t 1.1
+CL id 29 tid 29 eid 29 etid 29 c BasicMessage n "weight request" pe 5 cid 77
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 300 to address: 1 
+BS id 30 tid 30 eid 30 etid 30 c BasicMessage n "weight request" pe 0
+SH sm 6 sg 2621441 pd 0.1
+ES t 1.1
+CL id 30 tid 30 eid 30 etid 30 c BasicMessage n "weight request" pe 5 cid 78
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 300 to address: 2 
+BS id 31 tid 31 eid 31 etid 31 c BasicMessage n "weight request" pe 0
+SH sm 6 sg 2621442 pd 0.1
+ES t 1.1
+CL id 31 tid 31 eid 31 etid 31 c BasicMessage n "weight request" pe 5 cid 79
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 300 to address: 3 
+BS id 32 tid 32 eid 32 etid 32 c BasicMessage n "weight request" pe 0
+SH sm 6 sg 2621443 pd 0.1
+ES t 1.1
+CL id 32 tid 32 eid 32 etid 32 c BasicMessage n "weight request" pe 5 cid 80
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 300 to address: 4 
+BS id 33 tid 33 eid 33 etid 33 c BasicMessage n "weight request" pe 0
+SH sm 6 sg 2621444 pd 0.1
+ES t 1.1
+CL id 33 tid 33 eid 33 etid 33 c BasicMessage n "weight request" pe 5 cid 81
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 300 to address: 5 
+BS id 34 tid 34 eid 34 etid 34 c BasicMessage n "weight request" pe 0
+SH sm 6 sg 2621445 pd 0.1
+ES t 1.1
+CL id 34 tid 34 eid 34 etid 34 c BasicMessage n "weight request" pe 5 cid 82
+- INFO (BasicNode)CompleteNetwork7.node_4: Node: node_4 has level: 1686332336
+- INFO (BasicNode)CompleteNetwork7.node_4: Node: node_4 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_4:  
+- INFO (BasicNode)CompleteNetwork7.node_4:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  fragmentName: 1957747793
+CM id 83 tid 83 eid 83 etid 83 c omnetpp::cMessage n event pe -1
+BS id 83 tid 83 eid 83 etid 83 c omnetpp::cMessage n event pe 5
+ES t 2
+
+E # 6 t 1 m 7 ce 0 msg 35
+DM id 35 tid 35 eid 35 etid 35 c omnetpp::cMessage n event pe 6
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 300 to address: 0 
+BS id 36 tid 36 eid 36 etid 36 c BasicMessage n "weight request" pe 0
+SH sm 7 sg 2621440 pd 0.1
+ES t 1.1
+CL id 36 tid 36 eid 36 etid 36 c BasicMessage n "weight request" pe 6 cid 84
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 300 to address: 1 
+BS id 37 tid 37 eid 37 etid 37 c BasicMessage n "weight request" pe 0
+SH sm 7 sg 2621441 pd 0.1
+ES t 1.1
+CL id 37 tid 37 eid 37 etid 37 c BasicMessage n "weight request" pe 6 cid 85
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 300 to address: 2 
+BS id 38 tid 38 eid 38 etid 38 c BasicMessage n "weight request" pe 0
+SH sm 7 sg 2621442 pd 0.1
+ES t 1.1
+CL id 38 tid 38 eid 38 etid 38 c BasicMessage n "weight request" pe 6 cid 86
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 300 to address: 3 
+BS id 39 tid 39 eid 39 etid 39 c BasicMessage n "weight request" pe 0
+SH sm 7 sg 2621443 pd 0.1
+ES t 1.1
+CL id 39 tid 39 eid 39 etid 39 c BasicMessage n "weight request" pe 6 cid 87
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 300 to address: 4 
+BS id 40 tid 40 eid 40 etid 40 c BasicMessage n "weight request" pe 0
+SH sm 7 sg 2621444 pd 0.1
+ES t 1.1
+CL id 40 tid 40 eid 40 etid 40 c BasicMessage n "weight request" pe 6 cid 88
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 300 to address: 5 
+BS id 41 tid 41 eid 41 etid 41 c BasicMessage n "weight request" pe 0
+SH sm 7 sg 2621445 pd 0.1
+ES t 1.1
+CL id 41 tid 41 eid 41 etid 41 c BasicMessage n "weight request" pe 6 cid 89
+- INFO (BasicNode)CompleteNetwork7.node_5: Node: node_5 has level: 0
+- INFO (BasicNode)CompleteNetwork7.node_5: Node: node_5 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_5:  
+- INFO (BasicNode)CompleteNetwork7.node_5:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  fragmentName: 424238335
+CM id 90 tid 90 eid 90 etid 90 c omnetpp::cMessage n event pe -1
+BS id 90 tid 90 eid 90 etid 90 c omnetpp::cMessage n event pe 6
+ES t 2
+
+E # 7 t 1 m 8 ce 0 msg 42
+DM id 42 tid 42 eid 42 etid 42 c omnetpp::cMessage n event pe 7
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 300 to address: 0 
+BS id 43 tid 43 eid 43 etid 43 c BasicMessage n "weight request" pe 0
+SH sm 8 sg 2621440 pd 0.1
+ES t 1.1
+CL id 43 tid 43 eid 43 etid 43 c BasicMessage n "weight request" pe 7 cid 91
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 300 to address: 1 
+BS id 44 tid 44 eid 44 etid 44 c BasicMessage n "weight request" pe 0
+SH sm 8 sg 2621441 pd 0.1
+ES t 1.1
+CL id 44 tid 44 eid 44 etid 44 c BasicMessage n "weight request" pe 7 cid 92
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 300 to address: 2 
+BS id 45 tid 45 eid 45 etid 45 c BasicMessage n "weight request" pe 0
+SH sm 8 sg 2621442 pd 0.1
+ES t 1.1
+CL id 45 tid 45 eid 45 etid 45 c BasicMessage n "weight request" pe 7 cid 93
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 300 to address: 3 
+BS id 46 tid 46 eid 46 etid 46 c BasicMessage n "weight request" pe 0
+SH sm 8 sg 2621443 pd 0.1
+ES t 1.1
+CL id 46 tid 46 eid 46 etid 46 c BasicMessage n "weight request" pe 7 cid 94
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 300 to address: 4 
+BS id 47 tid 47 eid 47 etid 47 c BasicMessage n "weight request" pe 0
+SH sm 8 sg 2621444 pd 0.1
+ES t 1.1
+CL id 47 tid 47 eid 47 etid 47 c BasicMessage n "weight request" pe 7 cid 95
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 300 to address: 5 
+BS id 48 tid 48 eid 48 etid 48 c BasicMessage n "weight request" pe 0
+SH sm 8 sg 2621445 pd 0.1
+ES t 1.1
+CL id 48 tid 48 eid 48 etid 48 c BasicMessage n "weight request" pe 7 cid 96
+- INFO (BasicNode)CompleteNetwork7.node_6: Node: node_6 has level: 0
+- INFO (BasicNode)CompleteNetwork7.node_6: Node: node_6 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_6:  
+- INFO (BasicNode)CompleteNetwork7.node_6:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  fragmentName: 719885386
+CM id 97 tid 97 eid 97 etid 97 c omnetpp::cMessage n event pe -1
+BS id 97 tid 97 eid 97 etid 97 c omnetpp::cMessage n event pe 7
+ES t 2
+
+E # 8 t 1.1 m 3 ce 1 msg 1
+CM id 98 tid 98 eid 98 etid 98 c omnetpp::cMessage n "weight response: 957358497" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 6
+DM id 1 tid 1 eid 1 etid 1 c omnetpp::cMessage n "weight request" pe 8
+
+E # 9 t 1.1 m 4 ce 1 msg 2
+CM id 99 tid 99 eid 99 etid 99 c omnetpp::cMessage n "weight response: 122596606" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 6
+DM id 2 tid 2 eid 2 etid 2 c omnetpp::cMessage n "weight request" pe 9
+
+E # 10 t 1.1 m 5 ce 1 msg 3
+CM id 100 tid 100 eid 100 etid 100 c omnetpp::cMessage n "weight response: 89652468" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 6
+DM id 3 tid 3 eid 3 etid 3 c omnetpp::cMessage n "weight request" pe 10
+
+E # 11 t 1.1 m 6 ce 1 msg 4
+CM id 101 tid 101 eid 101 etid 101 c omnetpp::cMessage n "weight response: 153458415" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 6
+DM id 4 tid 4 eid 4 etid 4 c omnetpp::cMessage n "weight request" pe 11
+
+E # 12 t 1.1 m 7 ce 1 msg 5
+CM id 102 tid 102 eid 102 etid 102 c omnetpp::cMessage n "weight response: 1380051048" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 6
+DM id 5 tid 5 eid 5 etid 5 c omnetpp::cMessage n "weight request" pe 12
+
+E # 13 t 1.1 m 8 ce 1 msg 6
+CM id 103 tid 103 eid 103 etid 103 c omnetpp::cMessage n "weight response: 1084403997" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 6
+DM id 6 tid 6 eid 6 etid 6 c omnetpp::cMessage n "weight request" pe 13
+
+E # 14 t 1.1 m 2 ce 2 msg 8
+CM id 104 tid 104 eid 104 etid 104 c omnetpp::cMessage n "weight response: 957358502" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 6
+DM id 8 tid 8 eid 8 etid 8 c omnetpp::cMessage n "weight request" pe 14
+
+E # 15 t 1.1 m 4 ce 2 msg 9
+CM id 105 tid 105 eid 105 etid 105 c omnetpp::cMessage n "weight response: 834761896" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 6
+DM id 9 tid 9 eid 9 etid 9 c omnetpp::cMessage n "weight request" pe 15
+
+E # 16 t 1.1 m 5 ce 2 msg 10
+CM id 106 tid 106 eid 106 etid 106 c omnetpp::cMessage n "weight response: 867706034" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 6
+DM id 10 tid 10 eid 10 etid 10 c omnetpp::cMessage n "weight request" pe 16
+
+E # 17 t 1.1 m 6 ce 2 msg 11
+CM id 107 tid 107 eid 107 etid 107 c omnetpp::cMessage n "weight response: 1110816912" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 6
+DM id 11 tid 11 eid 11 etid 11 c omnetpp::cMessage n "weight request" pe 17
+
+E # 18 t 1.1 m 7 ce 2 msg 12
+CM id 108 tid 108 eid 108 etid 108 c omnetpp::cMessage n "weight response: 422692551" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 6
+DM id 12 tid 12 eid 12 etid 12 c omnetpp::cMessage n "weight request" pe 18
+
+E # 19 t 1.1 m 8 ce 2 msg 13
+CM id 109 tid 109 eid 109 etid 109 c omnetpp::cMessage n "weight response: 127045500" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 6
+DM id 13 tid 13 eid 13 etid 13 c omnetpp::cMessage n "weight request" pe 19
+
+E # 20 t 1.1 m 2 ce 3 msg 15
+CM id 110 tid 110 eid 110 etid 110 c omnetpp::cMessage n "weight response: 122596611" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 6
+DM id 15 tid 15 eid 15 etid 15 c omnetpp::cMessage n "weight request" pe 20
+
+E # 21 t 1.1 m 3 ce 3 msg 16
+CM id 111 tid 111 eid 111 etid 111 c omnetpp::cMessage n "weight response: 834761891" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 6
+DM id 16 tid 16 eid 16 etid 16 c omnetpp::cMessage n "weight request" pe 21
+
+E # 22 t 1.1 m 5 ce 3 msg 17
+CM id 112 tid 112 eid 112 etid 112 c omnetpp::cMessage n "weight response: 32944143" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 6
+DM id 17 tid 17 eid 17 etid 17 c omnetpp::cMessage n "weight request" pe 22
+
+E # 23 t 1.1 m 6 ce 3 msg 18
+CM id 113 tid 113 eid 113 etid 113 c omnetpp::cMessage n "weight response: 276055021" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 6
+DM id 18 tid 18 eid 18 etid 18 c omnetpp::cMessage n "weight request" pe 23
+
+E # 24 t 1.1 m 7 ce 3 msg 19
+CM id 114 tid 114 eid 114 etid 114 c omnetpp::cMessage n "weight response: 1257454442" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 6
+DM id 19 tid 19 eid 19 etid 19 c omnetpp::cMessage n "weight request" pe 24
+
+E # 25 t 1.1 m 8 ce 3 msg 20
+CM id 115 tid 115 eid 115 etid 115 c omnetpp::cMessage n "weight response: 961807391" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 6
+DM id 20 tid 20 eid 20 etid 20 c omnetpp::cMessage n "weight request" pe 25
+
+E # 26 t 1.1 m 2 ce 4 msg 22
+CM id 116 tid 116 eid 116 etid 116 c omnetpp::cMessage n "weight response: 89652473" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 6
+DM id 22 tid 22 eid 22 etid 22 c omnetpp::cMessage n "weight request" pe 26
+
+E # 27 t 1.1 m 3 ce 4 msg 23
+CM id 117 tid 117 eid 117 etid 117 c omnetpp::cMessage n "weight response: 867706029" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 6
+DM id 23 tid 23 eid 23 etid 23 c omnetpp::cMessage n "weight request" pe 27
+
+E # 28 t 1.1 m 4 ce 4 msg 24
+CM id 118 tid 118 eid 118 etid 118 c omnetpp::cMessage n "weight response: 32944138" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 6
+DM id 24 tid 24 eid 24 etid 24 c omnetpp::cMessage n "weight request" pe 28
+
+E # 29 t 1.1 m 6 ce 4 msg 25
+CM id 119 tid 119 eid 119 etid 119 c omnetpp::cMessage n "weight response: 243110883" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 6
+DM id 25 tid 25 eid 25 etid 25 c omnetpp::cMessage n "weight request" pe 29
+
+E # 30 t 1.1 m 7 ce 4 msg 26
+CM id 120 tid 120 eid 120 etid 120 c omnetpp::cMessage n "weight response: 1290398580" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 6
+DM id 26 tid 26 eid 26 etid 26 c omnetpp::cMessage n "weight request" pe 30
+
+E # 31 t 1.1 m 8 ce 4 msg 27
+CM id 121 tid 121 eid 121 etid 121 c omnetpp::cMessage n "weight response: 994751529" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 6
+DM id 27 tid 27 eid 27 etid 27 c omnetpp::cMessage n "weight request" pe 31
+
+E # 32 t 1.1 m 2 ce 5 msg 29
+CM id 122 tid 122 eid 122 etid 122 c omnetpp::cMessage n "weight response: 153458410" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 6
+DM id 29 tid 29 eid 29 etid 29 c omnetpp::cMessage n "weight request" pe 32
+
+E # 33 t 1.1 m 3 ce 5 msg 30
+CM id 123 tid 123 eid 123 etid 123 c omnetpp::cMessage n "weight response: 1110816907" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 6
+DM id 30 tid 30 eid 30 etid 30 c omnetpp::cMessage n "weight request" pe 33
+
+E # 34 t 1.1 m 4 ce 5 msg 31
+CM id 124 tid 124 eid 124 etid 124 c omnetpp::cMessage n "weight response: 276055016" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 6
+DM id 31 tid 31 eid 31 etid 31 c omnetpp::cMessage n "weight request" pe 34
+
+E # 35 t 1.1 m 5 ce 5 msg 32
+CM id 125 tid 125 eid 125 etid 125 c omnetpp::cMessage n "weight response: 243110878" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 6
+DM id 32 tid 32 eid 32 etid 32 c omnetpp::cMessage n "weight request" pe 35
+
+E # 36 t 1.1 m 7 ce 5 msg 33
+CM id 126 tid 126 eid 126 etid 126 c omnetpp::cMessage n "weight response: 1533509458" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 6
+DM id 33 tid 33 eid 33 etid 33 c omnetpp::cMessage n "weight request" pe 36
+
+E # 37 t 1.1 m 8 ce 5 msg 34
+CM id 127 tid 127 eid 127 etid 127 c omnetpp::cMessage n "weight response: 1237862407" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 6
+DM id 34 tid 34 eid 34 etid 34 c omnetpp::cMessage n "weight request" pe 37
+
+E # 38 t 1.1 m 2 ce 6 msg 36
+CM id 128 tid 128 eid 128 etid 128 c omnetpp::cMessage n "weight response: 1380051053" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 6
+DM id 36 tid 36 eid 36 etid 36 c omnetpp::cMessage n "weight request" pe 38
+
+E # 39 t 1.1 m 3 ce 6 msg 37
+CM id 129 tid 129 eid 129 etid 129 c omnetpp::cMessage n "weight response: 422692556" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 6
+DM id 37 tid 37 eid 37 etid 37 c omnetpp::cMessage n "weight request" pe 39
+
+E # 40 t 1.1 m 4 ce 6 msg 38
+CM id 130 tid 130 eid 130 etid 130 c omnetpp::cMessage n "weight response: 1257454447" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 6
+DM id 38 tid 38 eid 38 etid 38 c omnetpp::cMessage n "weight request" pe 40
+
+E # 41 t 1.1 m 5 ce 6 msg 39
+CM id 131 tid 131 eid 131 etid 131 c omnetpp::cMessage n "weight response: 1290398585" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 6
+DM id 39 tid 39 eid 39 etid 39 c omnetpp::cMessage n "weight request" pe 41
+
+E # 42 t 1.1 m 6 ce 6 msg 40
+CM id 132 tid 132 eid 132 etid 132 c omnetpp::cMessage n "weight response: 1533509463" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 6
+DM id 40 tid 40 eid 40 etid 40 c omnetpp::cMessage n "weight request" pe 42
+
+E # 43 t 1.1 m 8 ce 6 msg 41
+CM id 133 tid 133 eid 133 etid 133 c omnetpp::cMessage n "weight response: 295647056" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 6
+DM id 41 tid 41 eid 41 etid 41 c omnetpp::cMessage n "weight request" pe 43
+
+E # 44 t 1.1 m 2 ce 7 msg 43
+CM id 134 tid 134 eid 134 etid 134 c omnetpp::cMessage n "weight response: 1084404002" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 6
+DM id 43 tid 43 eid 43 etid 43 c omnetpp::cMessage n "weight request" pe 44
+
+E # 45 t 1.1 m 3 ce 7 msg 44
+CM id 135 tid 135 eid 135 etid 135 c omnetpp::cMessage n "weight response: 127045505" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 6
+DM id 44 tid 44 eid 44 etid 44 c omnetpp::cMessage n "weight request" pe 45
+
+E # 46 t 1.1 m 4 ce 7 msg 45
+CM id 136 tid 136 eid 136 etid 136 c omnetpp::cMessage n "weight response: 961807396" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 6
+DM id 45 tid 45 eid 45 etid 45 c omnetpp::cMessage n "weight request" pe 46
+
+E # 47 t 1.1 m 5 ce 7 msg 46
+CM id 137 tid 137 eid 137 etid 137 c omnetpp::cMessage n "weight response: 994751534" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 6
+DM id 46 tid 46 eid 46 etid 46 c omnetpp::cMessage n "weight request" pe 47
+
+E # 48 t 1.1 m 6 ce 7 msg 47
+CM id 138 tid 138 eid 138 etid 138 c omnetpp::cMessage n "weight response: 1237862412" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 6
+DM id 47 tid 47 eid 47 etid 47 c omnetpp::cMessage n "weight request" pe 48
+
+E # 49 t 1.1 m 7 ce 7 msg 48
+CM id 139 tid 139 eid 139 etid 139 c omnetpp::cMessage n "weight response: 295647051" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 6
+DM id 48 tid 48 eid 48 etid 48 c omnetpp::cMessage n "weight request" pe 49
+
+E # 50 t 2 m 2 ce 1 msg 55
+DM id 55 tid 55 eid 55 etid 55 c omnetpp::cMessage n event pe 50
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 301 to address: 0 
+BS id 104 tid 104 eid 104 etid 104 c BasicMessage n "weight response: 957358502" pe 14
+SH sm 2 sg 2621440 pd 0.1
+ES t 2.1
+CL id 104 tid 104 eid 104 etid 104 c BasicMessage n "weight response: 957358502" pe 50 cid 140
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 301 to address: 1 
+BS id 110 tid 110 eid 110 etid 110 c BasicMessage n "weight response: 122596611" pe 20
+SH sm 2 sg 2621441 pd 0.1
+ES t 2.1
+CL id 110 tid 110 eid 110 etid 110 c BasicMessage n "weight response: 122596611" pe 50 cid 141
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 301 to address: 2 
+BS id 116 tid 116 eid 116 etid 116 c BasicMessage n "weight response: 89652473" pe 26
+SH sm 2 sg 2621442 pd 0.1
+ES t 2.1
+CL id 116 tid 116 eid 116 etid 116 c BasicMessage n "weight response: 89652473" pe 50 cid 142
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 301 to address: 3 
+BS id 122 tid 122 eid 122 etid 122 c BasicMessage n "weight response: 153458410" pe 32
+SH sm 2 sg 2621443 pd 0.1
+ES t 2.1
+CL id 122 tid 122 eid 122 etid 122 c BasicMessage n "weight response: 153458410" pe 50 cid 143
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 301 to address: 4 
+BS id 128 tid 128 eid 128 etid 128 c BasicMessage n "weight response: 1380051053" pe 38
+SH sm 2 sg 2621444 pd 0.1
+ES t 2.1
+CL id 128 tid 128 eid 128 etid 128 c BasicMessage n "weight response: 1380051053" pe 50 cid 144
+- INFO (BasicNode)CompleteNetwork7.node_0: 0: SpanningTree sending message type: 301 to address: 5 
+BS id 134 tid 134 eid 134 etid 134 c BasicMessage n "weight response: 1084404002" pe 44
+SH sm 2 sg 2621445 pd 0.1
+ES t 2.1
+CL id 134 tid 134 eid 134 etid 134 c BasicMessage n "weight response: 1084404002" pe 50 cid 145
+- INFO (BasicNode)CompleteNetwork7.node_0: Node: node_0 has level: 80
+- INFO (BasicNode)CompleteNetwork7.node_0: Node: node_0 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: 
+- INFO (BasicNode)CompleteNetwork7.node_0:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_0:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_0:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_0: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_0:  
+- INFO (BasicNode)CompleteNetwork7.node_0:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_0:  fragmentName: 1804289383
+CM id 146 tid 146 eid 146 etid 146 c omnetpp::cMessage n event pe -1
+BS id 146 tid 146 eid 146 etid 146 c omnetpp::cMessage n event pe 50
+ES t 3
+
+E # 51 t 2 m 3 ce 2 msg 62
+DM id 62 tid 62 eid 62 etid 62 c omnetpp::cMessage n event pe 51
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 301 to address: 0 
+BS id 98 tid 98 eid 98 etid 98 c BasicMessage n "weight response: 957358497" pe 8
+SH sm 3 sg 2621440 pd 0.1
+ES t 2.1
+CL id 98 tid 98 eid 98 etid 98 c BasicMessage n "weight response: 957358497" pe 51 cid 147
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 301 to address: 1 
+BS id 111 tid 111 eid 111 etid 111 c BasicMessage n "weight response: 834761891" pe 21
+SH sm 3 sg 2621441 pd 0.1
+ES t 2.1
+CL id 111 tid 111 eid 111 etid 111 c BasicMessage n "weight response: 834761891" pe 51 cid 148
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 301 to address: 2 
+BS id 117 tid 117 eid 117 etid 117 c BasicMessage n "weight response: 867706029" pe 27
+SH sm 3 sg 2621442 pd 0.1
+ES t 2.1
+CL id 117 tid 117 eid 117 etid 117 c BasicMessage n "weight response: 867706029" pe 51 cid 149
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 301 to address: 3 
+BS id 123 tid 123 eid 123 etid 123 c BasicMessage n "weight response: 1110816907" pe 33
+SH sm 3 sg 2621443 pd 0.1
+ES t 2.1
+CL id 123 tid 123 eid 123 etid 123 c BasicMessage n "weight response: 1110816907" pe 51 cid 150
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 301 to address: 4 
+BS id 129 tid 129 eid 129 etid 129 c BasicMessage n "weight response: 422692556" pe 39
+SH sm 3 sg 2621444 pd 0.1
+ES t 2.1
+CL id 129 tid 129 eid 129 etid 129 c BasicMessage n "weight response: 422692556" pe 51 cid 151
+- INFO (BasicNode)CompleteNetwork7.node_1: 1: SpanningTree sending message type: 301 to address: 5 
+BS id 135 tid 135 eid 135 etid 135 c BasicMessage n "weight response: 127045505" pe 45
+SH sm 3 sg 2621445 pd 0.1
+ES t 2.1
+CL id 135 tid 135 eid 135 etid 135 c BasicMessage n "weight response: 127045505" pe 51 cid 152
+- INFO (BasicNode)CompleteNetwork7.node_1: Node: node_1 has level: 0
+- INFO (BasicNode)CompleteNetwork7.node_1: Node: node_1 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: 
+- INFO (BasicNode)CompleteNetwork7.node_1:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_1:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_1:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_1: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_1:  
+- INFO (BasicNode)CompleteNetwork7.node_1:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_1:  fragmentName: 846930886
+CM id 153 tid 153 eid 153 etid 153 c omnetpp::cMessage n event pe -1
+BS id 153 tid 153 eid 153 etid 153 c omnetpp::cMessage n event pe 51
+ES t 3
+
+E # 52 t 2 m 4 ce 3 msg 69
+DM id 69 tid 69 eid 69 etid 69 c omnetpp::cMessage n event pe 52
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 301 to address: 0 
+BS id 99 tid 99 eid 99 etid 99 c BasicMessage n "weight response: 122596606" pe 9
+SH sm 4 sg 2621440 pd 0.1
+ES t 2.1
+CL id 99 tid 99 eid 99 etid 99 c BasicMessage n "weight response: 122596606" pe 52 cid 154
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 301 to address: 1 
+BS id 105 tid 105 eid 105 etid 105 c BasicMessage n "weight response: 834761896" pe 15
+SH sm 4 sg 2621441 pd 0.1
+ES t 2.1
+CL id 105 tid 105 eid 105 etid 105 c BasicMessage n "weight response: 834761896" pe 52 cid 155
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 301 to address: 2 
+BS id 118 tid 118 eid 118 etid 118 c BasicMessage n "weight response: 32944138" pe 28
+SH sm 4 sg 2621442 pd 0.1
+ES t 2.1
+CL id 118 tid 118 eid 118 etid 118 c BasicMessage n "weight response: 32944138" pe 52 cid 156
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 301 to address: 3 
+BS id 124 tid 124 eid 124 etid 124 c BasicMessage n "weight response: 276055016" pe 34
+SH sm 4 sg 2621443 pd 0.1
+ES t 2.1
+CL id 124 tid 124 eid 124 etid 124 c BasicMessage n "weight response: 276055016" pe 52 cid 157
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 301 to address: 4 
+BS id 130 tid 130 eid 130 etid 130 c BasicMessage n "weight response: 1257454447" pe 40
+SH sm 4 sg 2621444 pd 0.1
+ES t 2.1
+CL id 130 tid 130 eid 130 etid 130 c BasicMessage n "weight response: 1257454447" pe 52 cid 158
+- INFO (BasicNode)CompleteNetwork7.node_2: 2: SpanningTree sending message type: 301 to address: 5 
+BS id 136 tid 136 eid 136 etid 136 c BasicMessage n "weight response: 961807396" pe 46
+SH sm 4 sg 2621445 pd 0.1
+ES t 2.1
+CL id 136 tid 136 eid 136 etid 136 c BasicMessage n "weight response: 961807396" pe 52 cid 159
+- INFO (BasicNode)CompleteNetwork7.node_2: Node: node_2 has level: 1686310080
+- INFO (BasicNode)CompleteNetwork7.node_2: Node: node_2 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: 
+- INFO (BasicNode)CompleteNetwork7.node_2:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_2:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_2:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_2: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_2:  
+- INFO (BasicNode)CompleteNetwork7.node_2:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_2:  fragmentName: 1681692777
+CM id 160 tid 160 eid 160 etid 160 c omnetpp::cMessage n event pe -1
+BS id 160 tid 160 eid 160 etid 160 c omnetpp::cMessage n event pe 52
+ES t 3
+
+E # 53 t 2 m 5 ce 4 msg 76
+DM id 76 tid 76 eid 76 etid 76 c omnetpp::cMessage n event pe 53
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 301 to address: 0 
+BS id 100 tid 100 eid 100 etid 100 c BasicMessage n "weight response: 89652468" pe 10
+SH sm 5 sg 2621440 pd 0.1
+ES t 2.1
+CL id 100 tid 100 eid 100 etid 100 c BasicMessage n "weight response: 89652468" pe 53 cid 161
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 301 to address: 1 
+BS id 106 tid 106 eid 106 etid 106 c BasicMessage n "weight response: 867706034" pe 16
+SH sm 5 sg 2621441 pd 0.1
+ES t 2.1
+CL id 106 tid 106 eid 106 etid 106 c BasicMessage n "weight response: 867706034" pe 53 cid 162
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 301 to address: 2 
+BS id 112 tid 112 eid 112 etid 112 c BasicMessage n "weight response: 32944143" pe 22
+SH sm 5 sg 2621442 pd 0.1
+ES t 2.1
+CL id 112 tid 112 eid 112 etid 112 c BasicMessage n "weight response: 32944143" pe 53 cid 163
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 301 to address: 3 
+BS id 125 tid 125 eid 125 etid 125 c BasicMessage n "weight response: 243110878" pe 35
+SH sm 5 sg 2621443 pd 0.1
+ES t 2.1
+CL id 125 tid 125 eid 125 etid 125 c BasicMessage n "weight response: 243110878" pe 53 cid 164
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 301 to address: 4 
+BS id 131 tid 131 eid 131 etid 131 c BasicMessage n "weight response: 1290398585" pe 41
+SH sm 5 sg 2621444 pd 0.1
+ES t 2.1
+CL id 131 tid 131 eid 131 etid 131 c BasicMessage n "weight response: 1290398585" pe 53 cid 165
+- INFO (BasicNode)CompleteNetwork7.node_3: 3: SpanningTree sending message type: 301 to address: 5 
+BS id 137 tid 137 eid 137 etid 137 c BasicMessage n "weight response: 994751534" pe 47
+SH sm 5 sg 2621445 pd 0.1
+ES t 2.1
+CL id 137 tid 137 eid 137 etid 137 c BasicMessage n "weight response: 994751534" pe 53 cid 166
+- INFO (BasicNode)CompleteNetwork7.node_3: Node: node_3 has level: 32
+- INFO (BasicNode)CompleteNetwork7.node_3: Node: node_3 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: 
+- INFO (BasicNode)CompleteNetwork7.node_3:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_3:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_3:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_3: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_3:  
+- INFO (BasicNode)CompleteNetwork7.node_3:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_3:  fragmentName: 1714636915
+CM id 167 tid 167 eid 167 etid 167 c omnetpp::cMessage n event pe -1
+BS id 167 tid 167 eid 167 etid 167 c omnetpp::cMessage n event pe 53
+ES t 3
+
+E # 54 t 2 m 6 ce 5 msg 83
+DM id 83 tid 83 eid 83 etid 83 c omnetpp::cMessage n event pe 54
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 301 to address: 0 
+BS id 101 tid 101 eid 101 etid 101 c BasicMessage n "weight response: 153458415" pe 11
+SH sm 6 sg 2621440 pd 0.1
+ES t 2.1
+CL id 101 tid 101 eid 101 etid 101 c BasicMessage n "weight response: 153458415" pe 54 cid 168
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 301 to address: 1 
+BS id 107 tid 107 eid 107 etid 107 c BasicMessage n "weight response: 1110816912" pe 17
+SH sm 6 sg 2621441 pd 0.1
+ES t 2.1
+CL id 107 tid 107 eid 107 etid 107 c BasicMessage n "weight response: 1110816912" pe 54 cid 169
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 301 to address: 2 
+BS id 113 tid 113 eid 113 etid 113 c BasicMessage n "weight response: 276055021" pe 23
+SH sm 6 sg 2621442 pd 0.1
+ES t 2.1
+CL id 113 tid 113 eid 113 etid 113 c BasicMessage n "weight response: 276055021" pe 54 cid 170
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 301 to address: 3 
+BS id 119 tid 119 eid 119 etid 119 c BasicMessage n "weight response: 243110883" pe 29
+SH sm 6 sg 2621443 pd 0.1
+ES t 2.1
+CL id 119 tid 119 eid 119 etid 119 c BasicMessage n "weight response: 243110883" pe 54 cid 171
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 301 to address: 4 
+BS id 132 tid 132 eid 132 etid 132 c BasicMessage n "weight response: 1533509463" pe 42
+SH sm 6 sg 2621444 pd 0.1
+ES t 2.1
+CL id 132 tid 132 eid 132 etid 132 c BasicMessage n "weight response: 1533509463" pe 54 cid 172
+- INFO (BasicNode)CompleteNetwork7.node_4: 4: SpanningTree sending message type: 301 to address: 5 
+BS id 138 tid 138 eid 138 etid 138 c BasicMessage n "weight response: 1237862412" pe 48
+SH sm 6 sg 2621445 pd 0.1
+ES t 2.1
+CL id 138 tid 138 eid 138 etid 138 c BasicMessage n "weight response: 1237862412" pe 54 cid 173
+- INFO (BasicNode)CompleteNetwork7.node_4: Node: node_4 has level: 1686332336
+- INFO (BasicNode)CompleteNetwork7.node_4: Node: node_4 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: 
+- INFO (BasicNode)CompleteNetwork7.node_4:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_4:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_4:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_4: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_4:  
+- INFO (BasicNode)CompleteNetwork7.node_4:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_4:  fragmentName: 1957747793
+CM id 174 tid 174 eid 174 etid 174 c omnetpp::cMessage n event pe -1
+BS id 174 tid 174 eid 174 etid 174 c omnetpp::cMessage n event pe 54
+ES t 3
+
+E # 55 t 2 m 7 ce 6 msg 90
+DM id 90 tid 90 eid 90 etid 90 c omnetpp::cMessage n event pe 55
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 301 to address: 0 
+BS id 102 tid 102 eid 102 etid 102 c BasicMessage n "weight response: 1380051048" pe 12
+SH sm 7 sg 2621440 pd 0.1
+ES t 2.1
+CL id 102 tid 102 eid 102 etid 102 c BasicMessage n "weight response: 1380051048" pe 55 cid 175
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 301 to address: 1 
+BS id 108 tid 108 eid 108 etid 108 c BasicMessage n "weight response: 422692551" pe 18
+SH sm 7 sg 2621441 pd 0.1
+ES t 2.1
+CL id 108 tid 108 eid 108 etid 108 c BasicMessage n "weight response: 422692551" pe 55 cid 176
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 301 to address: 2 
+BS id 114 tid 114 eid 114 etid 114 c BasicMessage n "weight response: 1257454442" pe 24
+SH sm 7 sg 2621442 pd 0.1
+ES t 2.1
+CL id 114 tid 114 eid 114 etid 114 c BasicMessage n "weight response: 1257454442" pe 55 cid 177
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 301 to address: 3 
+BS id 120 tid 120 eid 120 etid 120 c BasicMessage n "weight response: 1290398580" pe 30
+SH sm 7 sg 2621443 pd 0.1
+ES t 2.1
+CL id 120 tid 120 eid 120 etid 120 c BasicMessage n "weight response: 1290398580" pe 55 cid 178
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 301 to address: 4 
+BS id 126 tid 126 eid 126 etid 126 c BasicMessage n "weight response: 1533509458" pe 36
+SH sm 7 sg 2621444 pd 0.1
+ES t 2.1
+CL id 126 tid 126 eid 126 etid 126 c BasicMessage n "weight response: 1533509458" pe 55 cid 179
+- INFO (BasicNode)CompleteNetwork7.node_5: 5: SpanningTree sending message type: 301 to address: 5 
+BS id 139 tid 139 eid 139 etid 139 c BasicMessage n "weight response: 295647051" pe 49
+SH sm 7 sg 2621445 pd 0.1
+ES t 2.1
+CL id 139 tid 139 eid 139 etid 139 c BasicMessage n "weight response: 295647051" pe 55 cid 180
+- INFO (BasicNode)CompleteNetwork7.node_5: Node: node_5 has level: 0
+- INFO (BasicNode)CompleteNetwork7.node_5: Node: node_5 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: 
+- INFO (BasicNode)CompleteNetwork7.node_5:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_5:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_5:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_5: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_5:  
+- INFO (BasicNode)CompleteNetwork7.node_5:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_5:  fragmentName: 424238335
+CM id 181 tid 181 eid 181 etid 181 c omnetpp::cMessage n event pe -1
+BS id 181 tid 181 eid 181 etid 181 c omnetpp::cMessage n event pe 55
+ES t 3
+
+E # 56 t 2 m 8 ce 7 msg 97
+DM id 97 tid 97 eid 97 etid 97 c omnetpp::cMessage n event pe 56
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 301 to address: 0 
+BS id 103 tid 103 eid 103 etid 103 c BasicMessage n "weight response: 1084403997" pe 13
+SH sm 8 sg 2621440 pd 0.1
+ES t 2.1
+CL id 103 tid 103 eid 103 etid 103 c BasicMessage n "weight response: 1084403997" pe 56 cid 182
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 301 to address: 1 
+BS id 109 tid 109 eid 109 etid 109 c BasicMessage n "weight response: 127045500" pe 19
+SH sm 8 sg 2621441 pd 0.1
+ES t 2.1
+CL id 109 tid 109 eid 109 etid 109 c BasicMessage n "weight response: 127045500" pe 56 cid 183
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 301 to address: 2 
+BS id 115 tid 115 eid 115 etid 115 c BasicMessage n "weight response: 961807391" pe 25
+SH sm 8 sg 2621442 pd 0.1
+ES t 2.1
+CL id 115 tid 115 eid 115 etid 115 c BasicMessage n "weight response: 961807391" pe 56 cid 184
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 301 to address: 3 
+BS id 121 tid 121 eid 121 etid 121 c BasicMessage n "weight response: 994751529" pe 31
+SH sm 8 sg 2621443 pd 0.1
+ES t 2.1
+CL id 121 tid 121 eid 121 etid 121 c BasicMessage n "weight response: 994751529" pe 56 cid 185
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 301 to address: 4 
+BS id 127 tid 127 eid 127 etid 127 c BasicMessage n "weight response: 1237862407" pe 37
+SH sm 8 sg 2621444 pd 0.1
+ES t 2.1
+CL id 127 tid 127 eid 127 etid 127 c BasicMessage n "weight response: 1237862407" pe 56 cid 186
+- INFO (BasicNode)CompleteNetwork7.node_6: 6: SpanningTree sending message type: 301 to address: 5 
+BS id 133 tid 133 eid 133 etid 133 c BasicMessage n "weight response: 295647056" pe 43
+SH sm 8 sg 2621445 pd 0.1
+ES t 2.1
+CL id 133 tid 133 eid 133 etid 133 c BasicMessage n "weight response: 295647056" pe 56 cid 187
+- INFO (BasicNode)CompleteNetwork7.node_6: Node: node_6 has level: 0
+- INFO (BasicNode)CompleteNetwork7.node_6: Node: node_6 has edge state: Node in State: Other? 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  0 outoging_edge: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  1 outoging_edge: 1 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  2 outoging_edge: 2 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  3 outoging_edge: 3 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  4 outoging_edge: 4 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: 
+- INFO (BasicNode)CompleteNetwork7.node_6:  5 outoging_edge: 5 
+- INFO (BasicNode)CompleteNetwork7.node_6:  weight: 2147483647 
+- INFO (BasicNode)CompleteNetwork7.node_6:  state: ? MST 
+- INFO (BasicNode)CompleteNetwork7.node_6: Towards root: -1 
+- INFO (BasicNode)CompleteNetwork7.node_6:  
+- INFO (BasicNode)CompleteNetwork7.node_6:  queue connect: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  queue test: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  queue report: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  testCounter: 0 
+- INFO (BasicNode)CompleteNetwork7.node_6:  fragmentName: 719885386
+CM id 188 tid 188 eid 188 etid 188 c omnetpp::cMessage n event pe -1
+BS id 188 tid 188 eid 188 etid 188 c omnetpp::cMessage n event pe 56
+ES t 3
+
+E # 57 t 2.1 m 3 ce 50 msg 104
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 5
+DM id 104 tid 104 eid 104 etid 104 c omnetpp::cMessage n "weight response: 957358502" pe 57
+
+E # 58 t 2.1 m 4 ce 50 msg 110
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 5
+DM id 110 tid 110 eid 110 etid 110 c omnetpp::cMessage n "weight response: 122596611" pe 58
+
+E # 59 t 2.1 m 5 ce 50 msg 116
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 5
+DM id 116 tid 116 eid 116 etid 116 c omnetpp::cMessage n "weight response: 89652473" pe 59
+
+E # 60 t 2.1 m 6 ce 50 msg 122
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 5
+DM id 122 tid 122 eid 122 etid 122 c omnetpp::cMessage n "weight response: 153458410" pe 60
+
+E # 61 t 2.1 m 7 ce 50 msg 128
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 5
+DM id 128 tid 128 eid 128 etid 128 c omnetpp::cMessage n "weight response: 1380051053" pe 61
+
+E # 62 t 2.1 m 8 ce 50 msg 134
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 5
+DM id 134 tid 134 eid 134 etid 134 c omnetpp::cMessage n "weight response: 1084404002" pe 62
+
+E # 63 t 2.1 m 2 ce 51 msg 98
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 5
+DM id 98 tid 98 eid 98 etid 98 c omnetpp::cMessage n "weight response: 957358497" pe 63
+
+E # 64 t 2.1 m 4 ce 51 msg 111
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 4
+DM id 111 tid 111 eid 111 etid 111 c omnetpp::cMessage n "weight response: 834761891" pe 64
+
+E # 65 t 2.1 m 5 ce 51 msg 117
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 4
+DM id 117 tid 117 eid 117 etid 117 c omnetpp::cMessage n "weight response: 867706029" pe 65
+
+E # 66 t 2.1 m 6 ce 51 msg 123
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 4
+DM id 123 tid 123 eid 123 etid 123 c omnetpp::cMessage n "weight response: 1110816907" pe 66
+
+E # 67 t 2.1 m 7 ce 51 msg 129
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 4
+DM id 129 tid 129 eid 129 etid 129 c omnetpp::cMessage n "weight response: 422692556" pe 67
+
+E # 68 t 2.1 m 8 ce 51 msg 135
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 4
+DM id 135 tid 135 eid 135 etid 135 c omnetpp::cMessage n "weight response: 127045505" pe 68
+
+E # 69 t 2.1 m 2 ce 52 msg 99
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 4
+DM id 99 tid 99 eid 99 etid 99 c omnetpp::cMessage n "weight response: 122596606" pe 69
+
+E # 70 t 2.1 m 3 ce 52 msg 105
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 4
+DM id 105 tid 105 eid 105 etid 105 c omnetpp::cMessage n "weight response: 834761896" pe 70
+
+E # 71 t 2.1 m 5 ce 52 msg 118
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 3
+DM id 118 tid 118 eid 118 etid 118 c omnetpp::cMessage n "weight response: 32944138" pe 71
+
+E # 72 t 2.1 m 6 ce 52 msg 124
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 3
+DM id 124 tid 124 eid 124 etid 124 c omnetpp::cMessage n "weight response: 276055016" pe 72
+
+E # 73 t 2.1 m 7 ce 52 msg 130
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 3
+DM id 130 tid 130 eid 130 etid 130 c omnetpp::cMessage n "weight response: 1257454447" pe 73
+
+E # 74 t 2.1 m 8 ce 52 msg 136
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 3
+DM id 136 tid 136 eid 136 etid 136 c omnetpp::cMessage n "weight response: 961807396" pe 74
+
+E # 75 t 2.1 m 2 ce 53 msg 100
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 3
+DM id 100 tid 100 eid 100 etid 100 c omnetpp::cMessage n "weight response: 89652468" pe 75
+
+E # 76 t 2.1 m 3 ce 53 msg 106
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 3
+DM id 106 tid 106 eid 106 etid 106 c omnetpp::cMessage n "weight response: 867706034" pe 76
+
+E # 77 t 2.1 m 4 ce 53 msg 112
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 3
+DM id 112 tid 112 eid 112 etid 112 c omnetpp::cMessage n "weight response: 32944143" pe 77
+
+E # 78 t 2.1 m 6 ce 53 msg 125
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 2
+DM id 125 tid 125 eid 125 etid 125 c omnetpp::cMessage n "weight response: 243110878" pe 78
+
+E # 79 t 2.1 m 7 ce 53 msg 131
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 2
+DM id 131 tid 131 eid 131 etid 131 c omnetpp::cMessage n "weight response: 1290398585" pe 79
+
+E # 80 t 2.1 m 8 ce 53 msg 137
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 2
+DM id 137 tid 137 eid 137 etid 137 c omnetpp::cMessage n "weight response: 994751534" pe 80
+
+E # 81 t 2.1 m 2 ce 54 msg 101
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 2
+DM id 101 tid 101 eid 101 etid 101 c omnetpp::cMessage n "weight response: 153458415" pe 81
+
+E # 82 t 2.1 m 3 ce 54 msg 107
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 2
+DM id 107 tid 107 eid 107 etid 107 c omnetpp::cMessage n "weight response: 1110816912" pe 82
+
+E # 83 t 2.1 m 4 ce 54 msg 113
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 2
+DM id 113 tid 113 eid 113 etid 113 c omnetpp::cMessage n "weight response: 276055021" pe 83
+
+E # 84 t 2.1 m 5 ce 54 msg 119
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 2
+DM id 119 tid 119 eid 119 etid 119 c omnetpp::cMessage n "weight response: 243110883" pe 84
+
+E # 85 t 2.1 m 7 ce 54 msg 132
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 1
+DM id 132 tid 132 eid 132 etid 132 c omnetpp::cMessage n "weight response: 1533509463" pe 85
+
+E # 86 t 2.1 m 8 ce 54 msg 138
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 1
+DM id 138 tid 138 eid 138 etid 138 c omnetpp::cMessage n "weight response: 1237862412" pe 86
+
+E # 87 t 2.1 m 2 ce 55 msg 102
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 1
+DM id 102 tid 102 eid 102 etid 102 c omnetpp::cMessage n "weight response: 1380051048" pe 87
+
+E # 88 t 2.1 m 3 ce 55 msg 108
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 1
+DM id 108 tid 108 eid 108 etid 108 c omnetpp::cMessage n "weight response: 422692551" pe 88
+
+E # 89 t 2.1 m 4 ce 55 msg 114
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 1
+DM id 114 tid 114 eid 114 etid 114 c omnetpp::cMessage n "weight response: 1257454442" pe 89
+
+E # 90 t 2.1 m 5 ce 55 msg 120
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 1
+DM id 120 tid 120 eid 120 etid 120 c omnetpp::cMessage n "weight response: 1290398580" pe 90
+
+E # 91 t 2.1 m 6 ce 55 msg 126
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 1
+DM id 126 tid 126 eid 126 etid 126 c omnetpp::cMessage n "weight response: 1533509458" pe 91
+
+E # 92 t 2.1 m 8 ce 55 msg 139
+CM id 189 tid 189 eid 189 etid 189 c omnetpp::cMessage n "Connect message" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_6: Node node_6 has id: 6 and  sent requests: 0
+DM id 139 tid 139 eid 139 etid 139 c omnetpp::cMessage n "weight response: 295647051" pe 92
+
+E # 93 t 2.1 m 2 ce 56 msg 103
+CM id 190 tid 190 eid 190 etid 190 c omnetpp::cMessage n "Connect message" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_0: Node node_0 has id: 0 and  sent requests: 0
+DM id 103 tid 103 eid 103 etid 103 c omnetpp::cMessage n "weight response: 1084403997" pe 93
+
+E # 94 t 2.1 m 3 ce 56 msg 109
+CM id 191 tid 191 eid 191 etid 191 c omnetpp::cMessage n "Connect message" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_1: Node node_1 has id: 1 and  sent requests: 0
+DM id 109 tid 109 eid 109 etid 109 c omnetpp::cMessage n "weight response: 127045500" pe 94
+
+E # 95 t 2.1 m 4 ce 56 msg 115
+CM id 192 tid 192 eid 192 etid 192 c omnetpp::cMessage n "Connect message" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_2: Node node_2 has id: 2 and  sent requests: 0
+DM id 115 tid 115 eid 115 etid 115 c omnetpp::cMessage n "weight response: 961807391" pe 95
+
+E # 96 t 2.1 m 5 ce 56 msg 121
+CM id 193 tid 193 eid 193 etid 193 c omnetpp::cMessage n "Connect message" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_3: Node node_3 has id: 3 and  sent requests: 0
+DM id 121 tid 121 eid 121 etid 121 c omnetpp::cMessage n "weight response: 994751529" pe 96
+
+E # 97 t 2.1 m 6 ce 56 msg 127
+CM id 194 tid 194 eid 194 etid 194 c omnetpp::cMessage n "Connect message" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_4: Node node_4 has id: 4 and  sent requests: 0
+DM id 127 tid 127 eid 127 etid 127 c omnetpp::cMessage n "weight response: 1237862407" pe 97
+
+E # 98 t 2.1 m 7 ce 56 msg 133
+CM id 195 tid 195 eid 195 etid 195 c omnetpp::cMessage n "Connect message" pe -1
+- INFO (BasicNode)CompleteNetwork7.node_5: Node node_5 has id: 5 and  sent requests: 0
+DM id 133 tid 133 eid 133 etid 133 c omnetpp::cMessage n "weight response: 295647056" pe 98

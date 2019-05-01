@@ -19,7 +19,29 @@ message BasicMessage
     int destination;
     int scalar_clock;
     int src_node_id;
+    
+    int pulseNum;
+    
     int type;
+    int subType;
+    
+    // Spanning Tree Params:
+    int spanningTreeId;
+    int spanningTreeIndexList;
+    int weightEdgeSpanningTree;
+    
+    int levelNode;
+    int fragmentName;
+    int nodeState;
+    int bestWeight;
+    
+    // Otherthings...
+    
+    int inspection;
+    
+    int lowestIdFragment;
+    int rootNodeId;
+    
     int leaderId;
     
     bool ack;
