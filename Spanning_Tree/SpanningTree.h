@@ -41,18 +41,10 @@ class SpanningTree
         static const int WEIGHT_REQUEST = 300;
         static const int WEIGHT_REPONSE = 301;
 
+        static const int DOWNTREE_BROADCAST = 400;
+        static const int UPTREE_REPLY = 450;
+
         static const int INSPECTION = 666;
-
-        static const int REQUEST = 1;
-        static const int ACCEPT_REQUEST = 2;
-
-        static const int NOTIFY_CHILD = 3;
-        static const int NOTIFY_PARENT = 4;
-
-        static const int DECLINE_REQUEST = 5;
-
-        static const int PULSE = 10;
-        static const int UPLINK = 11;
 
         void wake_up(void);
         void get_weight_edges(void);
@@ -67,7 +59,6 @@ class SpanningTree
         int get_level(void);
         std::string get_state_edge(void);
 
-        bool has_spanning_tree_search_started(void);
         bool is_node_root(void);
 
         void handle_message(BasicMessage*, int);
@@ -86,6 +77,8 @@ class SpanningTree
         bool check_connect_queue_conditions(int, int);
         bool check_report_queue_conditions(int, int);
         bool check_test_queue_conditions(int);
+
+        void broadcast(void);
 
     private:
         MessageBuffer msgBuf;
@@ -112,6 +105,7 @@ class SpanningTree
         int testQueueIndex;
 
         int testCounter;
+        int msgSentDownStream;
 
         state_edge stateEdges[15];
         int sent_requests;
@@ -119,31 +113,12 @@ class SpanningTree
         int spanningTreeNodeId;
         int nodeId;
 
-        int parentIdGate;
-        int oldParentIdGate;
-        int parentId;
-        int lowestIdFragment;
-
         int rootNodeId;
         bool rootNode;
 
-        int numberConnectNeighbours;
-        int sentMsgs;
-        int requestSends;
+        int numConnectedNodes;
 
         int listOfOutGatesRand[15];
-        int child_nodes[15];
-        int numOfChildren;
-        int lvl;
-        int pulseNum;
-
-        int maxDeclines = 6;
-        int declinesReceived;
-
-        bool spanningTreeSearchStarted;
-        bool partOfTree;
-
-        int randGateListIndex;
 
         void handle_weight_request(int, int, int);
         void handle_weight_response(int, int);
@@ -155,12 +130,17 @@ class SpanningTree
         void handle_reject(int);
         void handle_report(int, int);
 
+        void handle_downtree_broadcast(void);
+        void handle_uptree_reply(void);
 
         void test(void);
         void report(void);
         void change_root(void);
 
         void start_building_tree(void);
+
+        bool broadcast_down_stream(void);
+        bool broadcast_up_stream(void);
 
         void send_spanning_tree_request(void);
         void remove_child(int);
@@ -183,6 +163,10 @@ class SpanningTree
 
         static BasicMessage * report(int);
         static BasicMessage * change_root_msg(void);
+
+        static BasicMessage * broadcast_down_tree(void);
+        static BasicMessage * broadcast_up_tree(void);
+
 };
 
 #endif

@@ -168,9 +168,16 @@ void BasicNode::handleMessage(cMessage *msg)
         delete msg;
         sendMessagesFromBuffer();
         spanning_trees.check_queued_messages();
-        EV << "Node: " << getFullName() << " has level: " << spanning_trees.get_level() << "\n";
+        // EV << "Node: " << getFullName() << " has level: " << spanning_trees.get_level() << "\n";
+
         EV << "Node: " << getFullName() << " has edge state: " << spanning_trees.get_state_edge() << "\n";
+
         start_message_timer();
+
+        if(simTime() > 30 and node_id == 3) {
+            spanning_trees.broadcast();
+        }
+
         return;
     }
 
@@ -178,6 +185,8 @@ void BasicNode::handleMessage(cMessage *msg)
     // EV << "Received Message: " << basicmsg->getArrivalGate()->getIndex() << " with timestamp: " << basicmsg->getScalar_clock() << " \n";
 
     spanning_trees.handle_message(basicmsg, msg->getArrivalGate()->getIndex());
+
+
 
     EV << "Node " << getFullName() << " has id: " << node_id << " and  sent requests: " << spanning_trees.get_num_sent_messages() << "\n";
 //    if(basicmsg->getType() == MessageType::get_leader_message_type()) {

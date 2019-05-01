@@ -1,5 +1,5 @@
 E # 0 t 0 m 1 ce -1 msg -1
-SB v 1284 rid General-0-20190501-13:20:18-3855 b 1000
+SB v 1284 rid General-0-20190501-16:15:53-7870 b 1000
 KF p -1 c "" s ""
 MC id 1 c omnetpp::cModule t CompleteNetwork7 n CompleteNetwork7 cm 1
 MS id 1 d bgb=436,425
@@ -309,7 +309,6 @@ BS id 6 tid 6 eid 6 etid 6 c BasicMessage n "weight request" pe 0
 SH sm 2 sg 2621445 pd 0.1
 ES t 1.1
 CL id 6 tid 6 eid 6 etid 6 c BasicMessage n "weight request" pe 1 cid 54
-- INFO (BasicNode)CompleteNetwork7.node_0: Node: node_0 has level: 80
 - INFO (BasicNode)CompleteNetwork7.node_0: Node: node_0 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_0: 
 - INFO (BasicNode)CompleteNetwork7.node_0:  0 outoging_edge: 0 
@@ -378,7 +377,6 @@ BS id 13 tid 13 eid 13 etid 13 c BasicMessage n "weight request" pe 0
 SH sm 3 sg 2621445 pd 0.1
 ES t 1.1
 CL id 13 tid 13 eid 13 etid 13 c BasicMessage n "weight request" pe 2 cid 61
-- INFO (BasicNode)CompleteNetwork7.node_1: Node: node_1 has level: 0
 - INFO (BasicNode)CompleteNetwork7.node_1: Node: node_1 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_1: 
 - INFO (BasicNode)CompleteNetwork7.node_1:  0 outoging_edge: 0 
@@ -447,7 +445,6 @@ BS id 20 tid 20 eid 20 etid 20 c BasicMessage n "weight request" pe 0
 SH sm 4 sg 2621445 pd 0.1
 ES t 1.1
 CL id 20 tid 20 eid 20 etid 20 c BasicMessage n "weight request" pe 3 cid 68
-- INFO (BasicNode)CompleteNetwork7.node_2: Node: node_2 has level: 1686310080
 - INFO (BasicNode)CompleteNetwork7.node_2: Node: node_2 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_2: 
 - INFO (BasicNode)CompleteNetwork7.node_2:  0 outoging_edge: 0 
@@ -516,7 +513,6 @@ BS id 27 tid 27 eid 27 etid 27 c BasicMessage n "weight request" pe 0
 SH sm 5 sg 2621445 pd 0.1
 ES t 1.1
 CL id 27 tid 27 eid 27 etid 27 c BasicMessage n "weight request" pe 4 cid 75
-- INFO (BasicNode)CompleteNetwork7.node_3: Node: node_3 has level: 32
 - INFO (BasicNode)CompleteNetwork7.node_3: Node: node_3 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_3: 
 - INFO (BasicNode)CompleteNetwork7.node_3:  0 outoging_edge: 0 
@@ -585,7 +581,6 @@ BS id 34 tid 34 eid 34 etid 34 c BasicMessage n "weight request" pe 0
 SH sm 6 sg 2621445 pd 0.1
 ES t 1.1
 CL id 34 tid 34 eid 34 etid 34 c BasicMessage n "weight request" pe 5 cid 82
-- INFO (BasicNode)CompleteNetwork7.node_4: Node: node_4 has level: 1686332336
 - INFO (BasicNode)CompleteNetwork7.node_4: Node: node_4 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_4: 
 - INFO (BasicNode)CompleteNetwork7.node_4:  0 outoging_edge: 0 
@@ -654,7 +649,6 @@ BS id 41 tid 41 eid 41 etid 41 c BasicMessage n "weight request" pe 0
 SH sm 7 sg 2621445 pd 0.1
 ES t 1.1
 CL id 41 tid 41 eid 41 etid 41 c BasicMessage n "weight request" pe 6 cid 89
-- INFO (BasicNode)CompleteNetwork7.node_5: Node: node_5 has level: 0
 - INFO (BasicNode)CompleteNetwork7.node_5: Node: node_5 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_5: 
 - INFO (BasicNode)CompleteNetwork7.node_5:  0 outoging_edge: 0 
@@ -723,7 +717,6 @@ BS id 48 tid 48 eid 48 etid 48 c BasicMessage n "weight request" pe 0
 SH sm 8 sg 2621445 pd 0.1
 ES t 1.1
 CL id 48 tid 48 eid 48 etid 48 c BasicMessage n "weight request" pe 7 cid 96
-- INFO (BasicNode)CompleteNetwork7.node_6: Node: node_6 has level: 0
 - INFO (BasicNode)CompleteNetwork7.node_6: Node: node_6 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_6: 
 - INFO (BasicNode)CompleteNetwork7.node_6:  0 outoging_edge: 0 
@@ -1002,7 +995,6 @@ BS id 134 tid 134 eid 134 etid 134 c BasicMessage n "weight response: 1084404002
 SH sm 2 sg 2621445 pd 0.1
 ES t 2.1
 CL id 134 tid 134 eid 134 etid 134 c BasicMessage n "weight response: 1084404002" pe 50 cid 145
-- INFO (BasicNode)CompleteNetwork7.node_0: Node: node_0 has level: 80
 - INFO (BasicNode)CompleteNetwork7.node_0: Node: node_0 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_0: 
 - INFO (BasicNode)CompleteNetwork7.node_0:  0 outoging_edge: 0 
@@ -1071,7 +1063,6 @@ BS id 135 tid 135 eid 135 etid 135 c BasicMessage n "weight response: 127045505"
 SH sm 3 sg 2621445 pd 0.1
 ES t 2.1
 CL id 135 tid 135 eid 135 etid 135 c BasicMessage n "weight response: 127045505" pe 51 cid 152
-- INFO (BasicNode)CompleteNetwork7.node_1: Node: node_1 has level: 0
 - INFO (BasicNode)CompleteNetwork7.node_1: Node: node_1 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_1: 
 - INFO (BasicNode)CompleteNetwork7.node_1:  0 outoging_edge: 0 
@@ -1140,7 +1131,6 @@ BS id 136 tid 136 eid 136 etid 136 c BasicMessage n "weight response: 961807396"
 SH sm 4 sg 2621445 pd 0.1
 ES t 2.1
 CL id 136 tid 136 eid 136 etid 136 c BasicMessage n "weight response: 961807396" pe 52 cid 159
-- INFO (BasicNode)CompleteNetwork7.node_2: Node: node_2 has level: 1686310080
 - INFO (BasicNode)CompleteNetwork7.node_2: Node: node_2 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_2: 
 - INFO (BasicNode)CompleteNetwork7.node_2:  0 outoging_edge: 0 
@@ -1209,7 +1199,6 @@ BS id 137 tid 137 eid 137 etid 137 c BasicMessage n "weight response: 994751534"
 SH sm 5 sg 2621445 pd 0.1
 ES t 2.1
 CL id 137 tid 137 eid 137 etid 137 c BasicMessage n "weight response: 994751534" pe 53 cid 166
-- INFO (BasicNode)CompleteNetwork7.node_3: Node: node_3 has level: 32
 - INFO (BasicNode)CompleteNetwork7.node_3: Node: node_3 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_3: 
 - INFO (BasicNode)CompleteNetwork7.node_3:  0 outoging_edge: 0 
@@ -1278,7 +1267,6 @@ BS id 138 tid 138 eid 138 etid 138 c BasicMessage n "weight response: 1237862412
 SH sm 6 sg 2621445 pd 0.1
 ES t 2.1
 CL id 138 tid 138 eid 138 etid 138 c BasicMessage n "weight response: 1237862412" pe 54 cid 173
-- INFO (BasicNode)CompleteNetwork7.node_4: Node: node_4 has level: 1686332336
 - INFO (BasicNode)CompleteNetwork7.node_4: Node: node_4 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_4: 
 - INFO (BasicNode)CompleteNetwork7.node_4:  0 outoging_edge: 0 
@@ -1347,7 +1335,6 @@ BS id 139 tid 139 eid 139 etid 139 c BasicMessage n "weight response: 295647051"
 SH sm 7 sg 2621445 pd 0.1
 ES t 2.1
 CL id 139 tid 139 eid 139 etid 139 c BasicMessage n "weight response: 295647051" pe 55 cid 180
-- INFO (BasicNode)CompleteNetwork7.node_5: Node: node_5 has level: 0
 - INFO (BasicNode)CompleteNetwork7.node_5: Node: node_5 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_5: 
 - INFO (BasicNode)CompleteNetwork7.node_5:  0 outoging_edge: 0 
@@ -1416,7 +1403,6 @@ BS id 133 tid 133 eid 133 etid 133 c BasicMessage n "weight response: 295647056"
 SH sm 8 sg 2621445 pd 0.1
 ES t 2.1
 CL id 133 tid 133 eid 133 etid 133 c BasicMessage n "weight response: 295647056" pe 56 cid 187
-- INFO (BasicNode)CompleteNetwork7.node_6: Node: node_6 has level: 0
 - INFO (BasicNode)CompleteNetwork7.node_6: Node: node_6 has edge state: Node in State: Other? 
 - INFO (BasicNode)CompleteNetwork7.node_6: 
 - INFO (BasicNode)CompleteNetwork7.node_6:  0 outoging_edge: 0 
