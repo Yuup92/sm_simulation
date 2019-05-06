@@ -3,7 +3,6 @@
 
 #include <MessageBuffer.h>
 #include <BufferedMessage.h>
-#include <MessageGenerator.h>
 #include <Neighbours.h>
 #include <stdlib.h>
 #include <limits>
@@ -42,7 +41,11 @@ class SpanningTree
         static const int WEIGHT_REPONSE = 301;
 
         static const int DOWNTREE_BROADCAST = 400;
+        static const int ROOT_QUERY = 420;
+        static const int ROOT_QUERY_ACCEPT = 425;
+        static const int ROOT_QUERY_REJECT = 430;
         static const int UPTREE_REPLY = 450;
+
 
         static const int INSPECTION = 666;
 
@@ -78,6 +81,7 @@ class SpanningTree
         bool check_report_queue_conditions(int, int);
         bool check_test_queue_conditions(int);
 
+        void check_root(void);
         void broadcast(void);
 
     private:
@@ -114,7 +118,7 @@ class SpanningTree
         int nodeId;
 
         int rootNodeId;
-        bool rootNode;
+        bool isRoot;
 
         int numConnectedNodes;
 
@@ -130,6 +134,7 @@ class SpanningTree
         void handle_reject(int);
         void handle_report(int, int);
 
+        void handle_root_query(int, int);
         void handle_downtree_broadcast(void);
         void handle_uptree_reply(void);
 
@@ -166,6 +171,10 @@ class SpanningTree
 
         static BasicMessage * broadcast_down_tree(void);
         static BasicMessage * broadcast_up_tree(void);
+
+        static BasicMessage * root_query(int);
+        static BasicMessage * root_query_accept(void);
+        static BasicMessage * root_query_reject(void);
 
 };
 

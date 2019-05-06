@@ -52,8 +52,6 @@ class BasicNode : public cSimpleModule
         // Starts the search for a leader
         virtual void broadcastLeaderRequest();
 
-
-
     public:
         BasicNode();
         virtual ~BasicNode();
@@ -174,7 +172,9 @@ void BasicNode::handleMessage(cMessage *msg)
 
         start_message_timer();
 
-        if(simTime() > 30 and node_id == 3) {
+        if(simTime() == 100) {
+            spanning_trees.check_root();
+        } else if (simTime() == 105) {
             spanning_trees.broadcast();
         }
 
