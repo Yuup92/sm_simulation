@@ -243,6 +243,7 @@ void BasicMessage::copy(const BasicMessage& other)
     this->fragmentName = other.fragmentName;
     this->nodeState = other.nodeState;
     this->bestWeight = other.bestWeight;
+    this->replyBroadcast = other.replyBroadcast;
     this->inspection = other.inspection;
     this->lowestIdFragment = other.lowestIdFragment;
     this->rootNodeId = other.rootNodeId;
@@ -275,6 +276,7 @@ void BasicMessage::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->fragmentName);
     doParsimPacking(b,this->nodeState);
     doParsimPacking(b,this->bestWeight);
+    doParsimPacking(b,this->replyBroadcast);
     doParsimPacking(b,this->inspection);
     doParsimPacking(b,this->lowestIdFragment);
     doParsimPacking(b,this->rootNodeId);
@@ -307,6 +309,7 @@ void BasicMessage::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->fragmentName);
     doParsimUnpacking(b,this->nodeState);
     doParsimUnpacking(b,this->bestWeight);
+    doParsimUnpacking(b,this->replyBroadcast);
     doParsimUnpacking(b,this->inspection);
     doParsimUnpacking(b,this->lowestIdFragment);
     doParsimUnpacking(b,this->rootNodeId);
@@ -460,6 +463,16 @@ int BasicMessage::getBestWeight() const
 void BasicMessage::setBestWeight(int bestWeight)
 {
     this->bestWeight = bestWeight;
+}
+
+const char * BasicMessage::getReplyBroadcast() const
+{
+    return this->replyBroadcast.c_str();
+}
+
+void BasicMessage::setReplyBroadcast(const char * replyBroadcast)
+{
+    this->replyBroadcast = replyBroadcast;
 }
 
 int BasicMessage::getInspection() const
@@ -657,7 +670,7 @@ const char *BasicMessageDescriptor::getProperty(const char *propertyname) const
 int BasicMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 27+basedesc->getFieldCount() : 27;
+    return basedesc ? 28+basedesc->getFieldCount() : 28;
 }
 
 unsigned int BasicMessageDescriptor::getFieldTypeFlags(int field) const
@@ -696,8 +709,9 @@ unsigned int BasicMessageDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<27) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<28) ? fieldTypeFlags[field] : 0;
 }
 
 const char *BasicMessageDescriptor::getFieldName(int field) const
@@ -723,6 +737,7 @@ const char *BasicMessageDescriptor::getFieldName(int field) const
         "fragmentName",
         "nodeState",
         "bestWeight",
+        "replyBroadcast",
         "inspection",
         "lowestIdFragment",
         "rootNodeId",
@@ -737,7 +752,7 @@ const char *BasicMessageDescriptor::getFieldName(int field) const
         "down_broadcast",
         "up_broadcast_reply",
     };
-    return (field>=0 && field<27) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<28) ? fieldNames[field] : nullptr;
 }
 
 int BasicMessageDescriptor::findField(const char *fieldName) const
@@ -758,19 +773,20 @@ int BasicMessageDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='f' && strcmp(fieldName, "fragmentName")==0) return base+11;
     if (fieldName[0]=='n' && strcmp(fieldName, "nodeState")==0) return base+12;
     if (fieldName[0]=='b' && strcmp(fieldName, "bestWeight")==0) return base+13;
-    if (fieldName[0]=='i' && strcmp(fieldName, "inspection")==0) return base+14;
-    if (fieldName[0]=='l' && strcmp(fieldName, "lowestIdFragment")==0) return base+15;
-    if (fieldName[0]=='r' && strcmp(fieldName, "rootNodeId")==0) return base+16;
-    if (fieldName[0]=='l' && strcmp(fieldName, "leaderId")==0) return base+17;
-    if (fieldName[0]=='a' && strcmp(fieldName, "ack")==0) return base+18;
-    if (fieldName[0]=='r' && strcmp(fieldName, "root_node")==0) return base+19;
-    if (fieldName[0]=='s' && strcmp(fieldName, "start_spanning_tree")==0) return base+20;
-    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request")==0) return base+21;
-    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request_ack")==0) return base+22;
-    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_tree_level")==0) return base+23;
-    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_decline_request")==0) return base+24;
-    if (fieldName[0]=='d' && strcmp(fieldName, "down_broadcast")==0) return base+25;
-    if (fieldName[0]=='u' && strcmp(fieldName, "up_broadcast_reply")==0) return base+26;
+    if (fieldName[0]=='r' && strcmp(fieldName, "replyBroadcast")==0) return base+14;
+    if (fieldName[0]=='i' && strcmp(fieldName, "inspection")==0) return base+15;
+    if (fieldName[0]=='l' && strcmp(fieldName, "lowestIdFragment")==0) return base+16;
+    if (fieldName[0]=='r' && strcmp(fieldName, "rootNodeId")==0) return base+17;
+    if (fieldName[0]=='l' && strcmp(fieldName, "leaderId")==0) return base+18;
+    if (fieldName[0]=='a' && strcmp(fieldName, "ack")==0) return base+19;
+    if (fieldName[0]=='r' && strcmp(fieldName, "root_node")==0) return base+20;
+    if (fieldName[0]=='s' && strcmp(fieldName, "start_spanning_tree")==0) return base+21;
+    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request")==0) return base+22;
+    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_request_ack")==0) return base+23;
+    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_tree_level")==0) return base+24;
+    if (fieldName[0]=='s' && strcmp(fieldName, "spanning_decline_request")==0) return base+25;
+    if (fieldName[0]=='d' && strcmp(fieldName, "down_broadcast")==0) return base+26;
+    if (fieldName[0]=='u' && strcmp(fieldName, "up_broadcast_reply")==0) return base+27;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -797,6 +813,7 @@ const char *BasicMessageDescriptor::getFieldTypeString(int field) const
         "int",
         "int",
         "int",
+        "string",
         "int",
         "int",
         "int",
@@ -811,7 +828,7 @@ const char *BasicMessageDescriptor::getFieldTypeString(int field) const
         "bool",
         "bool",
     };
-    return (field>=0 && field<27) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<28) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **BasicMessageDescriptor::getFieldPropertyNames(int field) const
@@ -892,19 +909,20 @@ std::string BasicMessageDescriptor::getFieldValueAsString(void *object, int fiel
         case 11: return long2string(pp->getFragmentName());
         case 12: return long2string(pp->getNodeState());
         case 13: return long2string(pp->getBestWeight());
-        case 14: return long2string(pp->getInspection());
-        case 15: return long2string(pp->getLowestIdFragment());
-        case 16: return long2string(pp->getRootNodeId());
-        case 17: return long2string(pp->getLeaderId());
-        case 18: return bool2string(pp->getAck());
-        case 19: return long2string(pp->getRoot_node());
-        case 20: return bool2string(pp->getStart_spanning_tree());
-        case 21: return bool2string(pp->getSpanning_request());
-        case 22: return bool2string(pp->getSpanning_request_ack());
-        case 23: return long2string(pp->getSpanning_tree_level());
-        case 24: return bool2string(pp->getSpanning_decline_request());
-        case 25: return bool2string(pp->getDown_broadcast());
-        case 26: return bool2string(pp->getUp_broadcast_reply());
+        case 14: return oppstring2string(pp->getReplyBroadcast());
+        case 15: return long2string(pp->getInspection());
+        case 16: return long2string(pp->getLowestIdFragment());
+        case 17: return long2string(pp->getRootNodeId());
+        case 18: return long2string(pp->getLeaderId());
+        case 19: return bool2string(pp->getAck());
+        case 20: return long2string(pp->getRoot_node());
+        case 21: return bool2string(pp->getStart_spanning_tree());
+        case 22: return bool2string(pp->getSpanning_request());
+        case 23: return bool2string(pp->getSpanning_request_ack());
+        case 24: return long2string(pp->getSpanning_tree_level());
+        case 25: return bool2string(pp->getSpanning_decline_request());
+        case 26: return bool2string(pp->getDown_broadcast());
+        case 27: return bool2string(pp->getUp_broadcast_reply());
         default: return "";
     }
 }
@@ -933,19 +951,20 @@ bool BasicMessageDescriptor::setFieldValueAsString(void *object, int field, int 
         case 11: pp->setFragmentName(string2long(value)); return true;
         case 12: pp->setNodeState(string2long(value)); return true;
         case 13: pp->setBestWeight(string2long(value)); return true;
-        case 14: pp->setInspection(string2long(value)); return true;
-        case 15: pp->setLowestIdFragment(string2long(value)); return true;
-        case 16: pp->setRootNodeId(string2long(value)); return true;
-        case 17: pp->setLeaderId(string2long(value)); return true;
-        case 18: pp->setAck(string2bool(value)); return true;
-        case 19: pp->setRoot_node(string2long(value)); return true;
-        case 20: pp->setStart_spanning_tree(string2bool(value)); return true;
-        case 21: pp->setSpanning_request(string2bool(value)); return true;
-        case 22: pp->setSpanning_request_ack(string2bool(value)); return true;
-        case 23: pp->setSpanning_tree_level(string2long(value)); return true;
-        case 24: pp->setSpanning_decline_request(string2bool(value)); return true;
-        case 25: pp->setDown_broadcast(string2bool(value)); return true;
-        case 26: pp->setUp_broadcast_reply(string2bool(value)); return true;
+        case 14: pp->setReplyBroadcast((value)); return true;
+        case 15: pp->setInspection(string2long(value)); return true;
+        case 16: pp->setLowestIdFragment(string2long(value)); return true;
+        case 17: pp->setRootNodeId(string2long(value)); return true;
+        case 18: pp->setLeaderId(string2long(value)); return true;
+        case 19: pp->setAck(string2bool(value)); return true;
+        case 20: pp->setRoot_node(string2long(value)); return true;
+        case 21: pp->setStart_spanning_tree(string2bool(value)); return true;
+        case 22: pp->setSpanning_request(string2bool(value)); return true;
+        case 23: pp->setSpanning_request_ack(string2bool(value)); return true;
+        case 24: pp->setSpanning_tree_level(string2long(value)); return true;
+        case 25: pp->setSpanning_decline_request(string2bool(value)); return true;
+        case 26: pp->setDown_broadcast(string2bool(value)); return true;
+        case 27: pp->setUp_broadcast_reply(string2bool(value)); return true;
         default: return false;
     }
 }

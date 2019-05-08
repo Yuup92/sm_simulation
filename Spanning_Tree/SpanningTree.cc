@@ -24,6 +24,8 @@ SpanningTree::SpanningTree(){
     isRoot = false;
 
     msgSentDownStream = 0;
+
+    reply_broadcast = "";
 }
 
 void SpanningTree::set_neighbours(Neighbours *n)
@@ -187,7 +189,7 @@ void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge)
     } else if(msg->getSubType() == SpanningTree::ROOT_QUERY_ACCEPT) {
         isRoot = true;
     } else if(msg->getSubType() == SpanningTree::ROOT_QUERY_REJECT) {
-        // isRoot = false;
+         isRoot = false;
     }
 
     check_queued_messages();

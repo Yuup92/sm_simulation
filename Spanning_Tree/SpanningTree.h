@@ -124,6 +124,8 @@ class SpanningTree
 
         int listOfOutGatesRand[15];
 
+        std::string reply_broadcast;
+
         void handle_weight_request(int, int, int);
         void handle_weight_response(int, int);
 
@@ -170,7 +172,7 @@ class SpanningTree
         static BasicMessage * change_root_msg(void);
 
         static BasicMessage * broadcast_down_tree(void);
-        static BasicMessage * broadcast_up_tree(void);
+        static BasicMessage * broadcast_up_tree();
 
         static BasicMessage * root_query(int);
         static BasicMessage * root_query_accept(void);

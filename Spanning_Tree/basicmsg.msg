@@ -35,6 +35,7 @@ message BasicMessage
     int nodeState;
     int bestWeight;
     
+    string replyBroadcast;
     // Otherthings...
     
     int inspection;

@@ -43,6 +43,7 @@
  *     int nodeState;
  *     int bestWeight;
  * 
+ *     string replyBroadcast;
  *     // Otherthings...
  * 
  *     int inspection;
@@ -87,6 +88,7 @@ class BasicMessage : public ::omnetpp::cMessage
     int fragmentName;
     int nodeState;
     int bestWeight;
+    ::omnetpp::opp_string replyBroadcast;
     int inspection;
     int lowestIdFragment;
     int rootNodeId;
@@ -146,6 +148,8 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setNodeState(int nodeState);
     virtual int getBestWeight() const;
     virtual void setBestWeight(int bestWeight);
+    virtual const char * getReplyBroadcast() const;
+    virtual void setReplyBroadcast(const char * replyBroadcast);
     virtual int getInspection() const;
     virtual void setInspection(int inspection);
     virtual int getLowestIdFragment() const;
