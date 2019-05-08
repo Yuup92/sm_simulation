@@ -31,21 +31,19 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
 OBJS = \
-    $O/BasicNode.o \
-    $O/BufferedMessage.o \
-    $O/LeaderElection.o \
-    $O/MessageBuffer.o \
-    $O/MessageGenerator.o \
-    $O/MessageType.o \
-    $O/Neighbours.o \
-    $O/NodeClock.o \
-    $O/QueuedMessage.o \
-    $O/SpanningTree.o \
-    $O/basicmsg_m.o
+    $O/src/alg/leader_election/LeaderElection.o \
+    $O/src/alg/spanning_tree/QueuedMessage.o \
+    $O/src/alg/spanning_tree/SpanningTree.o \
+    $O/src/connection/Neighbours.o \
+    $O/src/main/BasicNode.o \
+    $O/src/msg/outgoing_buf/BufferedMessage.o \
+    $O/src/msg/outgoing_buf/MessageBuffer.o \
+    $O/src/sync/NodeClock.o \
+    $O/src/msg/basicmsg_m.o
 
 # Message files
 MSGFILES = \
-    basicmsg.msg
+    src/msg/basicmsg.msg
 
 # SM files
 SMFILES =
