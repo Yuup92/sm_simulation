@@ -112,6 +112,11 @@ class SpanningTree
         int testQueueIndex;
 
         int testCounter;
+
+        int handle_message_counter;
+        int handle_spanning_tree_counter;
+        int handle_queue;
+        int maxQueue;
         int msgSentDownStream;
 
         state_edge stateEdges[15];

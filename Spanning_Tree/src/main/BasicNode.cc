@@ -158,7 +158,9 @@ void BasicNode::handleMessage(cMessage *msg)
         spanning_trees.check_queued_messages();
         // EV << "Node: " << getFullName() << " has level: " << spanning_trees.get_level() << "\n";
 
-        EV << "Node: " << getFullName() << " has edge state: " << spanning_trees.get_state_edge() << "\n";
+        if(node_id == 2){
+            EV << "Node: " << getFullName() << " has edge state: " << spanning_trees.get_state_edge() << "\n";
+        }
 
         start_message_timer();
 

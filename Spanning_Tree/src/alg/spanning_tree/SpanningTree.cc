@@ -22,6 +22,10 @@ SpanningTree::SpanningTree(){
     testQueueIndex = 0;
 
     testCounter = 0;
+    handle_message_counter = 0;
+    handle_spanning_tree_counter = 0;
+    handle_queue = 0;
+    maxQueue = 0;
 
     isRoot = false;
 
@@ -114,7 +118,7 @@ std::string SpanningTree::get_state_edge(void) {
     sprintf(bug, "Towards root: %d \n", edgeTowardsRoot);
 
     char queue[300];
-    sprintf(queue, " queue connect: %d \n queue test: %d \n queue report: %d \n testCounter: %d \n fragmentName: %d \n initialQueueIndex: %d", connectQueueIndex, testQueueIndex, reportQueueIndex, testCounter, fragmentName, initialQueueIndex);
+    sprintf(queue, " queue connect: %d \n queue test: %d \n queue report: %d \n testCounter: %d \n fragmentName: %d \n initialQueueIndex: %d \n handleMessage: %d \n handleSpanningTree: %d \n handleQueue: %d \n maxQueue: %d \n", connectQueueIndex, testQueueIndex, reportQueueIndex, testCounter, fragmentName, initialQueueIndex,handle_message_counter, handle_spanning_tree_counter, handle_queue, maxQueue);
     res = res +  bug + " \n" + queue;
 
     if(isRoot) {
@@ -143,6 +147,9 @@ void SpanningTree::start_building_tree(void) {
     stateNode = SpanningTree::STATE_FOUND;
     findCount = 0;
 
+    // fix??
+    edgeTowardsRoot = stateEdges[currentMinEdge].outgoing_edge;
+
     update_message_buf(SpanningTree::connect(fragmentLevel), stateEdges[currentMinEdge].outgoing_edge);
 }
 
@@ -166,6 +173,7 @@ BufferedMessage * SpanningTree::get_message(void)
 
 void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge, omnetpp::simtime_t prevSimTime)
 {
+    handle_message_counter++;
     if(previousSimTime != prevSimTime) {
         msgDelay = 0;
     } else {
@@ -178,15 +186,13 @@ void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge, omnetpp::
     }
 
     if(edgesWeightUpdated) {
-
-
-        testCounter++;
+//        if(initialQueueIndex > -1){
+//            msgDelay = 0;
+//            handle_initial_queue();
+//            return;
+//        }
         handle_spanning_tree_message(msg, outgoingEdge);
 
-        if(initialQueueIndex > -1){
-            handle_initial_queue();
-            return;
-        }
 
     } else {
         if(msg->getSubType() == SpanningTree::WEIGHT_REQUEST) {
@@ -199,6 +205,7 @@ void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge, omnetpp::
             msg_p = msg->dup();
             initialQueueElement->set_initial_queue(msg_p, outgoingEdge);
             initialQueueIndex++;
+            maxQueue++;
             initialQueue[initialQueueIndex] = initialQueueElement;
         }
     }
@@ -207,20 +214,24 @@ void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge, omnetpp::
 }
 
 void SpanningTree::handle_initial_queue(void) {
-    while(initialQueueIndex > -1) {
-        initialQueueIndex--;
-        if(initialQueueIndex > -1){
-            BasicMessage *msg = initialQueue[initialQueueIndex]->get_message();
-            int outgoingEdge = initialQueue[initialQueueIndex]->get_edge();
-            handle_spanning_tree_message(msg, outgoingEdge);
-            //delete(initialQueue[initialQueueIndex]);
+    if(edgesWeightUpdated){
+        while(initialQueueIndex > -1) {
+            initialQueueIndex--;
+            if(initialQueueIndex > -1){
+                handle_queue++;
+                BasicMessage *msg = initialQueue[initialQueueIndex]->get_message();
+                int outgoingEdge = initialQueue[initialQueueIndex]->get_edge();
+                handle_spanning_tree_message(msg, outgoingEdge);
+                //delete(initialQueue[initialQueueIndex]);
+            }
         }
     }
+
 
 }
 
 void SpanningTree::handle_spanning_tree_message(BasicMessage *msg, int outgoingEdge) {
-
+    handle_spanning_tree_counter++;
     if(msg->getSubType() == SpanningTree::CONNECT) {
        handle_connect(outgoingEdge, msg->getLevelNode());
     } else if(msg->getSubType() == SpanningTree::INITIATE) {
@@ -269,6 +280,11 @@ void SpanningTree::handle_weight_response(int weight, int index) {
     if(sent_requests == 0) {
         edgesWeightUpdated = true;
         start_building_tree();
+        if(initialQueueIndex > -1){
+            msgDelay = 0;
+            handle_initial_queue();
+            return;
+        }
     }
 }
 
@@ -549,7 +565,7 @@ bool SpanningTree::broadcast_down_stream(void) {
 
 void SpanningTree::check_queued_messages(void) {
 
-    if(initialQueueIndex > -1){
+    if(initialQueueIndex > -1 and edgesWeightUpdated){
         handle_initial_queue();
     }
 
