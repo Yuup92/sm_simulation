@@ -80,8 +80,6 @@ void BasicNode::initialize_parameters()
     // Neighbours
     connected_neighbours = Neighbours(gateSize("out"));
 
-
-
     // Get node ID or generate randomly
     if(true) {
         std::string id_string = this->parseNodeID(getFullName());
@@ -110,7 +108,7 @@ void BasicNode::start_message_timer()
 {
     event = new cMessage("event");
     // broadcast_tree = new cMessage("broadcast_tree");
-    scheduleAt((simTime() + 1.0), event);
+    scheduleAt((simTime() + 0.05), event);
 }
 
 void BasicNode::sendMessagesFromBuffer(void)
@@ -122,8 +120,8 @@ void BasicNode::sendMessagesFromBuffer(void)
     for (int i = 0; i < msg_in_leader_buffer; i++)
     {
         BufferedMessage * buf_msg = leader_election.getMessage();
-        // EV << "src: " << node_id << " is sending a message to: " << buf_msg->getOutGateInt() << "\n";
-        send(buf_msg->getMessage(), "out", buf_msg->getOutGateInt());
+        // EV << "src: " << node_id << " is sending a message to: " << buf_msg->get_out_gate_int() << "\n";
+        send(buf_msg->get_message(), "out", buf_msg->get_out_gate_int());
         delete(buf_msg);
     }
 
@@ -135,9 +133,9 @@ void BasicNode::sendMessagesFromBuffer(void)
     {
         BufferedMessage * bufMsg = spanning_trees.get_message();
 
-        BasicMessage * basicmsg = dynamic_cast<BasicMessage*> (bufMsg->getMessage());
-        EV << node_id << ": SpanningTree sending message type: " << basicmsg->getSubType() << " to address: " << bufMsg->getOutGateInt() << " \n";
-        send(bufMsg->getMessage(), "out", bufMsg->getOutGateInt());
+        BasicMessage * basicmsg = dynamic_cast<BasicMessage*> (bufMsg->get_message());
+        EV << node_id << ": SpanningTree sending message type: " << basicmsg->getSubType() << " to address: " << bufMsg->get_out_gate_int() << " \n";
+        sendDelayed(bufMsg->get_message(), bufMsg->get_delay(), "out", bufMsg->get_out_gate_int());
         delete(bufMsg);
     }
 
@@ -176,7 +174,7 @@ void BasicNode::handleMessage(cMessage *msg)
     BasicMessage * basicmsg = dynamic_cast<BasicMessage*> (msg);
     // EV << "Received Message: " << basicmsg->getArrivalGate()->getIndex() << " with timestamp: " << basicmsg->getScalar_clock() << " \n";
 
-    spanning_trees.handle_message(basicmsg, msg->getArrivalGate()->getIndex());
+    spanning_trees.handle_message(basicmsg, msg->getArrivalGate()->getIndex(), simTime());
 
 
 

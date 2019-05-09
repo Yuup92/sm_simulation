@@ -15,11 +15,19 @@ class BufferedMessage
         // ~BufferedMessage(void);
 
         BufferedMessage(cMessage*, int);
-        cMessage * message;
-        int out_gate_int;
+        BufferedMessage(cMessage*, int, double);
 
-        int getOutGateInt(void);
-        cMessage * getMessage(void);
+        int get_out_gate_int(void);
+        double get_delay(void);
+        cMessage * get_message(void);
+
+
+    private:
+        cMessage * message;
+        int outGateInt;
+        double delay;
+
+
 
 };
 

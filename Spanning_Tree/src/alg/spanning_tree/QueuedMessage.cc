@@ -2,6 +2,15 @@
 
 QueuedMessage::QueuedMessage(){}
 
+QueuedMessage::~QueuedMessage(){
+    delete(msg);
+}
+
+void QueuedMessage::set_initial_queue(BasicMessage *msg, int _edge) {
+    msg = msg;
+    edge = _edge;
+}
+
 void QueuedMessage::set_connect_message(int _type, int _edge, int lvl) {
     type = _type;
     edge = _edge;
@@ -51,4 +60,8 @@ int QueuedMessage::get_weight(void) {
 
 int QueuedMessage::get_fragment_name(void) {
     return fragmentName;
+}
+
+BasicMessage * QueuedMessage::get_message(void) {
+    return msg;
 }

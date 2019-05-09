@@ -2,6 +2,7 @@
 
 SpanningTree::SpanningTree(){
     sent_requests = 0;
+    edgesWeightUpdated = false;
     spanningTreeNodeId= rand();
     stateNode = SpanningTree::STATE_SLEEPING;
 
@@ -15,6 +16,7 @@ SpanningTree::SpanningTree(){
     findCount = 0;
     edgeTowardsRoot = -1;
 
+    initialQueueIndex = -1;
     connectQueueIndex = 0;
     reportQueueIndex = 0;
     testQueueIndex = 0;
@@ -24,8 +26,11 @@ SpanningTree::SpanningTree(){
     isRoot = false;
 
     msgSentDownStream = 0;
+    msgDelay = 0.0;
 
     reply_broadcast = "";
+
+    previousSimTime = 0;
 }
 
 void SpanningTree::set_neighbours(Neighbours *n)
@@ -43,6 +48,10 @@ int SpanningTree::get_num_neighbours(void){
 
 int SpanningTree::get_num_sent_messages(void){
     return sent_requests;
+}
+
+int SpanningTree::get_initial_queue_index(void) {
+    return initialQueueIndex;
 }
 
 int SpanningTree::get_level(void) {
@@ -104,12 +113,15 @@ std::string SpanningTree::get_state_edge(void) {
     char bug[40];
     sprintf(bug, "Towards root: %d \n", edgeTowardsRoot);
 
-    char queue[180];
-    sprintf(queue, " queue connect: %d \n queue test: %d \n queue report: %d \n testCounter: %d \n fragmentName: %d", connectQueueIndex, testQueueIndex, reportQueueIndex, testCounter, fragmentName);
+    char queue[300];
+    sprintf(queue, " queue connect: %d \n queue test: %d \n queue report: %d \n testCounter: %d \n fragmentName: %d \n initialQueueIndex: %d", connectQueueIndex, testQueueIndex, reportQueueIndex, testCounter, fragmentName, initialQueueIndex);
     res = res +  bug + " \n" + queue;
 
     if(isRoot) {
         res = res + " I am the root \n";
+    }
+    if(edgesWeightUpdated) {
+        res = res + " edgesWeights updated!! \n";
     }
 
     return res;
@@ -131,16 +143,12 @@ void SpanningTree::start_building_tree(void) {
     stateNode = SpanningTree::STATE_FOUND;
     findCount = 0;
 
-    BasicMessage *msg = SpanningTree::connect(fragmentLevel);
-    BufferedMessage * buf_msg = new BufferedMessage(msg, stateEdges[currentMinEdge].outgoing_edge);
-    msgBuf.addMessage(buf_msg);
+    update_message_buf(SpanningTree::connect(fragmentLevel), stateEdges[currentMinEdge].outgoing_edge);
 }
 
 void SpanningTree::get_weight_edges(void) {
     for(int i = 0; i < numConnectedNodes; i++) {
-        BasicMessage *msg = SpanningTree::weight_request(spanningTreeNodeId, i);
-        BufferedMessage * buf_msg = new BufferedMessage(msg, stateEdges[i].outgoing_edge);
-        msgBuf.addMessage(buf_msg);
+        update_message_buf(SpanningTree::weight_request(spanningTreeNodeId, i), stateEdges[i].outgoing_edge);
         sent_requests++;
     }
 }
@@ -156,45 +164,92 @@ BufferedMessage * SpanningTree::get_message(void)
 }
 
 
-void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge)
+void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge, omnetpp::simtime_t prevSimTime)
 {
+    if(previousSimTime != prevSimTime) {
+        msgDelay = 0;
+    } else {
+        previousSimTime = prevSimTime;
+    }
+
+
     if(stateNode == SpanningTree::STATE_SLEEPING) {
         wake_up();
     }
 
-    if(msg->getSubType() == SpanningTree::WEIGHT_REQUEST) {
-        handle_weight_request(outgoingEdge, msg->getSpanningTreeId(), msg->getSpanningTreeIndexList());
-    } else if(msg->getSubType() == SpanningTree::WEIGHT_REPONSE) {
-        handle_weight_response(msg->getWeightEdgeSpanningTree(), msg->getSpanningTreeIndexList());
-    } else if(msg->getSubType() == SpanningTree::CONNECT) {
-        handle_connect(outgoingEdge, msg->getLevelNode());
-    } else if(msg->getSubType() == SpanningTree::INITIATE) {
-        handle_initiate(outgoingEdge, msg->getLevelNode(), msg->getFragmentName(), msg->getNodeState());
-    } else if(msg->getSubType() == SpanningTree::TEST) {
-        handle_test(outgoingEdge, msg->getLevelNode(), msg->getFragmentName());
-    } else if(msg->getSubType() == SpanningTree::ACCEPT) {
-        handle_accept(outgoingEdge);
-    } else if(msg->getSubType() == SpanningTree::REJECT) {
-        handle_reject(outgoingEdge);
-    } else if(msg->getSubType() == SpanningTree::REPORT) {
-        handle_report(outgoingEdge, msg->getBestWeight());
-    } else if(msg->getSubType() == SpanningTree::CHANGEROOT) {
-        change_root();
-    } else if(msg->getSubType() == SpanningTree::DOWNTREE_BROADCAST) {
-        handle_downtree_broadcast();
-    } else if(msg->getSubType() == SpanningTree::UPTREE_REPLY) {
-        handle_uptree_reply();
-    } else if(msg->getSubType() == SpanningTree::ROOT_QUERY) {
-        handle_root_query(outgoingEdge, msg->getSpanningTreeId());
-    } else if(msg->getSubType() == SpanningTree::ROOT_QUERY_ACCEPT) {
-        isRoot = true;
-    } else if(msg->getSubType() == SpanningTree::ROOT_QUERY_REJECT) {
-         isRoot = false;
+    if(edgesWeightUpdated) {
+
+
+        testCounter++;
+        handle_spanning_tree_message(msg, outgoingEdge);
+
+        if(initialQueueIndex > -1){
+            handle_initial_queue();
+            return;
+        }
+
+    } else {
+        if(msg->getSubType() == SpanningTree::WEIGHT_REQUEST) {
+            handle_weight_request(outgoingEdge, msg->getSpanningTreeId(), msg->getSpanningTreeIndexList());
+        } else if(msg->getSubType() == SpanningTree::WEIGHT_REPONSE) {
+            handle_weight_response(msg->getWeightEdgeSpanningTree(), msg->getSpanningTreeIndexList());
+        } else {
+            QueuedMessage* initialQueueElement = new QueuedMessage();
+            BasicMessage *msg_p = new BasicMessage();
+            msg_p = msg->dup();
+            initialQueueElement->set_initial_queue(msg_p, outgoingEdge);
+            initialQueueIndex++;
+            initialQueue[initialQueueIndex] = initialQueueElement;
+        }
     }
 
     check_queued_messages();
+}
 
+void SpanningTree::handle_initial_queue(void) {
+    while(initialQueueIndex > -1) {
+        initialQueueIndex--;
+        if(initialQueueIndex > -1){
+            BasicMessage *msg = initialQueue[initialQueueIndex]->get_message();
+            int outgoingEdge = initialQueue[initialQueueIndex]->get_edge();
+            handle_spanning_tree_message(msg, outgoingEdge);
+            //delete(initialQueue[initialQueueIndex]);
+        }
+    }
 
+}
+
+void SpanningTree::handle_spanning_tree_message(BasicMessage *msg, int outgoingEdge) {
+
+    if(msg->getSubType() == SpanningTree::CONNECT) {
+       handle_connect(outgoingEdge, msg->getLevelNode());
+    } else if(msg->getSubType() == SpanningTree::INITIATE) {
+       handle_initiate(outgoingEdge, msg->getLevelNode(), msg->getFragmentName(), msg->getNodeState());
+    } else if(msg->getSubType() == SpanningTree::TEST) {
+       handle_test(outgoingEdge, msg->getLevelNode(), msg->getFragmentName());
+    } else if(msg->getSubType() == SpanningTree::ACCEPT) {
+       handle_accept(outgoingEdge);
+    } else if(msg->getSubType() == SpanningTree::REJECT) {
+       handle_reject(outgoingEdge);
+    } else if(msg->getSubType() == SpanningTree::REPORT) {
+       handle_report(outgoingEdge, msg->getBestWeight());
+    } else if(msg->getSubType() == SpanningTree::CHANGEROOT) {
+       change_root();
+    } else if(msg->getSubType() == SpanningTree::DOWNTREE_BROADCAST) {
+       handle_downtree_broadcast();
+    } else if(msg->getSubType() == SpanningTree::UPTREE_REPLY) {
+       handle_uptree_reply();
+    } else if(msg->getSubType() == SpanningTree::ROOT_QUERY) {
+       handle_root_query(outgoingEdge, msg->getSpanningTreeId());
+    } else if(msg->getSubType() == SpanningTree::ROOT_QUERY_ACCEPT) {
+       isRoot = true;
+    } else if(msg->getSubType() == SpanningTree::ROOT_QUERY_REJECT) {
+        isRoot = false;
+    } else if(msg->getSubType() == SpanningTree::WEIGHT_REQUEST) {
+        handle_weight_request(outgoingEdge, msg->getSpanningTreeId(), msg->getSpanningTreeIndexList());
+    } else if(msg->getSubType() == SpanningTree::WEIGHT_REPONSE) {
+        handle_weight_response(msg->getWeightEdgeSpanningTree(), msg->getSpanningTreeIndexList());
+    }
 }
 
 void SpanningTree::handle_weight_request(int outgoingEdge, int spanningTreeId, int index) {
@@ -204,9 +259,7 @@ void SpanningTree::handle_weight_request(int outgoingEdge, int spanningTreeId, i
     } else {
         weight = spanningTreeId - spanningTreeNodeId;
     }
-    BasicMessage *_msg = SpanningTree::weight_response(weight, index);
-    BufferedMessage * buf_msg = new BufferedMessage(_msg, outgoingEdge);
-    msgBuf.addMessage(buf_msg);
+    update_message_buf(SpanningTree::weight_response(weight, index), outgoingEdge);
 }
 
 void SpanningTree::handle_weight_response(int weight, int index) {
@@ -214,6 +267,7 @@ void SpanningTree::handle_weight_response(int weight, int index) {
     sent_requests--;
 
     if(sent_requests == 0) {
+        edgesWeightUpdated = true;
         start_building_tree();
     }
 }
@@ -226,11 +280,7 @@ void SpanningTree::handle_connect(int outgoingEdge, int level) {
 
     if(level < fragmentLevel) {
         stateEdges[pos].state = SpanningTree::EDGESTATE_IN_MST;
-
-        BasicMessage *_msg = SpanningTree::initiate(fragmentLevel, fragmentName, stateNode);
-        BufferedMessage * buf_msg = new BufferedMessage(_msg, outgoingEdge);
-        msgBuf.addMessage(buf_msg);
-
+        update_message_buf(SpanningTree::initiate(fragmentLevel, fragmentName, stateNode), outgoingEdge);
         if (stateNode == SpanningTree::STATE_FIND) {
             findCount++;
         }
@@ -247,9 +297,7 @@ void SpanningTree::handle_connect(int outgoingEdge, int level) {
             // stateEdges[pos].state = SpanningTree::EDGESTATE_IN_MST;
             //int level_send = fragmentLevel + 1;
 
-            BasicMessage *_msg = SpanningTree::initiate(fragmentLevel, fragmentName, SpanningTree::STATE_FIND);
-            BufferedMessage * buf_msg = new BufferedMessage(_msg, outgoingEdge);
-            msgBuf.addMessage(buf_msg);
+            update_message_buf(SpanningTree::initiate(fragmentLevel, fragmentName, SpanningTree::STATE_FIND), outgoingEdge);
         }
     }
 }
@@ -266,11 +314,7 @@ void SpanningTree::handle_initiate(int outgoingEdge, int level, int fragName, in
     for(int i = 0; i < numConnectedNodes; i++) {
         if(stateEdges[i].outgoing_edge != outgoingEdge) {
             if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST) {
-
-                BasicMessage *_msg = SpanningTree::initiate(fragmentLevel, fragmentName, stateNode);
-                BufferedMessage * buf_msg = new BufferedMessage(_msg, stateEdges[i].outgoing_edge);
-                msgBuf.addMessage(buf_msg);
-
+                update_message_buf(SpanningTree::initiate(fragmentLevel, fragmentName, stateNode), stateEdges[i].outgoing_edge);
                 if(nodState == SpanningTree::STATE_FIND) {
                     findCount++;
                 }
@@ -292,9 +336,7 @@ void SpanningTree::handle_test(int outgoingEdge, int level, int fragName) {
         testQueueIndex++;
     } else {
         if(fragName != fragmentName) {
-            BasicMessage *_msg = SpanningTree::accept();
-            BufferedMessage * buf_msg = new BufferedMessage(_msg, outgoingEdge);
-            msgBuf.addMessage(buf_msg);
+            update_message_buf(SpanningTree::accept(), outgoingEdge);
         } else {
             // int pos = find_edge_in_stateEdge(outgoingEdge);
             int pos = outgoingEdge;
@@ -303,9 +345,7 @@ void SpanningTree::handle_test(int outgoingEdge, int level, int fragName) {
             }
 
             if(testEdge != pos) {
-                BasicMessage *_msg = SpanningTree::reject();
-                BufferedMessage * buf_msg = new BufferedMessage(_msg, outgoingEdge);
-                msgBuf.addMessage(buf_msg);
+                update_message_buf(SpanningTree::reject(), outgoingEdge);
             } else {
                 test();
             }
@@ -383,13 +423,9 @@ void SpanningTree::handle_uptree_reply(void) {
 
 void SpanningTree::handle_root_query(int outgoingEdge, int node_id) {
     if(outgoingEdge == stateEdges[edgeTowardsRoot].outgoing_edge and spanningTreeNodeId > node_id) {
-        BasicMessage *_msg = SpanningTree::root_query_accept();
-        BufferedMessage * buf_msg = new BufferedMessage(_msg, outgoingEdge);
-        msgBuf.addMessage(buf_msg);
+        update_message_buf(SpanningTree::root_query_accept(), outgoingEdge);
     } else {
-        BasicMessage *_msg = SpanningTree::root_query_reject();
-        BufferedMessage * buf_msg = new BufferedMessage(_msg, outgoingEdge);
-        msgBuf.addMessage(buf_msg);
+        update_message_buf(SpanningTree::root_query_reject(), outgoingEdge);
     }
 }
 
@@ -413,9 +449,7 @@ void SpanningTree::test(void) {
     }
 
     if(testEdge > -1) {
-        BasicMessage *_msg = SpanningTree::test(fragmentLevel, fragmentName);
-        BufferedMessage * buf_msg = new BufferedMessage(_msg, testEdge);
-        msgBuf.addMessage(buf_msg);
+        update_message_buf(SpanningTree::test(fragmentLevel, fragmentName), testEdge);
     } else {
         testEdge = -1;
         report();
@@ -425,9 +459,7 @@ void SpanningTree::test(void) {
 void SpanningTree::report(void) {
     if(findCount == 0 and testEdge == -1) {
         stateNode = SpanningTree::STATE_FOUND;
-        BasicMessage *_msg = SpanningTree::report(bestWeight);
-        BufferedMessage * buf_msg = new BufferedMessage(_msg, edgeTowardsRoot);
-        msgBuf.addMessage(buf_msg);
+        update_message_buf(SpanningTree::report(bestWeight), edgeTowardsRoot);
     }
 }
 
@@ -437,18 +469,13 @@ void SpanningTree::change_root(void) {
         bestEdge = -1;
     }
 
-
     if(bestEdge > -1) {
         // int pos = find_edge_in_stateEdge(bestEdge);
         int pos = bestEdge;
         if(stateEdges[pos].state == SpanningTree::EDGESTATE_IN_MST){
-            BasicMessage *_msg = SpanningTree::change_root_msg();
-            BufferedMessage * buf_msg = new BufferedMessage(_msg, bestEdge);
-            msgBuf.addMessage(buf_msg);
+            update_message_buf(SpanningTree::change_root_msg(), bestEdge);
         } else {
-            BasicMessage *_msg = SpanningTree::connect(fragmentLevel);
-            BufferedMessage * buf_msg = new BufferedMessage(_msg, bestEdge);
-            msgBuf.addMessage(buf_msg);
+            update_message_buf(SpanningTree::connect(fragmentLevel), bestEdge);
             stateEdges[pos].state = SpanningTree::EDGESTATE_IN_MST;
         }
     }
@@ -479,16 +506,12 @@ int SpanningTree::find_edge_in_stateEdge(int incomingEdge) {
 
 void SpanningTree::send_inspection(int num, int inspect) {
     for(int i = 0; i < num; i++) {
-        BasicMessage *_msg = SpanningTree::inspection(inspect);
-        BufferedMessage * buf_msg = new BufferedMessage(_msg, i);
-        msgBuf.addMessage(buf_msg);
+        update_message_buf(SpanningTree::inspection(inspect), i);
     }
 }
 
 void SpanningTree::check_root(void) {
-    BasicMessage *_msg = SpanningTree::root_query(spanningTreeNodeId);
-    BufferedMessage * buf_msg = new BufferedMessage(_msg, edgeTowardsRoot);
-    msgBuf.addMessage(buf_msg);
+    update_message_buf(SpanningTree::root_query(spanningTreeNodeId), edgeTowardsRoot);
 }
 
 void SpanningTree::broadcast(void) {
@@ -503,9 +526,7 @@ bool SpanningTree::broadcast_down_stream(void) {
     if(isRoot) {
         for(int i = 0; i < numConnectedNodes; i++) {
                     if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST) {
-                        BasicMessage *_msg = SpanningTree::broadcast_down_tree();
-                        BufferedMessage * buf_msg = new BufferedMessage(_msg, stateEdges[i].outgoing_edge);
-                        msgBuf.addMessage(buf_msg);
+                        update_message_buf(SpanningTree::broadcast_down_tree(), stateEdges[i].outgoing_edge);
                         msgSent = true;
                         msgSentDownStream++;
                     }
@@ -514,9 +535,7 @@ bool SpanningTree::broadcast_down_stream(void) {
         for(int i = 0; i < numConnectedNodes; i++) {
                     if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST and
                             stateEdges[i].outgoing_edge != edgeTowardsRoot) {
-                        BasicMessage *_msg = SpanningTree::broadcast_down_tree();
-                        BufferedMessage * buf_msg = new BufferedMessage(_msg, stateEdges[i].outgoing_edge);
-                        msgBuf.addMessage(buf_msg);
+                        update_message_buf(SpanningTree::broadcast_down_tree(), stateEdges[i].outgoing_edge);
                         msgSent = true;
                         msgSentDownStream++;
                     }
@@ -529,6 +548,10 @@ bool SpanningTree::broadcast_down_stream(void) {
 
 
 void SpanningTree::check_queued_messages(void) {
+
+    if(initialQueueIndex > -1){
+        handle_initial_queue();
+    }
 
     if(connectQueueIndex >= 0) {
         for(int i = 0; i < connectQueueIndex; i++) {
@@ -603,9 +626,7 @@ bool SpanningTree::broadcast_up_stream(void) {
         for(int i = 0; i < numConnectedNodes; i++) {
                     if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST and
                             (stateEdges[i].outgoing_edge == edgeTowardsRoot)) {
-                        BasicMessage *_msg = SpanningTree::broadcast_up_tree();
-                        BufferedMessage * buf_msg = new BufferedMessage(_msg, stateEdges[i].outgoing_edge);
-                        msgBuf.addMessage(buf_msg);
+                        update_message_buf(SpanningTree::broadcast_up_tree(), stateEdges[i].outgoing_edge);
                         msgSent = true;
                     }
                 }
@@ -649,6 +670,12 @@ bool SpanningTree::check_test_queue_conditions(int level) {
     } else {
         return true;
     }
+}
+
+void SpanningTree::update_message_buf(BasicMessage *msg, int outgoingEdge) {
+    msgDelay = msgDelay + 0.05;
+    BufferedMessage * buf_msg = new BufferedMessage(msg, outgoingEdge, msgDelay);
+    msgBuf.addMessage(buf_msg);
 }
 
 BasicMessage * SpanningTree::inspection(int inspect) {

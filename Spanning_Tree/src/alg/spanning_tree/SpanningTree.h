@@ -6,6 +6,7 @@
 #include "src/connection/Neighbours.h"
 #include <stdlib.h>
 #include <limits>
+#include <omnetpp.h>
 #include "src/alg/spanning_tree/QueuedMessage.h"
 
 struct state_edge {
@@ -56,6 +57,7 @@ class SpanningTree
         void set_neighbours(Neighbours*);
         int get_num_neighbours(void);
         int get_num_sent_messages(void);
+        int get_initial_queue_index(void);
         void set_node_id(int);
 
         int get_state(void);
@@ -64,8 +66,7 @@ class SpanningTree
 
         bool is_node_root(void);
 
-        void handle_message(BasicMessage*, int);
-        void handle_messages_old(BasicMessage*, int);
+        void handle_message(BasicMessage*, int, omnetpp::simtime_t);
 
         void check_waiting_replys(void);
 
@@ -100,10 +101,12 @@ class SpanningTree
         int bestWeight;
         int findCount; // number of expected messages
 
+        QueuedMessage *initialQueue[15];
         QueuedMessage *connectQueue[15];
         QueuedMessage *reportQueue[15];
         QueuedMessage *testQueue[15];
 
+        int initialQueueIndex;
         int connectQueueIndex;
         int reportQueueIndex;
         int testQueueIndex;
@@ -113,6 +116,7 @@ class SpanningTree
 
         state_edge stateEdges[15];
         int sent_requests;
+        bool edgesWeightUpdated;
 
         int spanningTreeNodeId;
         int nodeId;
@@ -124,10 +128,17 @@ class SpanningTree
 
         int listOfOutGatesRand[15];
 
+        double msgDelay;
+        omnetpp::simtime_t previousSimTime;
+
         std::string reply_broadcast;
+
+        void handle_initial_queue(void);
 
         void handle_weight_request(int, int, int);
         void handle_weight_response(int, int);
+
+        void handle_spanning_tree_message(BasicMessage *, int);
 
         void handle_connect(int, int);
         void handle_initiate(int, int, int, int);
@@ -157,6 +168,7 @@ class SpanningTree
         int find_edge_in_stateEdge(int);
 
         void send_inspection(int, int);
+        void update_message_buf(BasicMessage *, int);
         static BasicMessage * inspection(int);
 
         static BasicMessage * weight_request(int, int);

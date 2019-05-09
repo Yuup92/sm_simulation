@@ -5,15 +5,27 @@ BufferedMessage::BufferedMessage(void){};
 BufferedMessage::BufferedMessage(cMessage * msg, int gate)
 {
     message = msg;
-    out_gate_int = gate;
+    outGateInt = gate;
+    delay = 0;
 }
 
-int BufferedMessage::getOutGateInt(void)
+BufferedMessage::BufferedMessage(cMessage * msg, int gate, double d) {
+    message = msg;
+    outGateInt = gate;
+    delay = d;
+}
+
+int BufferedMessage::get_out_gate_int(void)
 {
-    return out_gate_int;
+    return outGateInt;
 }
 
-cMessage * BufferedMessage::getMessage(void)
+double BufferedMessage::get_delay(void)
+{
+    return delay;
+}
+
+cMessage * BufferedMessage::get_message(void)
 {
     return message;
 }
