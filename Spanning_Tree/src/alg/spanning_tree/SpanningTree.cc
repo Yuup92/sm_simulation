@@ -150,7 +150,7 @@ void SpanningTree::start_building_tree(void) {
     findCount = 0;
 
     // fix??
-    edgeTowardsRoot = stateEdges[currentMinEdge].outgoing_edge;
+    // edgeTowardsRoot = stateEdges[currentMinEdge].outgoing_edge;
 
     update_message_buf(SpanningTree::connect(fragmentLevel), stateEdges[currentMinEdge].outgoing_edge);
 }
@@ -270,7 +270,7 @@ void SpanningTree::handle_spanning_tree_message(BasicMessage *msg, int outgoingE
 void SpanningTree::handle_weight_request(int outgoingEdge, int spanningTreeId, int index) {
     int weight;
     if(spanningTreeNodeId >= spanningTreeId) {
-        weight = spanningTreeNodeId + 5 - spanningTreeId;
+        weight = spanningTreeNodeId - spanningTreeId;
     } else {
         weight = spanningTreeId - spanningTreeNodeId;
     }
