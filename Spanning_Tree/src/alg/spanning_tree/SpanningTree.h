@@ -117,11 +117,13 @@ class SpanningTree
         int handle_spanning_tree_counter;
         int handle_queue;
         int maxQueue;
+        int handle_connect_msg;
         int msgSentDownStream;
 
         state_edge stateEdges[15];
         int sent_requests;
         bool edgesWeightUpdated;
+        bool noInitialQueueMessages;
 
         int spanningTreeNodeId;
         int nodeId;
@@ -138,6 +140,7 @@ class SpanningTree
 
         std::string reply_broadcast;
 
+        void update_initial_queue(BasicMessage *, int);
         void handle_initial_queue(void);
 
         void handle_weight_request(int, int, int);

@@ -6,8 +6,8 @@ QueuedMessage::~QueuedMessage(){
     delete(msg);
 }
 
-void QueuedMessage::set_initial_queue(BasicMessage *msg, int _edge) {
-    msg = msg;
+void QueuedMessage::set_initial_queue(BasicMessage *_msg, int _edge) {
+    msg = _msg;
     edge = _edge;
 }
 
@@ -15,6 +15,10 @@ void QueuedMessage::set_connect_message(int _type, int _edge, int lvl) {
     type = _type;
     edge = _edge;
     level = lvl;
+}
+
+void QueuedMessage::set_initiate_message(int _type, int _edge, int lvl, int f, int state) {
+
 }
 
 void QueuedMessage::set_report_message(int _type, int _edge, int w) {

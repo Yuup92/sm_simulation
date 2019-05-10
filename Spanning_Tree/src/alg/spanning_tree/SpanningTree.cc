@@ -3,6 +3,7 @@
 SpanningTree::SpanningTree(){
     sent_requests = 0;
     edgesWeightUpdated = false;
+    noInitialQueueMessages = true;
     spanningTreeNodeId= rand();
     stateNode = SpanningTree::STATE_SLEEPING;
 
@@ -26,6 +27,7 @@ SpanningTree::SpanningTree(){
     handle_spanning_tree_counter = 0;
     handle_queue = 0;
     maxQueue = 0;
+    handle_connect_msg = 0;
 
     isRoot = false;
 
@@ -118,7 +120,7 @@ std::string SpanningTree::get_state_edge(void) {
     sprintf(bug, "Towards root: %d \n", edgeTowardsRoot);
 
     char queue[300];
-    sprintf(queue, " queue connect: %d \n queue test: %d \n queue report: %d \n testCounter: %d \n fragmentName: %d \n initialQueueIndex: %d \n handleMessage: %d \n handleSpanningTree: %d \n handleQueue: %d \n maxQueue: %d \n", connectQueueIndex, testQueueIndex, reportQueueIndex, testCounter, fragmentName, initialQueueIndex,handle_message_counter, handle_spanning_tree_counter, handle_queue, maxQueue);
+    sprintf(queue, " queue connect: %d \n queue test: %d \n queue report: %d \n testCounter: %d \n fragmentName: %d \n initialQueueIndex: %d \n handleMessage: %d \n handleSpanningTree: %d \n handleQueue: %d \n maxQueue: %d \n handleConnect: %d \n", connectQueueIndex, testQueueIndex, reportQueueIndex, testCounter, fragmentName, initialQueueIndex,handle_message_counter, handle_spanning_tree_counter, handle_queue, maxQueue, handle_connect_msg);
     res = res +  bug + " \n" + queue;
 
     if(isRoot) {
@@ -185,49 +187,51 @@ void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge, omnetpp::
         wake_up();
     }
 
-    if(edgesWeightUpdated) {
-//        if(initialQueueIndex > -1){
-//            msgDelay = 0;
-//            handle_initial_queue();
-//            return;
-//        }
+    if(edgesWeightUpdated and noInitialQueueMessages) {
         handle_spanning_tree_message(msg, outgoingEdge);
-
-
     } else {
         if(msg->getSubType() == SpanningTree::WEIGHT_REQUEST) {
             handle_weight_request(outgoingEdge, msg->getSpanningTreeId(), msg->getSpanningTreeIndexList());
         } else if(msg->getSubType() == SpanningTree::WEIGHT_REPONSE) {
             handle_weight_response(msg->getWeightEdgeSpanningTree(), msg->getSpanningTreeIndexList());
         } else {
-            QueuedMessage* initialQueueElement = new QueuedMessage();
-            BasicMessage *msg_p = new BasicMessage();
-            msg_p = msg->dup();
-            initialQueueElement->set_initial_queue(msg_p, outgoingEdge);
-            initialQueueIndex++;
-            maxQueue++;
-            initialQueue[initialQueueIndex] = initialQueueElement;
+            if(not edgesWeightUpdated){
+                update_initial_queue(msg, outgoingEdge);
+            } else if(not noInitialQueueMessages) {
+                handle_initial_queue();
+            } else {
+                noInitialQueueMessages = true;
+            }
         }
     }
 
     check_queued_messages();
 }
 
+void SpanningTree::update_initial_queue(BasicMessage *msg, int outgoingEdge) {
+    QueuedMessage* initialQueueElement = new QueuedMessage();
+    BasicMessage *msg_p = msg->dup();
+    initialQueueElement->set_initial_queue(msg_p, outgoingEdge);
+    initialQueueIndex++;
+    maxQueue++;
+    initialQueue[initialQueueIndex] = initialQueueElement;
+    noInitialQueueMessages = false;
+}
+
 void SpanningTree::handle_initial_queue(void) {
-    if(edgesWeightUpdated){
+    if(not noInitialQueueMessages) {
         while(initialQueueIndex > -1) {
-            initialQueueIndex--;
             if(initialQueueIndex > -1){
                 handle_queue++;
                 BasicMessage *msg = initialQueue[initialQueueIndex]->get_message();
                 int outgoingEdge = initialQueue[initialQueueIndex]->get_edge();
                 handle_spanning_tree_message(msg, outgoingEdge);
-                //delete(initialQueue[initialQueueIndex]);
+                delete(initialQueue[initialQueueIndex]);
+                initialQueueIndex--;
             }
         }
+        noInitialQueueMessages = true;
     }
-
-
 }
 
 void SpanningTree::handle_spanning_tree_message(BasicMessage *msg, int outgoingEdge) {
@@ -289,6 +293,8 @@ void SpanningTree::handle_weight_response(int weight, int index) {
 }
 
 void SpanningTree::handle_connect(int outgoingEdge, int level) {
+    handle_connect_msg++;
+
     // If still in weight response stage add message to queue
 
     // int pos = find_edge_in_stateEdge(outgoingEdge);

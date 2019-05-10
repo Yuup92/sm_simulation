@@ -157,8 +157,7 @@ void BasicNode::handleMessage(cMessage *msg)
         sendMessagesFromBuffer();
         spanning_trees.check_queued_messages();
         // EV << "Node: " << getFullName() << " has level: " << spanning_trees.get_level() << "\n";
-
-        if(node_id == 2){
+        if(node_id == 2 and node_id == 20){
             EV << "Node: " << getFullName() << " has edge state: " << spanning_trees.get_state_edge() << "\n";
         }
 

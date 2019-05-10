@@ -11,18 +11,17 @@ class QueuedMessage {
 
         void set_initial_queue(BasicMessage *, int);
         void set_connect_message(int _type, int _edge, int lvl);
+        void set_initiate_message(int _type, int _edge, int lvl, int f, int state);
         void set_report_message(int _type, int _edge, int w);
         void set_test_message(int _type, int _edge, int l, int f);
-
 
         int get_type(void);
         int get_edge(void);
         int get_level(void);
         int get_weight(void);
         int get_fragment_name(void);
+        int get_state(void);
         BasicMessage * get_message(void);
-
-
 
     private:
         BasicMessage *msg;
@@ -32,5 +31,6 @@ class QueuedMessage {
         int level;
         int weight;
         int fragmentName;
+        int state;
 
 };
