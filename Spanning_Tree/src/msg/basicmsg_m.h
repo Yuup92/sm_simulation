@@ -26,7 +26,7 @@
  *     int source;
  *     int destination;
  *     int scalar_clock;
- *     int src_node_id;
+ *     int srcNodeId;
  * 
  *     int pulseNum;
  * 
@@ -43,7 +43,11 @@
  *     int nodeState;
  *     int bestWeight;
  * 
- *     string replyBroadcast;
+ *     int indexChildrenIds;
+ *     int listChildrenIds[20];
+ *     string childrenIds;
+ *     int depth;
+ * 
  *     // Otherthings...
  * 
  *     int inspection;
@@ -77,7 +81,7 @@ class BasicMessage : public ::omnetpp::cMessage
     int source;
     int destination;
     int scalar_clock;
-    int src_node_id;
+    int srcNodeId;
     int pulseNum;
     int type;
     int subType;
@@ -88,7 +92,10 @@ class BasicMessage : public ::omnetpp::cMessage
     int fragmentName;
     int nodeState;
     int bestWeight;
-    ::omnetpp::opp_string replyBroadcast;
+    int indexChildrenIds;
+    int listChildrenIds[20];
+    ::omnetpp::opp_string childrenIds;
+    int depth;
     int inspection;
     int lowestIdFragment;
     int rootNodeId;
@@ -126,8 +133,8 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setDestination(int destination);
     virtual int getScalar_clock() const;
     virtual void setScalar_clock(int scalar_clock);
-    virtual int getSrc_node_id() const;
-    virtual void setSrc_node_id(int src_node_id);
+    virtual int getSrcNodeId() const;
+    virtual void setSrcNodeId(int srcNodeId);
     virtual int getPulseNum() const;
     virtual void setPulseNum(int pulseNum);
     virtual int getType() const;
@@ -148,8 +155,15 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setNodeState(int nodeState);
     virtual int getBestWeight() const;
     virtual void setBestWeight(int bestWeight);
-    virtual const char * getReplyBroadcast() const;
-    virtual void setReplyBroadcast(const char * replyBroadcast);
+    virtual int getIndexChildrenIds() const;
+    virtual void setIndexChildrenIds(int indexChildrenIds);
+    virtual unsigned int getListChildrenIdsArraySize() const;
+    virtual int getListChildrenIds(unsigned int k) const;
+    virtual void setListChildrenIds(unsigned int k, int listChildrenIds);
+    virtual const char * getChildrenIds() const;
+    virtual void setChildrenIds(const char * childrenIds);
+    virtual int getDepth() const;
+    virtual void setDepth(int depth);
     virtual int getInspection() const;
     virtual void setInspection(int inspection);
     virtual int getLowestIdFragment() const;

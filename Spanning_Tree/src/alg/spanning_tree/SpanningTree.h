@@ -13,6 +13,8 @@ struct state_edge {
     int outgoing_edge;
     int state;
     int weight;
+    int numOfChildren;
+    int children[20];
 };
 
 class SpanningTree
@@ -127,11 +129,17 @@ class SpanningTree
 
         int spanningTreeNodeId;
         int nodeId;
+        int parentNodeId;
 
         int rootNodeId;
         bool isRoot;
+        bool fullBroadcast;
+        int currentDepth;
+        int maxDepth;
 
         int numConnectedNodes;
+        int listChildrenNodes[30];
+        int indexChildrenNodes;
 
         int listOfOutGatesRand[15];
 
@@ -156,8 +164,10 @@ class SpanningTree
         void handle_report(int, int);
 
         void handle_root_query(int, int);
-        void handle_downtree_broadcast(void);
-        void handle_uptree_reply(void);
+        void handle_root_accept(void);
+
+        void handle_downtree_broadcast(int, int);
+        void handle_uptree_reply(int, int);
 
         void test(void);
         void report(void);
@@ -166,7 +176,7 @@ class SpanningTree
         void start_building_tree(void);
 
         bool broadcast_down_stream(void);
-        bool broadcast_up_stream(void);
+        bool broadcast_up_stream(int);
 
         void send_spanning_tree_request(void);
         void remove_child(int);
@@ -174,6 +184,9 @@ class SpanningTree
         void fill_state_edges(state_edge *);
         int find_minimum_weight_edge(void);
         int find_edge_in_stateEdge(int);
+
+        int number_of_children_check(void);
+        void aggregate_children_list(void);
 
         void send_inspection(int, int);
         void update_message_buf(BasicMessage *, int);
@@ -191,8 +204,8 @@ class SpanningTree
         static BasicMessage * report(int);
         static BasicMessage * change_root_msg(void);
 
-        static BasicMessage * broadcast_down_tree(void);
-        static BasicMessage * broadcast_up_tree();
+        static BasicMessage * broadcast_down_tree(int, int);
+        static BasicMessage * broadcast_up_tree(int, int, int*);
 
         static BasicMessage * root_query(int);
         static BasicMessage * root_query_accept(void);

@@ -18,7 +18,7 @@ message BasicMessage
     int source;
     int destination;
     int scalar_clock;
-    int src_node_id;
+    int srcNodeId;
     
     int pulseNum;
     
@@ -35,7 +35,11 @@ message BasicMessage
     int nodeState;
     int bestWeight;
     
-    string replyBroadcast;
+    int indexChildrenIds;
+    int listChildrenIds[20];
+    string childrenIds;
+    int depth;
+    
     // Otherthings...
     
     int inspection;

@@ -30,6 +30,7 @@ SpanningTree::SpanningTree(){
     handle_connect_msg = 0;
 
     isRoot = false;
+    fullBroadcast = false;
 
     msgSentDownStream = 0;
     msgDelay = 0.0;
@@ -37,6 +38,11 @@ SpanningTree::SpanningTree(){
     reply_broadcast = "";
 
     previousSimTime = 0;
+
+    currentDepth = -1;
+    maxDepth = 0;
+
+    indexChildrenNodes = 0;
 }
 
 void SpanningTree::set_neighbours(Neighbours *n)
@@ -70,6 +76,7 @@ void SpanningTree::fill_state_edges(state_edge *state_edges) {
         (state_edges + i)->outgoing_edge = i;
         (state_edges + i)->state = SpanningTree::EDGESTATE_Q_MST;
         (state_edges + i)->weight = std::numeric_limits<int>::max();
+        (state_edges + i)->numOfChildren = 0;
     }
 }
 
@@ -100,7 +107,7 @@ std::string SpanningTree::get_state_edge(void) {
 
     char room[256];
     for(int i = 0; i < numConnectedNodes; i++) {
-        sprintf( room, "\n %d outoging_edge: %d \n weight: %d \n", i, stateEdges[i].outgoing_edge, stateEdges[i].weight);
+        sprintf( room, "\n %d outoging_edge: %d \n weight: %d \n numOfChildren: %d \n", i, stateEdges[i].outgoing_edge, stateEdges[i].weight, stateEdges[i].numOfChildren);
         res = res + room;
         if(stateEdges[i].state == SpanningTree::EDGESTATE_Q_MST) {
             res = res + " state: ? MST";
@@ -113,21 +120,38 @@ std::string SpanningTree::get_state_edge(void) {
             sprintf(buf, " state: %d", stateEdges[i].state);
             res = res + buf;
         }
+
+        res += "\n children: \n";
+        for(int j = 0; j < stateEdges[i].numOfChildren; j++) {
+            res += std::to_string(stateEdges[i].children[j]) + " , ";
+        }
+
         res = res + " \n";
 
     }
     char bug[40];
     sprintf(bug, "Towards root: %d \n", edgeTowardsRoot);
 
-    char queue[300];
-    sprintf(queue, " queue connect: %d \n queue test: %d \n queue report: %d \n testCounter: %d \n fragmentName: %d \n initialQueueIndex: %d \n handleMessage: %d \n handleSpanningTree: %d \n handleQueue: %d \n maxQueue: %d \n handleConnect: %d \n", connectQueueIndex, testQueueIndex, reportQueueIndex, testCounter, fragmentName, initialQueueIndex,handle_message_counter, handle_spanning_tree_counter, handle_queue, maxQueue, handle_connect_msg);
-    res = res +  bug + " \n" + queue;
+    //char queue[300];
+    //sprintf(queue, " queue connect: %d \n queue test: %d \n queue report: %d \n testCounter: %d \n fragmentName: %d \n initialQueueIndex: %d \n handleMessage: %d \n handleSpanningTree: %d \n handleQueue: %d \n maxQueue: %d \n handleConnect: %d \n", connectQueueIndex, testQueueIndex, reportQueueIndex, testCounter, fragmentName, initialQueueIndex,handle_message_counter, handle_spanning_tree_counter, handle_queue, maxQueue, handle_connect_msg);
+    //res = res +  bug + " \n" + queue;
 
     if(isRoot) {
         res = res + " I am the root \n";
-    }
-    if(edgesWeightUpdated) {
-        res = res + " edgesWeights updated!! \n";
+        if(fullBroadcast) {
+            std::string list = " children nodes: \n";
+            aggregate_children_list();
+            for(int i = 0; i < indexChildrenNodes; i++) {
+                list += std::to_string(listChildrenNodes[i]);
+                list += " , ";
+            }
+            list += "\n";
+            res = res + list;
+            res += "Max depth: " + std::to_string(maxDepth) + " \n";
+        }
+
+
+
     }
 
     return res;
@@ -237,33 +261,61 @@ void SpanningTree::handle_initial_queue(void) {
 void SpanningTree::handle_spanning_tree_message(BasicMessage *msg, int outgoingEdge) {
     handle_spanning_tree_counter++;
     if(msg->getSubType() == SpanningTree::CONNECT) {
-       handle_connect(outgoingEdge, msg->getLevelNode());
+       handle_connect(outgoingEdge,
+                      msg->getLevelNode());
     } else if(msg->getSubType() == SpanningTree::INITIATE) {
-       handle_initiate(outgoingEdge, msg->getLevelNode(), msg->getFragmentName(), msg->getNodeState());
+       handle_initiate(outgoingEdge,
+                       msg->getLevelNode(),
+                       msg->getFragmentName(),
+                       msg->getNodeState());
     } else if(msg->getSubType() == SpanningTree::TEST) {
-       handle_test(outgoingEdge, msg->getLevelNode(), msg->getFragmentName());
+       handle_test(outgoingEdge,
+                   msg->getLevelNode(),
+                   msg->getFragmentName());
     } else if(msg->getSubType() == SpanningTree::ACCEPT) {
        handle_accept(outgoingEdge);
     } else if(msg->getSubType() == SpanningTree::REJECT) {
        handle_reject(outgoingEdge);
     } else if(msg->getSubType() == SpanningTree::REPORT) {
-       handle_report(outgoingEdge, msg->getBestWeight());
+       handle_report(outgoingEdge,
+                     msg->getBestWeight());
     } else if(msg->getSubType() == SpanningTree::CHANGEROOT) {
        change_root();
     } else if(msg->getSubType() == SpanningTree::DOWNTREE_BROADCAST) {
-       handle_downtree_broadcast();
+       handle_downtree_broadcast(msg->getSrcNodeId(),
+                                 msg->getDepth());
+
     } else if(msg->getSubType() == SpanningTree::UPTREE_REPLY) {
-       handle_uptree_reply();
+
+       maxDepth =  msg->getDepth();
+
+       if(not fullBroadcast) {
+           stateEdges[outgoingEdge].numOfChildren = msg->getIndexChildrenIds();
+           for(int i = 0; i < msg->getIndexChildrenIds(); i++) {
+               stateEdges[outgoingEdge].children[i] = msg->getListChildrenIds(i);
+           }
+       }
+
+
+       handle_uptree_reply(outgoingEdge, maxDepth);
+
     } else if(msg->getSubType() == SpanningTree::ROOT_QUERY) {
-       handle_root_query(outgoingEdge, msg->getSpanningTreeId());
+       handle_root_query(outgoingEdge,
+                         msg->getSpanningTreeId());
+
     } else if(msg->getSubType() == SpanningTree::ROOT_QUERY_ACCEPT) {
-       isRoot = true;
+        handle_root_accept();
     } else if(msg->getSubType() == SpanningTree::ROOT_QUERY_REJECT) {
         isRoot = false;
     } else if(msg->getSubType() == SpanningTree::WEIGHT_REQUEST) {
-        handle_weight_request(outgoingEdge, msg->getSpanningTreeId(), msg->getSpanningTreeIndexList());
+        handle_weight_request(outgoingEdge,
+                              msg->getSpanningTreeId(),
+                              msg->getSpanningTreeIndexList());
+
     } else if(msg->getSubType() == SpanningTree::WEIGHT_REPONSE) {
-        handle_weight_response(msg->getWeightEdgeSpanningTree(), msg->getSpanningTreeIndexList());
+        handle_weight_response(msg->getWeightEdgeSpanningTree(),
+                               msg->getSpanningTreeIndexList());
+
     }
 }
 
@@ -425,21 +477,31 @@ void SpanningTree::handle_report(int outgoingEdge, int bestW) {
     }
 }
 
-void SpanningTree::handle_downtree_broadcast(void) {
+void SpanningTree::handle_downtree_broadcast(int pNodeId, int parentDepth) {
+    currentDepth = parentDepth + 1;
+    parentNodeId = pNodeId;
+
     if(not broadcast_down_stream()) {
-        broadcast_up_stream();
+
+        broadcast_up_stream(currentDepth);
     }
 }
 
-void SpanningTree::handle_uptree_reply(void) {
+void SpanningTree::handle_uptree_reply(int outgoingEdge, int maxDepth) {
     msgSentDownStream--;
+
     bool broadcast_up = true;
     if(msgSentDownStream == 0) {
-        broadcast_up = broadcast_up_stream();
+        broadcast_up = broadcast_up_stream(maxDepth);
     }
 
     if(not broadcast_up) {
+        aggregate_children_list();
         broadcast();
+    }
+
+    if(not broadcast_up or msgSentDownStream == 0) {
+        fullBroadcast = true;
     }
 }
 
@@ -449,6 +511,12 @@ void SpanningTree::handle_root_query(int outgoingEdge, int node_id) {
     } else {
         update_message_buf(SpanningTree::root_query_reject(), outgoingEdge);
     }
+}
+
+void SpanningTree::handle_root_accept(void) {
+    isRoot = true;
+    currentDepth = 0;
+    broadcast();
 }
 
 void SpanningTree::test(void) {
@@ -548,26 +616,28 @@ bool SpanningTree::broadcast_down_stream(void) {
     if(isRoot) {
         for(int i = 0; i < numConnectedNodes; i++) {
                     if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST) {
-                        update_message_buf(SpanningTree::broadcast_down_tree(), stateEdges[i].outgoing_edge);
+                        update_message_buf(SpanningTree::broadcast_down_tree(nodeId, currentDepth),
+                                            stateEdges[i].outgoing_edge);
                         msgSent = true;
                         msgSentDownStream++;
+
+
                     }
                 }
     } else {
         for(int i = 0; i < numConnectedNodes; i++) {
                     if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST and
                             stateEdges[i].outgoing_edge != edgeTowardsRoot) {
-                        update_message_buf(SpanningTree::broadcast_down_tree(), stateEdges[i].outgoing_edge);
+                        update_message_buf(SpanningTree::broadcast_down_tree(nodeId, currentDepth),
+                                            stateEdges[i].outgoing_edge);
                         msgSent = true;
                         msgSentDownStream++;
                     }
                 }
     }
 
-
     return msgSent;
 }
-
 
 void SpanningTree::check_queued_messages(void) {
 
@@ -641,22 +711,6 @@ void SpanningTree::check_queued_messages(void) {
     }
 }
 
-bool SpanningTree::broadcast_up_stream(void) {
-    bool msgSent = false;
-
-    if(not isRoot){
-        for(int i = 0; i < numConnectedNodes; i++) {
-                    if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST and
-                            (stateEdges[i].outgoing_edge == edgeTowardsRoot)) {
-                        update_message_buf(SpanningTree::broadcast_up_tree(), stateEdges[i].outgoing_edge);
-                        msgSent = true;
-                    }
-                }
-    }
-
-    return msgSent;
-}
-
 // Returns true if message can be removed from queue
 bool SpanningTree::check_connect_queue_conditions(int edge, int lvl) {
     if(lvl < fragmentLevel) {
@@ -691,6 +745,58 @@ bool SpanningTree::check_test_queue_conditions(int level) {
         return false;
     } else {
         return true;
+    }
+}
+
+bool SpanningTree::broadcast_up_stream(int maxDepth) {
+    bool msgSent = false;
+    if(not isRoot){
+        aggregate_children_list();
+        for(int i = 0; i < numConnectedNodes; i++) {
+                    if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST and
+                            (stateEdges[i].outgoing_edge == edgeTowardsRoot)) {
+                        update_message_buf(SpanningTree::broadcast_up_tree(maxDepth,
+                                                                            indexChildrenNodes,
+                                                                            listChildrenNodes),
+                                            stateEdges[i].outgoing_edge);
+                        msgSent = true;
+                    }
+                }
+    }
+
+    return msgSent;
+}
+
+int SpanningTree::number_of_children_check(void) {
+    int numChildren = 0;
+
+    if(isRoot) return 0;
+
+    for(int i = 0; i < numConnectedNodes; i++) {
+        if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST and
+                stateEdges[i].outgoing_edge != edgeTowardsRoot) {
+            numChildren++;
+        }
+    }
+
+    return numChildren;
+}
+
+void SpanningTree::aggregate_children_list(void) {
+
+    if(not fullBroadcast) {
+        listChildrenNodes[indexChildrenNodes] = nodeId;
+        indexChildrenNodes++;
+
+        for(int i = 0; i < numConnectedNodes; i++) {
+            if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST and
+                    (stateEdges[i].outgoing_edge != edgeTowardsRoot or isRoot)) {
+                for(int j = 0; j < stateEdges[i].numOfChildren; j++) {
+                    listChildrenNodes[j + indexChildrenNodes] = stateEdges[i].children[j];
+                }
+                indexChildrenNodes += stateEdges[i].numOfChildren;
+            }
+        }
     }
 }
 
@@ -822,24 +928,38 @@ BasicMessage * SpanningTree::change_root_msg() {
     return msg;
 }
 
-BasicMessage * SpanningTree::broadcast_down_tree(void) {
+BasicMessage * SpanningTree::broadcast_down_tree(int nodeId, int depth) {
     char msgname[40];
     sprintf(msgname, "BroadCast message");
     BasicMessage *msg = new BasicMessage(msgname);
 
     msg->setType(SpanningTree::MESSAGE_TYPE);
     msg->setSubType(SpanningTree::DOWNTREE_BROADCAST);
+    msg->setSrcNodeId(nodeId);
+    msg->setDepth(depth);
 
     return msg;
 }
 
-BasicMessage * SpanningTree::broadcast_up_tree(void) {
-    char msgname[40];
-    sprintf(msgname, "BroadCast Reply message");
+BasicMessage * SpanningTree::broadcast_up_tree(int maxDepth, int indexChildList, int *childList) {
+
+
+    std::string msgName = "";
+    for(int i = 0; i < indexChildList; i++) {
+        msgName += std::to_string(childList[i]) + " , ";
+    }
+
+    char msgname[200];
+    sprintf(msgname, "BroadCast Reply message %s", msgName.c_str());
     BasicMessage *msg = new BasicMessage(msgname);
 
     msg->setType(SpanningTree::MESSAGE_TYPE);
     msg->setSubType(SpanningTree::UPTREE_REPLY);
+    for(int i = 0; i < indexChildList; i++) {
+        msg->setListChildrenIds(i, childList[i]);
+    }
+    msg->setDepth(maxDepth);
+    msg->setIndexChildrenIds(indexChildList);
 
     return msg;
 }

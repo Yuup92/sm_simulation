@@ -68,7 +68,7 @@ void LeaderElection::broadcastElectedLeader(void)
 
 void LeaderElection::handleMessage(BasicMessage* msg, int outgoing_gate_id)
 {
-    if (nodeId < msg->getSrc_node_id())
+    if (nodeId < msg->getSrcNodeId())
     {
         BasicMessage * msg = LeaderElection::generateLeaderAckMessage(nodeId);
         BufferedMessage * buf_msg = new BufferedMessage(msg, outgoing_gate_id);
@@ -93,7 +93,7 @@ BasicMessage * LeaderElection::generateLeaderMessage(int src)
 
     msg->setType(LeaderElection::LEADER_MSG);
     msg->setSource(src);
-    msg->setSrc_node_id(src);
+    msg->setSrcNodeId(src);
     msg->setAck(false);
 
     return msg;
@@ -108,7 +108,7 @@ BasicMessage * LeaderElection::generateLeaderAckMessage(int src)
     BasicMessage *msg = new BasicMessage(msgname);
 
     msg->setType(LeaderElection::LEADER_MSG);
-    msg->setSrc_node_id(src);
+    msg->setSrcNodeId(src);
     msg->setAck(true);
 
     return msg;
@@ -121,7 +121,7 @@ BasicMessage * LeaderElection::generateElectedLeaderMessage(int src)
 
     BasicMessage *msg = new BasicMessage(msgname);
     msg->setType(LeaderElection::LEADER_MSG);
-    msg->setSrc_node_id(src);
+    msg->setSrcNodeId(src);
     msg->setAck(false);
     msg->setLeaderId(src);
 
