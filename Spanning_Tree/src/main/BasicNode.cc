@@ -13,6 +13,8 @@
 #include "src/alg/leader_election/LeaderElection.h"
 #include "src/alg/spanning_tree/SpanningTree.h"
 
+#include "src/transaction/Transaction.h"
+
 using namespace omnetpp;
 
 class BasicNode : public cSimpleModule
@@ -28,6 +30,8 @@ class BasicNode : public cSimpleModule
         Neighbours connected_neighbours;
         LeaderElection leader_election;
         SpanningTree spanning_trees;
+
+        Transaction transaction;
 
         cMessage *event;    // pointer to the event object which will be used for timing
         cMessage *broadcast_tree; // variable to remember the message until its sent back
@@ -99,6 +103,8 @@ void BasicNode::initialize_parameters()
 
     EV << "Node " << getFullName() << " has id: " << node_id << " and  numneighbours: " << spanning_trees.get_num_neighbours() << "\n";
 
+    transaction.set_connected_neighbours(&connected_neighbours);
+    transaction.set_node_id(node_id);
 
     start_message_timer();
 
@@ -139,6 +145,16 @@ void BasicNode::sendMessagesFromBuffer(void)
         delete(bufMsg);
     }
 
+    int msgTransaction = transaction.get_message_count();
+
+    for (int i = 0; i < msgTransaction; i++) {
+        BufferedMessage * bufMsg = transaction.get_message();
+
+        BasicMessage * basicmsg = dynamic_cast<BasicMessage*> (bufMsg->get_message());
+        sendDelayed(bufMsg->get_message(), bufMsg->get_delay(), "out", bufMsg->get_out_gate_int());
+        delete(bufMsg);
+    }
+
 }
 
 void BasicNode::broadcastLeaderRequest()
@@ -156,44 +172,37 @@ void BasicNode::handleMessage(cMessage *msg)
         delete msg;
         sendMessagesFromBuffer();
         spanning_trees.check_queued_messages();
-
-//        // EV << "Node: " << getFullName() << " has level: " << spanning_trees.get_level() << "\n";
-        //if(node_id == 1063958031){
-        EV << "Node: " << getFullName() << " has edge state: " << spanning_trees.get_state_edge() << "\n";
-        //}
-
         start_message_timer();
 
-        if(simTime() == 100) {
-            spanning_trees.check_root();
-        } else if (simTime() == 105) {
-            spanning_trees.broadcast();
+        if(spanning_trees.full_broadcast_finished()) {
+            spanning_trees.update_linked_nodes(connected_neighbours.get_linked_nodes());
+            EV << "Node: " << node_id << "\n Neighbours: \n" << connected_neighbours.to_string() << "\n \n \n";
+        }
+
+        if(spanning_trees.full_broadcast_finished() and spanning_trees.is_node_root() and (transaction.get_current_transaction_id() < 0)) {
+            int send = transaction.send(21, 10);
+            EV << "Node 19 will send to" << send << "\n";
+//            if(send) {
+//                EV << "Node 19 should be sending a message \n";
+//            } else {
+//                EV << "Node 19 is not sending a message \n";
+//            }
         }
 
         return;
     }
 
     BasicMessage * basicmsg = dynamic_cast<BasicMessage*> (msg);
-    // EV << "Received Message: " << basicmsg->getArrivalGate()->getIndex() << " with timestamp: " << basicmsg->getScalar_clock() << " \n";
-
-    spanning_trees.handle_message(basicmsg, msg->getArrivalGate()->getIndex(), simTime());
-
-
 
     EV << "Node " << getFullName() << " has id: " << node_id << " and  sent requests: " << spanning_trees.get_num_sent_messages() << "\n";
-//    if(basicmsg->getType() == MessageType::get_leader_message_type()) {
-//        leader_election.handleMessage(basicmsg, msg->getArrivalGate()->getIndex());
-//    } else if(basicmsg->getType() == MessageType::get_spanning_tree_message_type()){
-//        spanning_trees.handle_message(basicmsg, msg->getArrivalGate()->getIndex());
-//    }
 
-    if (leader_election.isLeader() and spanning_trees.get_state() == SpanningTree::STATE_SLEEPING)
-    {
-        spanning_trees.wake_up();
-        EV << "I am the captain now: " << node_id << " \n";
+    if(basicmsg->getType() == LeaderElection::LEADER_MSG) {
+        leader_election.handleMessage(basicmsg, msg->getArrivalGate()->getIndex());
+    } else if(basicmsg->getType() == SpanningTree::MESSAGE_TYPE){
+        spanning_trees.handle_message(basicmsg, msg->getArrivalGate()->getIndex(), simTime());
+    } else if(basicmsg->getType() == Transaction::MESSAGE_TYPE) {
+        transaction.handle_message(basicmsg, msg->getArrivalGate()->getIndex());
     }
-
-
 
     delete basicmsg;
 }

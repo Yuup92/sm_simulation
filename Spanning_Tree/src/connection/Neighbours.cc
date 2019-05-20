@@ -6,6 +6,7 @@ Neighbours::Neighbours()
 {
     num_of_neighbours = 0;
     num_of_neighbours_rand = 0;
+    linkedNodesUpdated = false;
 }
 
 Neighbours::Neighbours(int out_gate_size)
@@ -98,4 +99,80 @@ void Neighbours::remove_neighbour_from_random_gate_list(int gateNumber) {
     }
 
 }
+
+void Neighbours::update_linked_nodes(int index, int outgoingEdge, int state, int weight, int numChild, int *childList, bool edgeTowardsRoot) {
+    linkedNodes[index].update_node(outgoingEdge, state, weight, numChild, childList, edgeTowardsRoot);
+}
+
+LinkedNode * Neighbours::get_linked_nodes() {
+    return &linkedNodes[0];
+}
+
+void Neighbours::set_linked_node_updates(bool updated) {
+    linkedNodesUpdated = updated;
+}
+
+bool Neighbours::is_linked_nodes_updated(void) {
+    return linkedNodesUpdated;
+}
+
+void Neighbours::set_num_linked_nodes(int amount) {
+    numLinkedNodes = amount;
+}
+
+int Neighbours::get_num_linked_nodes(void) {
+    return numLinkedNodes;
+}
+
+int Neighbours::get_outgoing_edge_transaction(int nodeId, int amount) {
+    int indexParent;
+    int edgeTowardsTransaction = -1;
+    bool edgeFound = false;
+
+    for(int i = 0; i < numLinkedNodes; i++) {
+        int *ptr = linkedNodes[i].get_children();
+        for(int j = 0; j < linkedNodes[i].get_number_of_children(); j++) {
+            if(*(ptr + j) == nodeId) {
+                edgeFound = true;
+                edgeTowardsTransaction = linkedNodes[i].get_connecting_edge();
+                if(check_capacity(i, amount)) {
+                    edgeTowardsTransaction = linkedNodes[i].get_connecting_edge();
+                      return edgeTowardsTransaction;
+                  }
+            }
+        }
+    }
+
+    return edgeTowardsTransaction;
+}
+
+bool Neighbours::check_capacity(int indexLinkedNodes, int amount) {
+    if(linkedNodes[indexLinkedNodes].get_capacity() < amount) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+std::string Neighbours::to_string(void) {
+    std::string res = "";
+
+    res += "Number of linked nodes: " + std::to_string(numLinkedNodes);
+
+    for(int i = 0; i < numLinkedNodes; i++) {
+        res += linkedNodes[i].to_string();
+    }
+
+    return res;
+}
+
+
+
+
+
+
+
+
+
+
 

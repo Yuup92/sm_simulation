@@ -40,6 +40,11 @@ message BasicMessage
     string childrenIds;
     int depth;
     
+    // Transaction
+    int endNodeId;
+    int amount;
+    int transactionId;
+    
     // Otherthings...
     
     int inspection;

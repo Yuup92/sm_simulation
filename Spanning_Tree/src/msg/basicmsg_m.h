@@ -48,6 +48,11 @@
  *     string childrenIds;
  *     int depth;
  * 
+ *     // Transaction
+ *     int endNodeId;
+ *     int amount;
+ *     int transactionId;
+ * 
  *     // Otherthings...
  * 
  *     int inspection;
@@ -96,6 +101,9 @@ class BasicMessage : public ::omnetpp::cMessage
     int listChildrenIds[20];
     ::omnetpp::opp_string childrenIds;
     int depth;
+    int endNodeId;
+    int amount;
+    int transactionId;
     int inspection;
     int lowestIdFragment;
     int rootNodeId;
@@ -164,6 +172,12 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setChildrenIds(const char * childrenIds);
     virtual int getDepth() const;
     virtual void setDepth(int depth);
+    virtual int getEndNodeId() const;
+    virtual void setEndNodeId(int endNodeId);
+    virtual int getAmount() const;
+    virtual void setAmount(int amount);
+    virtual int getTransactionId() const;
+    virtual void setTransactionId(int transactionId);
     virtual int getInspection() const;
     virtual void setInspection(int inspection);
     virtual int getLowestIdFragment() const;

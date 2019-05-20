@@ -34,11 +34,15 @@ OBJS = \
     $O/src/alg/leader_election/LeaderElection.o \
     $O/src/alg/spanning_tree/QueuedMessage.o \
     $O/src/alg/spanning_tree/SpanningTree.o \
+    $O/src/connection/LinkedNode.o \
     $O/src/connection/Neighbours.o \
+    $O/src/connection/capacity/LinkCapacity.o \
     $O/src/main/BasicNode.o \
     $O/src/msg/outgoing_buf/BufferedMessage.o \
     $O/src/msg/outgoing_buf/MessageBuffer.o \
     $O/src/sync/NodeClock.o \
+    $O/src/transaction/Transaction.o \
+    $O/src/transaction/concurrency/ConcurrencyBlocking.o \
     $O/src/msg/basicmsg_m.o
 
 # Message files

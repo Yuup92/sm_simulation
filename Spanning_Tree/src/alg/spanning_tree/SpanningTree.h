@@ -8,13 +8,16 @@
 #include <limits>
 #include <omnetpp.h>
 #include "src/alg/spanning_tree/QueuedMessage.h"
+#include "src/connection/LinkedNode.h"
+
 
 struct state_edge {
-    int outgoing_edge;
+    int outgoingEdge;
     int state;
     int weight;
     int numOfChildren;
     int children[20];
+    bool edgeTowardsRoot;
 };
 
 class SpanningTree
@@ -67,6 +70,7 @@ class SpanningTree
         std::string get_state_edge(void);
 
         bool is_node_root(void);
+        bool full_broadcast_finished(void);
 
         void handle_message(BasicMessage*, int, omnetpp::simtime_t);
 
@@ -86,6 +90,8 @@ class SpanningTree
 
         void check_root(void);
         void broadcast(void);
+
+        void update_linked_nodes(LinkedNode *);
 
     private:
         MessageBuffer msgBuf;
@@ -172,6 +178,7 @@ class SpanningTree
         void test(void);
         void report(void);
         void change_root(void);
+        void set_edge_towards_root(int);
 
         void start_building_tree(void);
 
@@ -187,6 +194,8 @@ class SpanningTree
 
         int number_of_children_check(void);
         void aggregate_children_list(void);
+
+        void update_neighbours(void);
 
         void send_inspection(int, int);
         void update_message_buf(BasicMessage *, int);
