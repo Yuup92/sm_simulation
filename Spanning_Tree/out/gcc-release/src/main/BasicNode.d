@@ -1,7 +1,9 @@
 out/gcc-release//src/main/BasicNode.o: src/main/BasicNode.cc \
  /home/yuup/TU_Delft/Thesis/OMNeT/omnetpp-5.4.1/include/omnetpp.h \
  src/msg/basicmsg_m.h src/sync/NodeClock.h src/connection/Neighbours.h \
- src/connection/LinkedNode.h src/msg/outgoing_buf/BufferedMessage.h \
+ src/connection/LinkedNode.h src/connection/capacity/LinkCapacity.h \
+ src/transaction/concurrency/Concurrency.h \
+ src/msg/outgoing_buf/BufferedMessage.h \
  src/alg/leader_election/LeaderElection.h \
  src/msg/outgoing_buf/MessageBuffer.h \
  src/alg/spanning_tree/SpanningTree.h \
@@ -17,6 +19,10 @@ src/sync/NodeClock.h:
 src/connection/Neighbours.h:
 
 src/connection/LinkedNode.h:
+
+src/connection/capacity/LinkCapacity.h:
+
+src/transaction/concurrency/Concurrency.h:
 
 src/msg/outgoing_buf/BufferedMessage.h:
 

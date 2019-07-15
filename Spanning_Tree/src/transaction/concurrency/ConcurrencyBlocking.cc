@@ -7,11 +7,12 @@ ConcurrencyBlocking::ConcurrencyBlocking(void) {
     currentEdgeDirection = -1;
 }
 
-void ConcurrencyBlocking::update_concurrency(bool block, int transId, int nodeId, int outgoingEdge) {
+void ConcurrencyBlocking::update_concurrency(bool block, int transId, int nodeId, int outgoingEdge, int amount) {
     currentlyBlocking = block;
     idTransactionBlocking = transId;
     nodeIdBlocking = nodeId;
     currentEdgeDirection = outgoingEdge;
+    amount = amount;
 }
 
 bool ConcurrencyBlocking::is_blocked(void) {
@@ -36,6 +37,9 @@ int ConcurrencyBlocking::get_outgoing_edge(void) {
     return currentEdgeDirection;
 }
 
+int ConcurrencyBlocking::get_amount(void) {
+    return amount;
+}
 void ConcurrencyBlocking::release_concurrency(void) {
     currentlyBlocking = false;
     idTransactionBlocking = -1;

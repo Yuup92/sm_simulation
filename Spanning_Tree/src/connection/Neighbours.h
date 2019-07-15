@@ -23,6 +23,8 @@ class Neighbours
 
         void update_linked_nodes(int, int, int, int, int, int *, bool);
         LinkedNode * get_linked_nodes(void);
+        LinkedNode * get_upstream_linked_node(int, int);
+        LinkedNode * get_downstream_linked_node(int);
 
         void set_linked_node_updates(bool);
         bool is_linked_nodes_updated(void);
@@ -30,8 +32,12 @@ class Neighbours
         void set_num_linked_nodes(int);
         int get_num_linked_nodes(void);
 
+        int get_index_linked_nodes(int);
         int get_outgoing_edge_transaction(int, int);
+
         bool check_capacity(int, int);
+        bool remove_capacity(int, int);
+        bool add_capacity(int, int);
 
         std::string to_string(void);
 

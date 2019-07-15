@@ -2,14 +2,23 @@
 
 Transaction::Transaction(){
     msgDelay = 0;
-    concurrencyBlocking = new ConcurrencyBlocking();
     currentTransactionId = -1;
+    currentState = Transaction::STATE_WAITING;
+    transactionConnectionIndex = 0;
+
+    numberOfCapacityErrors = 0;
+    numberOfReceivedCapacityErrors = 0;
+
+    numberOfTimeoutErrors = 0;
+    numberOfReceivedTimeoutErrors = 0;
+
+    numberOfErrors = 0;
+    numberOfReceivedErrors = 0;
 }
 
 void Transaction::set_node_id(int id) {
     nodeId = id;
 }
-
 
 // TODO add this type of functionality
 void Transaction::set_concurrency_type(int concurrency) {
@@ -24,116 +33,240 @@ int Transaction::get_current_transaction_id(void) {
     return currentTransactionId;
 }
 
+int Transaction::get_current_transaction_index(void) {
+    return transactionConnectionIndex;
+}
+
+int Transaction::send(int endNode, int amount) {
+    bool checkCapacity = connectedNeighbours->check_capacity(endNode, amount);
+
+    if(checkCapacity) {
+        transactionConnections[transactionConnectionIndex].amount = amount;
+        transactionConnections[transactionConnectionIndex].endNode = endNode;
+        transactionConnections[transactionConnectionIndex].transId = rand();
+        transactionConnections[transactionConnectionIndex].state = Transaction::STATE_SENDING_NODE;
+
+        // Get linked Node
+        transactionConnections[transactionConnectionIndex].linkTowardsReceiver = connectedNeighbours->get_upstream_linked_node(endNode, amount);
+        transactionConnections[transactionConnectionIndex].edgeTowardsReceiver = transactionConnections[transactionConnectionIndex].linkTowardsReceiver->get_connecting_edge();
+        transactionConnections[transactionConnectionIndex].edgeTowardsSender = -1;
+
+        update_message_buf(Transaction::initial_send_request(transactionConnections[transactionConnectionIndex].endNode,
+                                                                transactionConnections[transactionConnectionIndex].amount,
+                                                                transactionConnections[transactionConnectionIndex].transId),
+                                                                transactionConnections[transactionConnectionIndex].edgeTowardsReceiver);
+        // All parameters saved in the index
+        transactionConnectionIndex++;
+    // TODO
+    } else {
+        return -1;
+    }
+    return -1;
+}
 
 void Transaction::handle_message(BasicMessage *msg, int outgoingEdge) {
+
+    // No index for the transaction ID
     if(msg->getSubType() == Transaction::TRANSACTION_QUERY) {
-        handle_query_message(outgoingEdge,
-                             msg->getTransactionId(),
-                             msg->getEndNodeId(),
-                             msg->getAmount());
+            handle_query_message(outgoingEdge,
+                                msg->getTransactionId(),
+                                 msg->getEndNodeId(),
+                                 msg->getAmount());
+    }
+
+    int index = get_trans_conn_index(msg->getTransactionId());
+
+    if(index < 0) {
+        return;
     } else if(msg->getSubType() == Transaction::TRANSACTOIN_QUERY_ACCEPT) {
-        handle_query_accept_message(msg->getTransactionId());
+        handle_query_accept_message(index);
     } else if(msg->getSubType() == Transaction::TRANSACTION_PUSH) {
-        handle_transaction_push(outgoingEdge, msg->getEndNodeId(), msg->getTransactionId());
+        handle_transaction_push(outgoingEdge, index);
     } else if(msg->getSubType() == Transaction::TRANSACTION_PUSH_ACCEPT) {
-        handle_transaction_push_reply(msg->getTransactionId());
+        handle_transaction_push_reply(index);
     } else if(msg->getSubType() == Transaction::CLOSE_TRANSACTION) {
-        handle_close_link(outgoingEdge, msg->getEndNodeId(), msg->getTransactionId());
+        handle_close_link(outgoingEdge, index);
     } else if(msg->getSubType() == Transaction::ACCEPT_TRANSACTION_CLOSE){
-        handle_close_link_reply(msg->getTransactionId());
+        handle_close_link_reply(index);
+    } else if(msg->getSubType() == Transaction::CAPACITY_ERROR) {
+        handle_capacity_error(index);
+    } else if(msg->getSubType() == Transaction::TIMEOUT) {
+        handle_timeout_error(index);
+    } else if(msg->getSubType() == Transaction::ERROR) {
+        handle_general_error(index);
     }
 
 }
 
 void Transaction::handle_query_message(int outgoingEdge, int transId, int nId, int amount) {
+    // Message has found receiver
     if(nodeId == nId) {
-        if(not concurrencyBlocking->is_blocked()) {
-            concurrencyBlocking->update_concurrency(true, transId, nId, outgoingEdge);
-            update_message_buf(Transaction::initial_reply_request(transId), outgoingEdge);
-        }
+        transactionConnections[transactionConnectionIndex].amount = amount;
+        transactionConnections[transactionConnectionIndex].endNode = nId;
+        transactionConnections[transactionConnectionIndex].transId = transId;
+        transactionConnections[transactionConnectionIndex].state = Transaction::STATE_RECEIVING_NODE;
+
+        transactionConnections[transactionConnectionIndex].edgeTowardsReceiver = -1;
+        transactionConnections[transactionConnectionIndex].edgeTowardsSender = outgoingEdge;
+
+        transactionConnections[transactionConnectionIndex].linkTowardsSender = connectedNeighbours->get_downstream_linked_node(outgoingEdge);
+
+        update_message_buf(Transaction::initial_reply_request(transactionConnections[transactionConnectionIndex].transId),
+                                                               transactionConnections[transactionConnectionIndex].edgeTowardsSender);
+        transactionConnectionIndex++;
         // handle next transaction msg
+
+    // Message needs to be forwarded
     } else {
-        if(not concurrencyBlocking->is_blocked()) {
-            senderDirectionEdge = outgoingEdge;
-            forward_send(transId, nId, amount);
+        // TODO check if path has enough capacity to send futher
+        // TODO check if transaction ID doesnt already exist
+        forward_send(transId, nId, amount, outgoingEdge);
+    }
+}
+
+
+int Transaction::forward_send(int transactionId, int endNode, int amount, int senderEdge) {
+
+    bool checkCapacity = connectedNeighbours->check_capacity(endNode, amount);
+
+    if(checkCapacity) {
+        transactionConnections[transactionConnectionIndex].amount = amount;
+        transactionConnections[transactionConnectionIndex].endNode = endNode;
+        transactionConnections[transactionConnectionIndex].transId = transactionId;
+        transactionConnections[transactionConnectionIndex].state = Transaction::STATE_FORWARDING_NODE;
+
+        // Get linked Node
+        transactionConnections[transactionConnectionIndex].linkTowardsReceiver = connectedNeighbours->get_upstream_linked_node(endNode, amount);
+        transactionConnections[transactionConnectionIndex].linkTowardsSender = connectedNeighbours->get_downstream_linked_node(senderEdge);
+
+        transactionConnections[transactionConnectionIndex].edgeTowardsReceiver = transactionConnections[transactionConnectionIndex].linkTowardsReceiver->get_connecting_edge();
+        transactionConnections[transactionConnectionIndex].edgeTowardsSender = senderEdge;
+
+        update_message_buf(Transaction::initial_send_request(transactionConnections[transactionConnectionIndex].endNode,
+                                                             transactionConnections[transactionConnectionIndex].amount,
+                                                             transactionConnections[transactionConnectionIndex].transId),
+                                                             transactionConnections[transactionConnectionIndex].edgeTowardsReceiver);
+        // All parameters saved in the index
+        transactionConnectionIndex++;
+        return 1;
+    } else {
+        update_message_buf(Transaction::capacity_error(transactionId), senderEdge);
+    }
+    return -1;
+}
+
+void Transaction::handle_query_accept_message(int index) {
+    // Current Node started transaction
+    if(transactionConnections[index].state == Transaction::STATE_SENDING_NODE) {
+
+        transactionConnections[index].linkTowardsReceiver->pend_decrease_transaction(transactionConnections[index].amount,
+                                                                                        transactionConnections[index].transId);
+
+
+        update_message_buf(Transaction::transfer_payment(transactionConnections[index].transId),
+                                                            transactionConnections[index].edgeTowardsReceiver);
+        return;
+    // Current Node is forwarding transaction
+    } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE){
+
+        update_message_buf(Transaction::initial_reply_request(transactionConnections[index].transId),
+                                                                transactionConnections[index].edgeTowardsSender);
+        return;
+    }
+}
+
+void Transaction::handle_transaction_push(int outgoingEdge, int index) {
+
+    if(transactionConnections[index].state == Transaction::STATE_RECEIVING_NODE) {
+        bool capacityAcquired = transactionConnections[index].linkTowardsSender->pend_increase_transaction(transactionConnections[index].amount,
+                                                                                    transactionConnections[index].transId);
+
+        if(capacityAcquired == true) {
+            update_message_buf(Transaction::transfer_payment_reply(transactionConnections[index].transId),
+                                                                    transactionConnections[index].edgeTowardsSender );
+            return;
         } else {
-            // reply path is blocked
+            update_message_buf(Transaction::capacity_error(transactionConnections[index].transId), transactionConnections[index].edgeTowardsSender);
+        }
+    } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
+
+
+        bool capacityAcquiredUpstream = transactionConnections[index].linkTowardsSender->pend_increase_transaction(transactionConnections[index].amount,
+                                                                                    transactionConnections[index].transId);
+
+        bool capacityAcquiredDownstream = transactionConnections[index].linkTowardsReceiver->pend_decrease_transaction(transactionConnections[index].amount,
+                                                                                    transactionConnections[index].transId);
+
+        if(capacityAcquiredUpstream == true and
+                capacityAcquiredDownstream == true) {
+            update_message_buf(Transaction::transfer_payment(transactionConnections[index].transId),
+                                                                transactionConnections[index].edgeTowardsReceiver);
+        } else {
+            update_message_buf(Transaction::capacity_error(transactionConnections[index].transId), transactionConnections[index].edgeTowardsSender);
+        }
+
+        return;
+    } else {
+        // Something went wrong send a general error, rest of the transactions should timeout.
+        update_message_buf(Transaction::general_error(transactionConnections[index].transId), transactionConnections[index].edgeTowardsSender);
+    }
+}
+
+void Transaction::handle_transaction_push_reply(int index) {
+
+    if(transactionConnections[index].state == Transaction::STATE_SENDING_NODE) {
+        update_message_buf(Transaction::close_transaction(transactionConnections[index].transId),
+                                                            transactionConnections[index].edgeTowardsReceiver);
+        return;
+    } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
+        update_message_buf(Transaction::transfer_payment_reply(transactionConnections[index].transId),
+                transactionConnections[index].edgeTowardsSender);
+    }
+}
+
+void Transaction::handle_close_link(int outgoingEdge, int index) {
+
+    if(transactionConnections[index].state == Transaction::STATE_RECEIVING_NODE) {
+        update_message_buf(Transaction::confirm_transaction_close(transactionConnections[index].transId),
+                                                                    transactionConnections[index].edgeTowardsSender);
+
+        transactionConnections[index].linkTowardsSender->update_capacity(transactionConnections[index].transId);
+        remove_transaction(index);
+        return;
+    } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
+        update_message_buf(Transaction::close_transaction(transactionConnections[index].transId),
+                                                            transactionConnections[index].edgeTowardsReceiver);
+        return;
+    } else {
+        // Something went wrong send a general error, rest of the transactions should timeout.
+        update_message_buf(Transaction::general_error(transactionConnections[index].transId), transactionConnections[index].edgeTowardsSender);
+        return;
+    }
+}
+
+void Transaction::handle_close_link_reply(int index) {
+    // TODO most work needs to be done here
+
+    if(transactionConnections[index].state == Transaction::STATE_SENDING_NODE) {
+
+        bool decreaseUpdate = transactionConnections[index].linkTowardsReceiver->update_capacity(transactionConnections[index].transId);
+        remove_transaction(index);
+        return;
+    } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
+        //Update Capacities
+        bool increaseUpdate = transactionConnections[index].linkTowardsSender->update_capacity(transactionConnections[index].transId);
+        bool decreaseUpdate = transactionConnections[index].linkTowardsReceiver->update_capacity(transactionConnections[index].transId);
+
+        if(increaseUpdate && decreaseUpdate) {
+            update_message_buf(Transaction::confirm_transaction_close(transactionConnections[index].transId),
+                                                                        transactionConnections[index].edgeTowardsSender);
+            remove_transaction(index);
+        } else {
+            //TODO
+            // figure out which one failed and make sure whole transaction is reset
         }
 
     }
-}
-
-void Transaction::handle_query_accept_message(int transId) {
-    if(currentTransactionId == transId) {
-        // still need to make sure all channels come back
-        update_message_buf(Transaction::transfer_payment(concurrencyBlocking->get_node_id(), transId), currentPaymentDirection);
-        return;
-    }
-
-    if(concurrencyBlocking->get_transaction_id() == transId) {
-        update_message_buf(Transaction::initial_reply_request(transId), senderDirectionEdge);
-    } else {
-        // do something because this path has closed
-    }
-}
-
-void Transaction::handle_transaction_push(int outgoingEdge, int endNodeId, int transId) {
-    if(endNodeId == nodeId) {
-        update_message_buf(Transaction::transfer_payment_reply(transId), outgoingEdge);
-        return;
-    }
-
-    if(concurrencyBlocking->is_blocked() and
-            concurrencyBlocking->get_transaction_id() == transId) {
-        update_message_buf(Transaction::transfer_payment(concurrencyBlocking->get_node_id(), transId), concurrencyBlocking->get_outgoing_edge());
-    } else {
-        // handle case channel is closed
-    }
-}
-
-void Transaction::handle_transaction_push_reply(int transId) {
-    if(currentTransactionId == transId) {
-        update_message_buf(Transaction::close_transaction(concurrencyBlocking->get_node_id(), transId), currentPaymentDirection);
-        return;
-    }
-
-    if(concurrencyBlocking->get_transaction_id() == transId) {
-        update_message_buf(Transaction::transfer_payment_reply(transId), senderDirectionEdge);
-    }
-}
-
-void Transaction::handle_close_link(int outgoingEdge, int endNodeId, int transId) {
-    if(endNodeId == nodeId) {
-        update_message_buf(Transaction::confirm_transaction_close(transId), outgoingEdge);
-        concurrencyBlocking->release();
-        currentTransactionId = -1;
-        // add balance
-        // redistribute link
-
-        return;
-    }
-
-    if(concurrencyBlocking->is_blocked() and
-            concurrencyBlocking->get_transaction_id() == transId) {
-        update_message_buf(Transaction::close_transaction(concurrencyBlocking->get_node_id(), transId), concurrencyBlocking->get_outgoing_edge());
-    } else {
-        // handle when things have gone to the shit
-    }
-
-}
-
-void Transaction::handle_close_link_reply(int transId) {
-
-    if(currentTransactionId == transId) {
-        concurrencyBlocking->release();
-    }
-
-    if(concurrencyBlocking->get_transaction_id() == transId) {
-        update_message_buf(Transaction::confirm_transaction_close(transId), senderDirectionEdge);
-        concurrencyBlocking->release();
-        currentTransactionId = -1;
-    }
-
 }
 
 int Transaction::get_message_count(void) {
@@ -144,36 +277,52 @@ BufferedMessage * Transaction::get_message(void) {
     return msgBuf.getMessage();
 }
 
-int Transaction::forward_send(int transactionId, int endNode, int amount) {
-    int outgoingEdge = connectedNeighbours->get_outgoing_edge_transaction(endNode, amount);
 
-    if(outgoingEdge > -1) {
-          concurrencyBlocking->update_concurrency(true, transactionId, endNode, outgoingEdge);
-          pendingTransactionAmount = amount;
-          update_message_buf(Transaction::initial_send_request(endNode, amount, transactionId), outgoingEdge);
-    } else {
-        // return false;
-        // non-blocking
-        // not enough line capacity
+
+void Transaction::handle_capacity_error(int index) {
+
+    if(transactionConnections[index].state == Transaction::STATE_SENDING_NODE) {
+        remove_transaction(index);
+        numberOfReceivedCapacityErrors++;
+        // Remove the transaction from the list
+        // Or try a different path
+    } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
+        update_message_buf(Transaction::capacity_error(transactionConnections[index].transId),
+                                                                 transactionConnections[index].edgeTowardsSender);
+        remove_transaction(index);
     }
-    return outgoingEdge;
 }
 
-int Transaction::send(int endNode, int amount) {
-    int outgoingEdge = connectedNeighbours->get_outgoing_edge_transaction(endNode, amount);
 
-    if(outgoingEdge > -1) {
-          currentTransactionId = rand();
-          concurrencyBlocking->update_concurrency(true, currentTransactionId, endNode, outgoingEdge);
-          pendingTransactionAmount = amount;
-          currentPaymentDirection = outgoingEdge;
-          update_message_buf(Transaction::initial_send_request(endNode, amount, currentTransactionId), outgoingEdge);
-    } else {
-        // return false;
-        // non-blocking
-        // not enough line capacity
+// Something wrong about this
+// If timeout everything should fail and no need for messages
+void Transaction::handle_timeout_error(int index) {
+
+    if(transactionConnections[index].state == Transaction::STATE_SENDING_NODE) {
+        numberOfReceivedCapacityErrors++;
+        // Remove the transaction from the list
+        // Or try a different path
+    } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
+
+        update_message_buf(Transaction::timeout_error(transactionConnections[index].transId),
+                                                                 transactionConnections[index].edgeTowardsSender);
+
+        update_message_buf(Transaction::timeout_error(transactionConnections[index].transId),
+                                                                 transactionConnections[index].edgeTowardsReceiver);
+        remove_transaction(index);
+    } else if(transactionConnections[index].state == Transaction::STATE_RECEIVING_NODE ) {
+
+
+        update_message_buf(Transaction::timeout_error(transactionConnections[index].transId),
+                                                                 transactionConnections[index].edgeTowardsSender);
+        remove_transaction(index);
+
     }
-    return outgoingEdge;
+
+}
+
+void Transaction::handle_general_error(int index) {
+
 }
 
 // TODO add msgDelay to the bufferedmessage process
@@ -185,6 +334,37 @@ void Transaction::update_message_buf(BasicMessage *msg, int outgoingEdge) {
     msgBuf.addMessage(bufMsg);
 }
 
+int Transaction::get_trans_conn_index(int transId) {
+    if(transactionConnectionIndex > 0) {
+        for(int i = 0; i < transactionConnectionIndex; i++) {
+            if(transactionConnections[i].transId == transId) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+void Transaction::remove_transaction(int index) {
+    if(index < 0) {
+        return;
+    }
+
+    if(index == 1) {
+        transactionConnectionIndex = 0;
+    } else {
+        for(int i = index; i < transactionConnectionIndex; i++) {
+            if((i+1) < transactionConnectionIndex) {
+                transactionConnections[i] = transactionConnections[i+1];
+            }
+        }
+    }
+
+}
+
+// TODO rename
+// Initial transaction query/trial/something
+// this message gets forwarded
 BasicMessage * Transaction::initial_send_request(int endNode, int amount, int transactionId) {
     char msgname[40];
     sprintf(msgname, "Initial transaction message");
@@ -213,7 +393,7 @@ BasicMessage * Transaction::initial_reply_request(int transactionId) {
     return msg;
 }
 
-BasicMessage * Transaction::transfer_payment(int endNode, int transactionId) {
+BasicMessage * Transaction::transfer_payment(int transactionId) {
     char msgname[40];
     sprintf(msgname, "Transfer Payment");
     BasicMessage *msg = new BasicMessage(msgname);
@@ -221,7 +401,6 @@ BasicMessage * Transaction::transfer_payment(int endNode, int transactionId) {
     msg->setType(Transaction::MESSAGE_TYPE);
     msg->setSubType(Transaction::TRANSACTION_PUSH);
 
-    msg->setEndNodeId(endNode);
     msg->setTransactionId(transactionId);
 
     return msg;
@@ -240,7 +419,7 @@ BasicMessage * Transaction::transfer_payment_reply(int transactionId) {
     return msg;
 }
 
-BasicMessage * Transaction::close_transaction(int endNode, int transactionId) {
+BasicMessage * Transaction::close_transaction(int transactionId) {
     char msgname[40];
     sprintf(msgname, "Finalize Transaction");
     BasicMessage *msg = new BasicMessage(msgname);
@@ -248,7 +427,6 @@ BasicMessage * Transaction::close_transaction(int endNode, int transactionId) {
     msg->setType(Transaction::MESSAGE_TYPE);
     msg->setSubType(Transaction::CLOSE_TRANSACTION);
 
-    msg->setEndNodeId(endNode);
     msg->setTransactionId(transactionId);
 
     return msg;
@@ -261,6 +439,60 @@ BasicMessage * Transaction::confirm_transaction_close(int transactionId) {
 
     msg->setType(Transaction::MESSAGE_TYPE);
     msg->setSubType(Transaction::ACCEPT_TRANSACTION_CLOSE);
+
+    msg->setTransactionId(transactionId);
+
+    return msg;
+}
+
+BasicMessage * Transaction::capacity_error(int transactionId) {
+    char msgname[40];
+    sprintf(msgname, "Capacity Error");
+    BasicMessage *msg = new BasicMessage(msgname);
+
+    msg->setType(Transaction::MESSAGE_TYPE);
+    msg->setSubType(Transaction::CAPACITY_ERROR);
+
+    msg->setTransactionId(transactionId);
+
+    return msg;
+}
+
+BasicMessage * Transaction::timeout_error(int transactionId) {
+    char msgname[40];
+    sprintf(msgname, "Timeout error");
+    BasicMessage *msg = new BasicMessage(msgname);
+
+    msg->setType(Transaction::MESSAGE_TYPE);
+    msg->setSubType(Transaction::TIMEOUT);
+
+    msg->setTransactionId(transactionId);
+
+    return msg;
+}
+
+BasicMessage * Transaction::general_error(int transactionId) {
+    char msgname[40];
+    sprintf(msgname, "Error error");
+    BasicMessage *msg = new BasicMessage(msgname);
+
+    msg->setType(Transaction::MESSAGE_TYPE);
+    msg->setSubType(Transaction::ERROR);
+
+    msg->setTransactionId(transactionId);
+
+    return msg;
+}
+
+// This failure should never happen
+// Need to write protocol if it does.
+BasicMessage * Transaction::transaction_failed(int transactionId, int amount, int endNode) {
+    char msgname[40];
+    sprintf(msgname, "Error error");
+    BasicMessage *msg = new BasicMessage(msgname);
+
+    msg->setType(Transaction::MESSAGE_TYPE);
+    msg->setSubType(Transaction::ERROR);
 
     msg->setTransactionId(transactionId);
 

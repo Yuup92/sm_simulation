@@ -176,10 +176,13 @@ void BasicNode::handleMessage(cMessage *msg)
 
         if(spanning_trees.full_broadcast_finished()) {
             spanning_trees.update_linked_nodes(connected_neighbours.get_linked_nodes());
-            EV << "Node: " << node_id << "\n Neighbours: \n" << connected_neighbours.to_string() << "\n \n \n";
+
+            if(node_id == 19 or node_id == 20 or node_id == 21 or node_id == 22 or node_id == 12) {
+                EV << "Node: " << node_id << "\n Neighbours: \n" << connected_neighbours.to_string() << "\n \n \n";
+            }
         }
 
-        if(spanning_trees.full_broadcast_finished() and spanning_trees.is_node_root() and (transaction.get_current_transaction_id() < 0)) {
+        if(spanning_trees.full_broadcast_finished() and spanning_trees.is_node_root() and (transaction.get_current_transaction_index() < 1)) {
             int send = transaction.send(21, 10);
             EV << "Node 19 will send to" << send << "\n";
 //            if(send) {

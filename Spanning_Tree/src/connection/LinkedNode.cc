@@ -1,6 +1,7 @@
 #include "src/connection/LinkedNode.h"
 
 LinkedNode::LinkedNode(){
+    linkCapacity.set_current_capacity(100);
     capacity = 100;
 }
 
@@ -79,7 +80,7 @@ void LinkedNode::set_capacity(int c) {
 }
 
 int LinkedNode::get_capacity(void) {
-    return capacity;
+    return linkCapacity.get_current_virtual_capacity();
 }
 
 int LinkedNode::process_transaction(int transactionAmount) {
@@ -99,12 +100,33 @@ void LinkedNode::set_edge_towards_root(bool edge) {
     edgeTowardsRoot = edge;
 }
 
+bool LinkedNode::pend_increase_transaction(int amount, int transId) {
+    return linkCapacity.add_pending_transaction_increase(amount, transId);
+}
+
+bool LinkedNode::pend_decrease_transaction(int amount, int transId) {
+    return linkCapacity.add_pending_transaction_decrease(amount, transId);
+}
+
+bool LinkedNode::update_capacity(int transId) {
+    bool updated_capacity =  linkCapacity.complete_transaction(transId);
+    return updated_capacity;
+}
+
+bool LinkedNode::update_capacity_increase(int amount) {
+    return linkCapacity.update_increase(amount);
+}
+
+bool LinkedNode::update_capacity_decrease(int amount) {
+    return linkCapacity.update_decrease(amount);
+}
+
 std::string LinkedNode::to_string(void) {
 
     std::string res = "";
 
     char buff[300];
-    sprintf(buff, "outgoingEdge: %d \n numberOfChildren: %d \n capacity: %d \n", connectingEdge, numOfChildren, capacity);
+    sprintf(buff, "outgoingEdge: %d \n numberOfChildren: %d \n capacity: %d \n", connectingEdge, numOfChildren, linkCapacity.get_current_capacity());
     res = res + buff;
 
     char buf[300];

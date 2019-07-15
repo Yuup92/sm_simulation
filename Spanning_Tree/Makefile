@@ -42,6 +42,7 @@ OBJS = \
     $O/src/msg/outgoing_buf/MessageBuffer.o \
     $O/src/sync/NodeClock.o \
     $O/src/transaction/Transaction.o \
+    $O/src/transaction/concurrency/Concurrency.o \
     $O/src/transaction/concurrency/ConcurrencyBlocking.o \
     $O/src/msg/basicmsg_m.o
 

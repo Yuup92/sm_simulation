@@ -124,6 +124,16 @@ int Neighbours::get_num_linked_nodes(void) {
     return numLinkedNodes;
 }
 
+int Neighbours::get_index_linked_nodes(int edge) {
+
+    for(int i = 0; i < numLinkedNodes; i++) {
+        if(linkedNodes[i].get_connecting_edge() == edge) {
+            return i;
+        }
+    }
+
+}
+
 int Neighbours::get_outgoing_edge_transaction(int nodeId, int amount) {
     int indexParent;
     int edgeTowardsTransaction = -1;
@@ -134,7 +144,6 @@ int Neighbours::get_outgoing_edge_transaction(int nodeId, int amount) {
         for(int j = 0; j < linkedNodes[i].get_number_of_children(); j++) {
             if(*(ptr + j) == nodeId) {
                 edgeFound = true;
-                edgeTowardsTransaction = linkedNodes[i].get_connecting_edge();
                 if(check_capacity(i, amount)) {
                     edgeTowardsTransaction = linkedNodes[i].get_connecting_edge();
                       return edgeTowardsTransaction;
@@ -146,8 +155,74 @@ int Neighbours::get_outgoing_edge_transaction(int nodeId, int amount) {
     return edgeTowardsTransaction;
 }
 
-bool Neighbours::check_capacity(int indexLinkedNodes, int amount) {
-    if(linkedNodes[indexLinkedNodes].get_capacity() < amount) {
+// TODO
+// If edge towards transaction is not found do something
+// if amount is not possible do something
+LinkedNode * Neighbours::get_upstream_linked_node(int nodeId, int amount) {
+    int indexParent;
+    LinkedNode *node =  new LinkedNode();
+    int edgeTowardsTransaction = 0;
+    bool edgeFound = false;
+
+    for(int i = 0; i < numLinkedNodes; i++) {
+        int *ptr = linkedNodes[i].get_children();
+        for(int j = 0; j < linkedNodes[i].get_number_of_children(); j++) {
+            if(*(ptr + j) == nodeId) {
+                return &linkedNodes[i];
+            }
+        }
+    }
+    // return node;
+}
+
+// TODO build in safety
+LinkedNode * Neighbours::get_downstream_linked_node(int outgoingEdge) {
+
+    for(int i = 0; i < numLinkedNodes; i++) {
+        if(linkedNodes[i].get_connecting_edge() == outgoingEdge) {
+            return &linkedNodes[i];
+        }
+    }
+
+}
+
+bool Neighbours::check_capacity(int nodeId, int amount) {
+    int indexParent;
+    LinkedNode *node =  new LinkedNode();
+    int edgeTowardsTransaction = 0;
+    bool edgeFound = false;
+
+    for(int i = 0; i < numLinkedNodes; i++) {
+        int *ptr = linkedNodes[i].get_children();
+        for(int j = 0; j < linkedNodes[i].get_number_of_children(); j++) {
+            if(*(ptr + j) == nodeId) {
+                if(linkedNodes[i].get_capacity() > amount) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+
+}
+
+bool Neighbours::remove_capacity(int indexLinkedNodes, int amount) {
+
+    if(check_capacity(indexLinkedNodes, amount)) {
+        int cap = linkedNodes[indexLinkedNodes].get_capacity();
+        linkedNodes[indexLinkedNodes].set_capacity(cap - amount);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool Neighbours::add_capacity(int indexLinkedNodes, int amount) {
+
+    if(check_capacity(indexLinkedNodes, amount)) {
+        int cap = linkedNodes[indexLinkedNodes].get_capacity();
+        linkedNodes[indexLinkedNodes].set_capacity(cap + amount);
         return true;
     } else {
         return false;
@@ -157,7 +232,7 @@ bool Neighbours::check_capacity(int indexLinkedNodes, int amount) {
 std::string Neighbours::to_string(void) {
     std::string res = "";
 
-    res += "Number of linked nodes: " + std::to_string(numLinkedNodes);
+    res += "Number of linked nodes: " + std::to_string(numLinkedNodes) + "\n";
 
     for(int i = 0; i < numLinkedNodes; i++) {
         res += linkedNodes[i].to_string();

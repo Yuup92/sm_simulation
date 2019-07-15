@@ -5,6 +5,7 @@
 #include <string.h>
 #include <omnetpp.h>
 #include <cstdlib>
+#include "src/connection/capacity/LinkCapacity.h"
 
 
 class LinkedNode {
@@ -37,6 +38,13 @@ class LinkedNode {
         bool get_edge_towards_root(void);
         void set_edge_towards_root(bool);
 
+        bool pend_increase_transaction(int, int);
+        bool pend_decrease_transaction(int, int);
+
+        bool update_capacity(int);
+        bool update_capacity_increase(int);
+        bool update_capacity_decrease(int);
+
         std::string to_string(void);
 
     private:
@@ -47,6 +55,8 @@ class LinkedNode {
         int children[20];
         int capacity;
         bool edgeTowardsRoot;
+
+        LinkCapacity linkCapacity;
 };
 
 #endif
