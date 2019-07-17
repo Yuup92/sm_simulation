@@ -64,6 +64,7 @@ class SpanningTree
         int get_num_sent_messages(void);
         int get_initial_queue_index(void);
         void set_node_id(int);
+        void set_spanning_tree_index(int);
 
         int get_state(void);
         int get_level(void);
@@ -71,6 +72,7 @@ class SpanningTree
 
         bool is_node_root(void);
         bool full_broadcast_finished(void);
+        bool get_linked_nodes_updated(void);
 
         void handle_message(BasicMessage*, int, omnetpp::simtime_t);
 
@@ -133,6 +135,7 @@ class SpanningTree
         bool edgesWeightUpdated;
         bool noInitialQueueMessages;
 
+        int spanningTreeIndex;
         int spanningTreeNodeId;
         int nodeId;
         int parentNodeId;
@@ -142,6 +145,7 @@ class SpanningTree
         bool fullBroadcast;
         int currentDepth;
         int maxDepth;
+        bool linkedNodesUpdated;
 
         int numConnectedNodes;
         int listChildrenNodes[30];
@@ -201,24 +205,24 @@ class SpanningTree
         void update_message_buf(BasicMessage *, int);
         static BasicMessage * inspection(int);
 
-        static BasicMessage * weight_request(int, int);
-        static BasicMessage * weight_response(int, int);
+        static BasicMessage * weight_request(int, int, int);
+        static BasicMessage * weight_response(int, int, int);
 
-        static BasicMessage * connect(int);
-        static BasicMessage * initiate(int, int, int);
-        static BasicMessage * test(int, int);
-        static BasicMessage * accept(void);
-        static BasicMessage * reject(void);
+        static BasicMessage * connect(int, int);
+        static BasicMessage * initiate(int, int, int, int);
+        static BasicMessage * test(int, int, int);
+        static BasicMessage * accept(int);
+        static BasicMessage * reject(int);
 
-        static BasicMessage * report(int);
-        static BasicMessage * change_root_msg(void);
+        static BasicMessage * report(int, int);
+        static BasicMessage * change_root_msg(int);
 
-        static BasicMessage * broadcast_down_tree(int, int);
-        static BasicMessage * broadcast_up_tree(int, int, int*);
+        static BasicMessage * broadcast_down_tree(int, int, int);
+        static BasicMessage * broadcast_up_tree(int, int, int*, int);
 
-        static BasicMessage * root_query(int);
-        static BasicMessage * root_query_accept(void);
-        static BasicMessage * root_query_reject(void);
+        static BasicMessage * root_query(int, int);
+        static BasicMessage * root_query_accept(int);
+        static BasicMessage * root_query_reject(int);
 
 };
 

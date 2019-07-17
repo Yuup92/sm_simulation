@@ -156,7 +156,6 @@ int Neighbours::get_outgoing_edge_transaction(int nodeId, int amount) {
 }
 
 // TODO
-// If edge towards transaction is not found do something
 // if amount is not possible do something
 LinkedNode * Neighbours::get_upstream_linked_node(int nodeId, int amount) {
     int indexParent;
@@ -172,6 +171,14 @@ LinkedNode * Neighbours::get_upstream_linked_node(int nodeId, int amount) {
             }
         }
     }
+
+    for(int i = 0; i < numLinkedNodes; i++) {
+        if(linkedNodes[i].get_edge_towards_root()) {
+            return &linkedNodes[i];
+        }
+    }
+
+
     // return node;
 }
 
@@ -187,10 +194,8 @@ LinkedNode * Neighbours::get_downstream_linked_node(int outgoingEdge) {
 }
 
 bool Neighbours::check_capacity(int nodeId, int amount) {
-    int indexParent;
-    LinkedNode *node =  new LinkedNode();
-    int edgeTowardsTransaction = 0;
-    bool edgeFound = false;
+
+    return true;
 
     for(int i = 0; i < numLinkedNodes; i++) {
         int *ptr = linkedNodes[i].get_children();

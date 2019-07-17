@@ -14,6 +14,8 @@ Transaction::Transaction(){
 
     numberOfErrors = 0;
     numberOfReceivedErrors = 0;
+
+    currentNeighbour = 0;
 }
 
 void Transaction::set_node_id(int id) {
@@ -38,30 +40,32 @@ int Transaction::get_current_transaction_index(void) {
 }
 
 int Transaction::send(int endNode, int amount) {
-    bool checkCapacity = connectedNeighbours->check_capacity(endNode, amount);
+    bool checkCapacity = connectedNeighbours[currentNeighbour].check_capacity(endNode, amount);
 
     if(checkCapacity) {
         transactionConnections[transactionConnectionIndex].amount = amount;
         transactionConnections[transactionConnectionIndex].endNode = endNode;
         transactionConnections[transactionConnectionIndex].transId = rand();
         transactionConnections[transactionConnectionIndex].state = Transaction::STATE_SENDING_NODE;
+        transactionConnections[transactionConnectionIndex].neighbourhood = currentNeighbour;
 
         // Get linked Node
-        transactionConnections[transactionConnectionIndex].linkTowardsReceiver = connectedNeighbours->get_upstream_linked_node(endNode, amount);
+        transactionConnections[transactionConnectionIndex].linkTowardsReceiver = connectedNeighbours[transactionConnections[transactionConnectionIndex].neighbourhood].get_upstream_linked_node(endNode, amount);
         transactionConnections[transactionConnectionIndex].edgeTowardsReceiver = transactionConnections[transactionConnectionIndex].linkTowardsReceiver->get_connecting_edge();
         transactionConnections[transactionConnectionIndex].edgeTowardsSender = -1;
 
         update_message_buf(Transaction::initial_send_request(transactionConnections[transactionConnectionIndex].endNode,
                                                                 transactionConnections[transactionConnectionIndex].amount,
-                                                                transactionConnections[transactionConnectionIndex].transId),
+                                                                transactionConnections[transactionConnectionIndex].transId,
+                                                                transactionConnections[transactionConnectionIndex].neighbourhood),
                                                                 transactionConnections[transactionConnectionIndex].edgeTowardsReceiver);
         // All parameters saved in the index
         transactionConnectionIndex++;
+        return transactionConnections[transactionConnectionIndex].edgeTowardsReceiver;
     // TODO
     } else {
-        return -1;
+        return checkCapacity;
     }
-    return -1;
 }
 
 void Transaction::handle_message(BasicMessage *msg, int outgoingEdge) {
@@ -71,7 +75,8 @@ void Transaction::handle_message(BasicMessage *msg, int outgoingEdge) {
             handle_query_message(outgoingEdge,
                                 msg->getTransactionId(),
                                  msg->getEndNodeId(),
-                                 msg->getAmount());
+                                 msg->getAmount(),
+                                 msg->getNeighbourhoodIndex());
     }
 
     int index = get_trans_conn_index(msg->getTransactionId());
@@ -98,18 +103,20 @@ void Transaction::handle_message(BasicMessage *msg, int outgoingEdge) {
 
 }
 
-void Transaction::handle_query_message(int outgoingEdge, int transId, int nId, int amount) {
+void Transaction::handle_query_message(int outgoingEdge, int transId, int nId, int amount, int neighbourhood) {
     // Message has found receiver
     if(nodeId == nId) {
         transactionConnections[transactionConnectionIndex].amount = amount;
         transactionConnections[transactionConnectionIndex].endNode = nId;
         transactionConnections[transactionConnectionIndex].transId = transId;
         transactionConnections[transactionConnectionIndex].state = Transaction::STATE_RECEIVING_NODE;
+        transactionConnections[transactionConnectionIndex].neighbourhood = neighbourhood;
+
 
         transactionConnections[transactionConnectionIndex].edgeTowardsReceiver = -1;
         transactionConnections[transactionConnectionIndex].edgeTowardsSender = outgoingEdge;
 
-        transactionConnections[transactionConnectionIndex].linkTowardsSender = connectedNeighbours->get_downstream_linked_node(outgoingEdge);
+        transactionConnections[transactionConnectionIndex].linkTowardsSender = connectedNeighbours[transactionConnections[transactionConnectionIndex].neighbourhood].get_downstream_linked_node(outgoingEdge);
 
         update_message_buf(Transaction::initial_reply_request(transactionConnections[transactionConnectionIndex].transId),
                                                                transactionConnections[transactionConnectionIndex].edgeTowardsSender);
@@ -120,31 +127,33 @@ void Transaction::handle_query_message(int outgoingEdge, int transId, int nId, i
     } else {
         // TODO check if path has enough capacity to send futher
         // TODO check if transaction ID doesnt already exist
-        forward_send(transId, nId, amount, outgoingEdge);
+        forward_send(transId, nId, amount, outgoingEdge, neighbourhood);
     }
 }
 
 
-int Transaction::forward_send(int transactionId, int endNode, int amount, int senderEdge) {
+int Transaction::forward_send(int transactionId, int endNode, int amount, int senderEdge, int neighbourhood) {
 
-    bool checkCapacity = connectedNeighbours->check_capacity(endNode, amount);
+    bool checkCapacity = connectedNeighbours[neighbourhood].check_capacity(endNode, amount);
 
     if(checkCapacity) {
         transactionConnections[transactionConnectionIndex].amount = amount;
         transactionConnections[transactionConnectionIndex].endNode = endNode;
         transactionConnections[transactionConnectionIndex].transId = transactionId;
         transactionConnections[transactionConnectionIndex].state = Transaction::STATE_FORWARDING_NODE;
+        transactionConnections[transactionConnectionIndex].neighbourhood = neighbourhood;
 
         // Get linked Node
-        transactionConnections[transactionConnectionIndex].linkTowardsReceiver = connectedNeighbours->get_upstream_linked_node(endNode, amount);
-        transactionConnections[transactionConnectionIndex].linkTowardsSender = connectedNeighbours->get_downstream_linked_node(senderEdge);
+        transactionConnections[transactionConnectionIndex].linkTowardsReceiver = connectedNeighbours[transactionConnections[transactionConnectionIndex].neighbourhood].get_upstream_linked_node(endNode, amount);
+        transactionConnections[transactionConnectionIndex].linkTowardsSender = connectedNeighbours[transactionConnections[transactionConnectionIndex].neighbourhood].get_downstream_linked_node(senderEdge);
 
         transactionConnections[transactionConnectionIndex].edgeTowardsReceiver = transactionConnections[transactionConnectionIndex].linkTowardsReceiver->get_connecting_edge();
         transactionConnections[transactionConnectionIndex].edgeTowardsSender = senderEdge;
 
         update_message_buf(Transaction::initial_send_request(transactionConnections[transactionConnectionIndex].endNode,
                                                              transactionConnections[transactionConnectionIndex].amount,
-                                                             transactionConnections[transactionConnectionIndex].transId),
+                                                             transactionConnections[transactionConnectionIndex].transId,
+                                                             transactionConnections[transactionConnectionIndex].neighbourhood),
                                                              transactionConnections[transactionConnectionIndex].edgeTowardsReceiver);
         // All parameters saved in the index
         transactionConnectionIndex++;
@@ -251,6 +260,8 @@ void Transaction::handle_close_link_reply(int index) {
 
         bool decreaseUpdate = transactionConnections[index].linkTowardsReceiver->update_capacity(transactionConnections[index].transId);
         remove_transaction(index);
+        currentNeighbour++;
+        send(21, 2);
         return;
     } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
         //Update Capacities
@@ -358,6 +369,7 @@ void Transaction::remove_transaction(int index) {
                 transactionConnections[i] = transactionConnections[i+1];
             }
         }
+        transactionConnectionIndex--;
     }
 
 }
@@ -365,7 +377,7 @@ void Transaction::remove_transaction(int index) {
 // TODO rename
 // Initial transaction query/trial/something
 // this message gets forwarded
-BasicMessage * Transaction::initial_send_request(int endNode, int amount, int transactionId) {
+BasicMessage * Transaction::initial_send_request(int endNode, int amount, int transactionId, int neighbourhood) {
     char msgname[40];
     sprintf(msgname, "Initial transaction message");
     BasicMessage *msg = new BasicMessage(msgname);
@@ -376,6 +388,8 @@ BasicMessage * Transaction::initial_send_request(int endNode, int amount, int tr
     msg->setEndNodeId(endNode);
     msg->setAmount(amount);
     msg->setTransactionId(transactionId);
+
+    msg->setNeighbourhoodIndex(neighbourhood);
 
     return msg;
 }
@@ -486,7 +500,7 @@ BasicMessage * Transaction::general_error(int transactionId) {
 
 // This failure should never happen
 // Need to write protocol if it does.
-BasicMessage * Transaction::transaction_failed(int transactionId, int amount, int endNode) {
+BasicMessage * Transaction::transaction_failed(int transactionId, int amount, int endNode, int neighbourhood) {
     char msgname[40];
     sprintf(msgname, "Error error");
     BasicMessage *msg = new BasicMessage(msgname);
@@ -496,5 +510,14 @@ BasicMessage * Transaction::transaction_failed(int transactionId, int amount, in
 
     msg->setTransactionId(transactionId);
 
+    msg->setNeighbourhoodIndex(neighbourhood);
+
     return msg;
+}
+
+std::string Transaction::to_string(void) {
+
+    LinkedNode *node = connectedNeighbours[currentNeighbour].get_upstream_linked_node(21, 10);
+
+    return node->to_string(); // connectedNeighbours[0].to_string();
 }

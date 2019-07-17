@@ -26,6 +26,7 @@ message BasicMessage
     int subType;
     
     // Spanning Tree Params:
+    int spanningTreeIndex;
     int spanningTreeId;
     int spanningTreeIndexList;
     int weightEdgeSpanningTree;
@@ -39,11 +40,13 @@ message BasicMessage
     int listChildrenIds[20];
     string childrenIds;
     int depth;
+
     
     // Transaction
     int endNodeId;
     int amount;
     int transactionId;
+    int neighbourhoodIndex;
     
     // Otherthings...
     

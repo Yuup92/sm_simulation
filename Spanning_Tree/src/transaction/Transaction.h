@@ -2,6 +2,9 @@
 #define TRANSACTION_H_
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 
 #include "src/msg/outgoing_buf/MessageBuffer.h"
 #include "src/msg/outgoing_buf/BufferedMessage.h"
@@ -18,6 +21,7 @@ struct transaction_connection{
     int edgeTowardsSender;
     int endNode;
     int state;
+    int neighbourhood;
 
     LinkedNode *linkTowardsReceiver;
     LinkedNode *linkTowardsSender;
@@ -27,6 +31,9 @@ class Transaction {
 
     public:
         Transaction();
+
+        // PARAM
+        static const int CHANNELS_USED = 10;
 
         // Message Types
         static const int MESSAGE_TYPE = 3;
@@ -59,7 +66,7 @@ class Transaction {
 
         void set_node_id(int);
         void set_concurrency_type(int);
-        void set_connected_neighbours(Neighbours*);
+        void set_connected_neighbours(Neighbours *);
 
         int get_current_transaction_id(void);
         int get_current_transaction_index(void);
@@ -70,7 +77,9 @@ class Transaction {
         BufferedMessage * get_message(void);
 
         int send(int, int);
-        int forward_send(int, int, int, int);
+        int forward_send(int, int, int, int, int);
+
+        std::string to_string(void);
 
     private:
 
@@ -80,6 +89,9 @@ class Transaction {
         int pendingTransactionAmount;
         int senderDirectionEdge;
         int currentPaymentDirection;
+
+        int currentNeighbour;
+        int currentNeighbourList[10];
         Neighbours *connectedNeighbours;
 
         int numberOfCapacityErrors;
@@ -99,7 +111,7 @@ class Transaction {
         int transactionConnectionIndex;
         transaction_connection transactionConnections[30];
 
-        void handle_query_message(int, int, int, int);
+        void handle_query_message(int, int, int, int, int);
         void handle_query_accept_message(int);
 
         void handle_transaction_push(int, int);
@@ -120,7 +132,7 @@ class Transaction {
         int get_trans_conn_index(int);
         void remove_transaction(int);
 
-        static BasicMessage * initial_send_request(int, int, int);
+        static BasicMessage * initial_send_request(int, int, int, int);
         static BasicMessage * initial_reply_request(int);
 
         static BasicMessage * transfer_payment(int);
@@ -133,7 +145,7 @@ class Transaction {
         static BasicMessage * timeout_error(int);
         static BasicMessage * general_error(int);
 
-        static BasicMessage * transaction_failed(int, int, int);
+        static BasicMessage * transaction_failed(int, int, int, int);
 
 };
 

@@ -34,6 +34,7 @@
  *     int subType;
  * 
  *     // Spanning Tree Params:
+ *     int spanningTreeIndex;
  *     int spanningTreeId;
  *     int spanningTreeIndexList;
  *     int weightEdgeSpanningTree;
@@ -48,10 +49,12 @@
  *     string childrenIds;
  *     int depth;
  * 
+ * 
  *     // Transaction
  *     int endNodeId;
  *     int amount;
  *     int transactionId;
+ *     int neighbourhoodIndex;
  * 
  *     // Otherthings...
  * 
@@ -90,6 +93,7 @@ class BasicMessage : public ::omnetpp::cMessage
     int pulseNum;
     int type;
     int subType;
+    int spanningTreeIndex;
     int spanningTreeId;
     int spanningTreeIndexList;
     int weightEdgeSpanningTree;
@@ -104,6 +108,7 @@ class BasicMessage : public ::omnetpp::cMessage
     int endNodeId;
     int amount;
     int transactionId;
+    int neighbourhoodIndex;
     int inspection;
     int lowestIdFragment;
     int rootNodeId;
@@ -149,6 +154,8 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setType(int type);
     virtual int getSubType() const;
     virtual void setSubType(int subType);
+    virtual int getSpanningTreeIndex() const;
+    virtual void setSpanningTreeIndex(int spanningTreeIndex);
     virtual int getSpanningTreeId() const;
     virtual void setSpanningTreeId(int spanningTreeId);
     virtual int getSpanningTreeIndexList() const;
@@ -178,6 +185,8 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setAmount(int amount);
     virtual int getTransactionId() const;
     virtual void setTransactionId(int transactionId);
+    virtual int getNeighbourhoodIndex() const;
+    virtual void setNeighbourhoodIndex(int neighbourhoodIndex);
     virtual int getInspection() const;
     virtual void setInspection(int inspection);
     virtual int getLowestIdFragment() const;
