@@ -12,7 +12,10 @@ class LinkedNode {
     public:
         LinkedNode();
         void update_node(int, int, int, int, int *, bool);
-        void update_node(int, int, int, int, int *, bool, int);
+        void update_node(int, int, int, int, int *, bool, LinkCapacity *);
+
+        void set_connected_node_id(int);
+        int get_connected_node_id(void);
 
         void set_connecting_edge(int);
         int get_connecting_edge(void);
@@ -31,8 +34,11 @@ class LinkedNode {
 
         int get_child(int);
 
-        void set_capacity(int);
+        void set_capacity(LinkCapacity*);
         int get_capacity(void);
+
+
+
         int process_transaction(int);
 
         bool get_edge_towards_root(void);
@@ -48,6 +54,7 @@ class LinkedNode {
         std::string to_string(void);
 
     private:
+        int connectedNodeId;
         int connectingEdge;
         int state;
         int weight;
@@ -56,7 +63,7 @@ class LinkedNode {
         int capacity;
         bool edgeTowardsRoot;
 
-        LinkCapacity linkCapacity;
+        LinkCapacity *linkCapacity;
 };
 
 #endif

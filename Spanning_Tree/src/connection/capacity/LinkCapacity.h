@@ -14,6 +14,10 @@ class LinkCapacity {
     public:
         LinkCapacity();
         LinkCapacity(int);
+
+        void set_connected_node_id(int);
+        int get_connected_node_id(void);
+
         int get_current_capacity(void);
         void set_current_capacity(int);
 
@@ -30,10 +34,9 @@ class LinkCapacity {
         bool update_increase(int);
         bool update_decrease(int);
 
-        // check capacity
-        // accept transfer
 
     private:
+        int connectedNodeId;
         int capacity;
         int virtualCapacity;
 

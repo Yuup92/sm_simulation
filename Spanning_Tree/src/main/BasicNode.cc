@@ -25,12 +25,18 @@ class BasicNode : public cSimpleModule
         int ack_counter;
         bool leader;
 
+        bool firstSend;
+
         int pulseTree;
 
         // NUM of trees must be equal to the number of SpanningTree and Neighbours
         static const int NUM_OF_TREES = 10;
         SpanningTree spanning_trees[10];
         Neighbours connected_neighbours[10];
+
+        // Initialize the list of capacity
+        // Ensure that enough is buffered
+        LinkCapacity linkCapacities[30];
 
 
         LeaderElection leader_election;
@@ -97,7 +103,7 @@ void BasicNode::initialize_parameters()
 
     // Neighbours
     for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
-        connected_neighbours[i] = Neighbours(gateSize("out"));
+        connected_neighbours[i].set_number_of_neighbours(gateSize("out"));
 
         spanning_trees[i].set_node_id(nodeId);
         spanning_trees[i].set_spanning_tree_index(i);
@@ -113,6 +119,14 @@ void BasicNode::initialize_parameters()
 
 
 
+     //TODO
+     // This can be done differently, initializing linkedCapacity
+     for(int i = 0; i < 23; i++) {
+         linkCapacities[i].set_connected_node_id(i);
+         linkCapacities[i].set_current_capacity(100);
+     }
+
+
 
     // EV << "Node " << getFullName() << " has id: " << nodeId << " and  numneighbours: " << connected_neighbours.get_amount_of_neighbours() << "\n";
 
@@ -120,7 +134,7 @@ void BasicNode::initialize_parameters()
 //    leader_election.setAmountNeighbours(connected_neighbours.get_amount_of_neighbours());
 
     start_message_timer();
-
+    firstSend = false;
 }
 
 void BasicNode::start_message_timer()
@@ -199,34 +213,55 @@ void BasicNode::handleMessage(cMessage *msg)
             if(spanning_trees[i].full_broadcast_finished() == false) {
                 start_broadcast = false;
             } else if(spanning_trees[i].full_broadcast_finished() and (not spanning_trees[i].get_linked_nodes_updated())) {
-                spanning_trees[i].update_linked_nodes(connected_neighbours[i].get_linked_nodes());
+
             }
         }
 
-//        if(spanning_trees.full_broadcast_finished()) {
-//            spanning_trees.update_linked_nodes(connected_neighbours.get_linked_nodes());
+        if(simTime() > 200 and not spanning_trees[0].get_linked_nodes_updated()) {
+            for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
+                spanning_trees[i].update_linked_nodes(connected_neighbours[i].get_linked_nodes());
+                connected_neighbours[i].add_capacities_to_linked_nodes(&linkCapacities[0], 23);
+            }
+        }
+
+//        if(simTime() > 200 and nodeId == 0) {
 //
-//            if(nodeId == 19 or nodeId == 20 or nodeId == 21 or nodeId == 22 or nodeId == 12) {
-//                EV << "Node: " << nodeId << "\n Neighbours: \n" << connected_neighbours.to_string() << "\n \n \n";
-//            }
-//        }
+//            EV << "\n \n node: " << nodeId << " connectedNeighbours: " << connected_neighbours[0].get_num_linked_nodes();
+//            EV << "node: " << nodeId << " has number of connectedNodes in spanning tree: " << spanning_trees[0].get_num_neighbours();
+//
+//            spanning_trees[0].update_linked_nodes(connected_neighbours[0].get_linked_nodes());
+//
+//            EV << "AFTER update: node: " << nodeId << " spanning_trees[0]: "<< spanning_trees[0].state_edges_to_string() << "\n";
+//            EV << "\n \n node: " << nodeId << " connectedNeighbours: " << connected_neighbours[0].get_num_linked_nodes();
+//       }
 
         if((transaction.get_current_transaction_index() < 1)
                 and nodeId == 1
-                and (simTime() > 200)) {
+                and (simTime() > 205)
+                and not firstSend) {
 
-            int send = transaction.send(21, 2);
-            EV << "node: " << nodeId << " neighbour string: \n " << connected_neighbours[0].to_string() << "\n";
+            firstSend = true;
 
-//
-            EV << "\n\n Node " << nodeId <<" has the send string: " << send << "\n transaction to string: " << transaction.to_string() << "\n" ;
+            int send1 = transaction.send(21, 50);
 
-//            if(send) {
-//                EV << "Node " << nodeId <<" should be sending a message \n is current transaction index: " << transaction.get_current_transaction_index() << "\n";
-//            } else {
-//                EV << "Node " << nodeId <<" is not sending a message \n";
-//            }
+            EV << "node: " << nodeId << " has transaction string with capacities: " << transaction.capacities_to_string() << " \n";
+
+            // EV << "node: " << nodeId << " neighbour string: \n " << connected_neighbours[0].to_string() << "\n";
+            EV << "\n\n Node " << nodeId <<" has the send: " << send1 << "\n";
+            //<< "\n transaction to string: " << transaction.to_string() << "\n" ;
         }
+
+        if((transaction.get_current_transaction_index() < 1)
+                and nodeId == 0
+                and (simTime() > 250)) {
+
+            int send2 = transaction.send(21, 40);
+
+            // EV << "node: " << nodeId << " neighbour string: \n " << connected_neighbours[0].to_string() << "\n";
+
+            //EV << "\n\n Node " << nodeId <<" has the send string: " << send2 << "\n transaction to string: " << transaction.to_string() << "\n" ;
+        }
+
 
         return;
     }

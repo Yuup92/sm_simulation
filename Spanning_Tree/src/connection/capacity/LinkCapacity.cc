@@ -12,6 +12,14 @@ LinkCapacity::LinkCapacity(int cap) {
     numOfPaymentsPending = 0;
 }
 
+void LinkCapacity::set_connected_node_id(int nodeId) {
+    connectedNodeId = nodeId;
+}
+
+int LinkCapacity::get_connected_node_id(void) {
+    return connectedNodeId;
+}
+
 void LinkCapacity::set_current_capacity(int cap) {
     capacity = cap;
     virtualCapacity = cap;

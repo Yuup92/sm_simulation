@@ -35,11 +35,12 @@ class Neighbours
         int get_index_linked_nodes(int);
         int get_outgoing_edge_transaction(int, int);
 
+        void add_capacities_to_linked_nodes(LinkCapacity*, int);
+
         bool check_capacity(int, int);
-        bool remove_capacity(int, int);
-        bool add_capacity(int, int);
 
         std::string to_string(void);
+        std::string get_all_capacities(void);
 
     private:
         int num_of_neighbours;

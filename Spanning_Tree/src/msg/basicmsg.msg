@@ -26,6 +26,7 @@ message BasicMessage
     int subType;
     
     // Spanning Tree Params:
+    int nodeId;
     int spanningTreeIndex;
     int spanningTreeId;
     int spanningTreeIndexList;

@@ -40,9 +40,9 @@ int Transaction::get_current_transaction_index(void) {
 }
 
 int Transaction::send(int endNode, int amount) {
-    bool checkCapacity = connectedNeighbours[currentNeighbour].check_capacity(endNode, amount);
+    LinkedNode *node = connectedNeighbours[transactionConnections[transactionConnectionIndex].neighbourhood].get_upstream_linked_node(endNode, amount);
 
-    if(checkCapacity) {
+    if(node->get_capacity() > amount) {
         transactionConnections[transactionConnectionIndex].amount = amount;
         transactionConnections[transactionConnectionIndex].endNode = endNode;
         transactionConnections[transactionConnectionIndex].transId = rand();
@@ -50,7 +50,7 @@ int Transaction::send(int endNode, int amount) {
         transactionConnections[transactionConnectionIndex].neighbourhood = currentNeighbour;
 
         // Get linked Node
-        transactionConnections[transactionConnectionIndex].linkTowardsReceiver = connectedNeighbours[transactionConnections[transactionConnectionIndex].neighbourhood].get_upstream_linked_node(endNode, amount);
+        transactionConnections[transactionConnectionIndex].linkTowardsReceiver = node;
         transactionConnections[transactionConnectionIndex].edgeTowardsReceiver = transactionConnections[transactionConnectionIndex].linkTowardsReceiver->get_connecting_edge();
         transactionConnections[transactionConnectionIndex].edgeTowardsSender = -1;
 
@@ -62,10 +62,10 @@ int Transaction::send(int endNode, int amount) {
         // All parameters saved in the index
         transactionConnectionIndex++;
         return transactionConnections[transactionConnectionIndex].edgeTowardsReceiver;
-    // TODO
     } else {
-        return checkCapacity;
+        return 0;
     }
+
 }
 
 void Transaction::handle_message(BasicMessage *msg, int outgoingEdge) {
@@ -133,10 +133,9 @@ void Transaction::handle_query_message(int outgoingEdge, int transId, int nId, i
 
 
 int Transaction::forward_send(int transactionId, int endNode, int amount, int senderEdge, int neighbourhood) {
+    LinkedNode *node = connectedNeighbours[transactionConnections[transactionConnectionIndex].neighbourhood].get_upstream_linked_node(endNode, amount);
 
-    bool checkCapacity = connectedNeighbours[neighbourhood].check_capacity(endNode, amount);
-
-    if(checkCapacity) {
+    if(node->get_capacity() > amount) {
         transactionConnections[transactionConnectionIndex].amount = amount;
         transactionConnections[transactionConnectionIndex].endNode = endNode;
         transactionConnections[transactionConnectionIndex].transId = transactionId;
@@ -260,8 +259,6 @@ void Transaction::handle_close_link_reply(int index) {
 
         bool decreaseUpdate = transactionConnections[index].linkTowardsReceiver->update_capacity(transactionConnections[index].transId);
         remove_transaction(index);
-        currentNeighbour++;
-        send(21, 2);
         return;
     } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
         //Update Capacities
@@ -520,4 +517,12 @@ std::string Transaction::to_string(void) {
     LinkedNode *node = connectedNeighbours[currentNeighbour].get_upstream_linked_node(21, 10);
 
     return node->to_string(); // connectedNeighbours[0].to_string();
+}
+
+std::string Transaction::capacities_to_string(void) {
+
+    // bool checkCapacity = connectedNeighbours[currentNeighbour].check_capacity(endNode, amount);
+
+    return connectedNeighbours[0].get_all_capacities();
+
 }

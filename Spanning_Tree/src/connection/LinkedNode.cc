@@ -1,9 +1,6 @@
 #include "src/connection/LinkedNode.h"
 
-LinkedNode::LinkedNode(){
-    linkCapacity.set_current_capacity(100);
-    capacity = 100;
-}
+LinkedNode::LinkedNode(){ }
 
 void LinkedNode::update_node(int outgoingEdge, int s, int w, int numChild, int *childList, bool _edgeTowardsRoot) {
     connectingEdge = outgoingEdge;
@@ -17,7 +14,7 @@ void LinkedNode::update_node(int outgoingEdge, int s, int w, int numChild, int *
 
 }
 
-void LinkedNode::update_node(int outgoingEdge, int s, int w, int numChild, int *childList, bool _edgeTowardsRoot, int c) {
+void LinkedNode::update_node(int outgoingEdge, int s, int w, int numChild, int *childList, bool _edgeTowardsRoot, LinkCapacity *capacity) {
     connectingEdge = outgoingEdge;
     state = s;
     weight = w;
@@ -25,8 +22,16 @@ void LinkedNode::update_node(int outgoingEdge, int s, int w, int numChild, int *
     for(int i = 0; i < numChild; i++) {
         children[i] = *(childList + i);
     }
-    capacity = c;
+    linkCapacity = capacity;
     edgeTowardsRoot = _edgeTowardsRoot;
+}
+
+void LinkedNode::set_connected_node_id(int nodeId) {
+    connectedNodeId = nodeId;
+}
+
+int LinkedNode::get_connected_node_id(void) {
+    return connectedNodeId;
 }
 
 void LinkedNode::set_connecting_edge(int outgoingEdge) {
@@ -75,12 +80,12 @@ int LinkedNode::get_child(int i) {
     return children[i];
 }
 
-void LinkedNode::set_capacity(int c) {
-    capacity = c;
+void LinkedNode::set_capacity(LinkCapacity *capacity) {
+    linkCapacity = capacity;
 }
 
 int LinkedNode::get_capacity(void) {
-    return linkCapacity.get_current_virtual_capacity();
+    return linkCapacity->get_current_virtual_capacity();
 }
 
 int LinkedNode::process_transaction(int transactionAmount) {
@@ -101,24 +106,24 @@ void LinkedNode::set_edge_towards_root(bool edge) {
 }
 
 bool LinkedNode::pend_increase_transaction(int amount, int transId) {
-    return linkCapacity.add_pending_transaction_increase(amount, transId);
+    return linkCapacity->add_pending_transaction_increase(amount, transId);
 }
 
 bool LinkedNode::pend_decrease_transaction(int amount, int transId) {
-    return linkCapacity.add_pending_transaction_decrease(amount, transId);
+    return linkCapacity->add_pending_transaction_decrease(amount, transId);
 }
 
 bool LinkedNode::update_capacity(int transId) {
-    bool updated_capacity =  linkCapacity.complete_transaction(transId);
+    bool updated_capacity =  linkCapacity->complete_transaction(transId);
     return updated_capacity;
 }
 
 bool LinkedNode::update_capacity_increase(int amount) {
-    return linkCapacity.update_increase(amount);
+    return linkCapacity->update_increase(amount);
 }
 
 bool LinkedNode::update_capacity_decrease(int amount) {
-    return linkCapacity.update_decrease(amount);
+    return linkCapacity->update_decrease(amount);
 }
 
 std::string LinkedNode::to_string(void) {
@@ -126,7 +131,7 @@ std::string LinkedNode::to_string(void) {
     std::string res = "";
 
     char buff[300];
-    sprintf(buff, "outgoingEdge: %d \n numberOfChildren: %d \n capacity: %d \n", connectingEdge, numOfChildren, linkCapacity.get_current_capacity());
+    sprintf(buff, "outgoingEdge: %d \n numberOfChildren: %d \n capacity: %d \n", connectingEdge, numOfChildren, linkCapacity->get_current_capacity());
     res = res + buff;
 
     char buf[300];

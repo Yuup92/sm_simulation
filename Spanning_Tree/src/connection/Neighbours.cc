@@ -7,6 +7,7 @@ Neighbours::Neighbours()
     num_of_neighbours = 0;
     num_of_neighbours_rand = 0;
     linkedNodesUpdated = false;
+    numLinkedNodes = 0;
 }
 
 Neighbours::Neighbours(int out_gate_size)
@@ -163,6 +164,11 @@ LinkedNode * Neighbours::get_upstream_linked_node(int nodeId, int amount) {
     int edgeTowardsTransaction = 0;
     bool edgeFound = false;
 
+    if(numLinkedNodes == 1) {
+        return &linkedNodes[0];
+    }
+
+
     for(int i = 0; i < numLinkedNodes; i++) {
         int *ptr = linkedNodes[i].get_children();
         for(int j = 0; j < linkedNodes[i].get_number_of_children(); j++) {
@@ -193,9 +199,19 @@ LinkedNode * Neighbours::get_downstream_linked_node(int outgoingEdge) {
 
 }
 
-bool Neighbours::check_capacity(int nodeId, int amount) {
+void Neighbours::add_capacities_to_linked_nodes(LinkCapacity *linkCapacities, int numberOfNodes) {
+    for(int i = 0; i < numberOfNodes; i++) {
+        for(int j = 0; j < numLinkedNodes; j++) {
+            if(linkCapacities[i].get_connected_node_id() == linkedNodes[j].get_connected_node_id()) {
+                linkedNodes[j].set_capacity(&linkCapacities[i]);
+            }
+        }
+    }
 
-    return true;
+
+}
+
+bool Neighbours::check_capacity(int nodeId, int amount) {
 
     for(int i = 0; i < numLinkedNodes; i++) {
         int *ptr = linkedNodes[i].get_children();
@@ -212,28 +228,6 @@ bool Neighbours::check_capacity(int nodeId, int amount) {
 
 }
 
-bool Neighbours::remove_capacity(int indexLinkedNodes, int amount) {
-
-    if(check_capacity(indexLinkedNodes, amount)) {
-        int cap = linkedNodes[indexLinkedNodes].get_capacity();
-        linkedNodes[indexLinkedNodes].set_capacity(cap - amount);
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool Neighbours::add_capacity(int indexLinkedNodes, int amount) {
-
-    if(check_capacity(indexLinkedNodes, amount)) {
-        int cap = linkedNodes[indexLinkedNodes].get_capacity();
-        linkedNodes[indexLinkedNodes].set_capacity(cap + amount);
-        return true;
-    } else {
-        return false;
-    }
-}
-
 std::string Neighbours::to_string(void) {
     std::string res = "";
 
@@ -244,6 +238,22 @@ std::string Neighbours::to_string(void) {
     }
 
     return res;
+}
+
+std::string Neighbours::get_all_capacities(void) {
+
+    std::string res = "";
+
+    res += "Number of linked nodes: " + std::to_string(numLinkedNodes) + "\n";
+
+    for(int i = 0; i < numLinkedNodes; i++) {
+        res = res + "linked node id: " + std::to_string(linkedNodes[i].get_connected_node_id()) + "\n";
+        res = res + "  capacity: " + std::to_string(linkedNodes[i].get_capacity()) + "\n";
+
+    }
+
+    return res;
+
 }
 
 

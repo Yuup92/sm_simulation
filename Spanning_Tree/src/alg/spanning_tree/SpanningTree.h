@@ -13,6 +13,7 @@
 
 struct state_edge {
     int outgoingEdge;
+    int nodeId;
     int state;
     int weight;
     int numOfChildren;
@@ -95,6 +96,8 @@ class SpanningTree
 
         void update_linked_nodes(LinkedNode *);
 
+        std::string state_edges_to_string(void);
+
     private:
         MessageBuffer msgBuf;
         Neighbours *connectedNeighbours;
@@ -162,7 +165,7 @@ class SpanningTree
         void handle_initial_queue(void);
 
         void handle_weight_request(int, int, int);
-        void handle_weight_response(int, int);
+        void handle_weight_response(int, int, int);
 
         void handle_spanning_tree_message(BasicMessage *, int);
 
@@ -206,7 +209,7 @@ class SpanningTree
         static BasicMessage * inspection(int);
 
         static BasicMessage * weight_request(int, int, int);
-        static BasicMessage * weight_response(int, int, int);
+        static BasicMessage * weight_response(int, int, int, int);
 
         static BasicMessage * connect(int, int);
         static BasicMessage * initiate(int, int, int, int);

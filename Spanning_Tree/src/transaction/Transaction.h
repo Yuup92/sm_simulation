@@ -80,6 +80,7 @@ class Transaction {
         int forward_send(int, int, int, int, int);
 
         std::string to_string(void);
+        std::string capacities_to_string(void);
 
     private:
 

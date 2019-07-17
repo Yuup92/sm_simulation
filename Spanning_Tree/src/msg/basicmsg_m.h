@@ -34,6 +34,7 @@
  *     int subType;
  * 
  *     // Spanning Tree Params:
+ *     int nodeId;
  *     int spanningTreeIndex;
  *     int spanningTreeId;
  *     int spanningTreeIndexList;
@@ -93,6 +94,7 @@ class BasicMessage : public ::omnetpp::cMessage
     int pulseNum;
     int type;
     int subType;
+    int nodeId;
     int spanningTreeIndex;
     int spanningTreeId;
     int spanningTreeIndexList;
@@ -154,6 +156,8 @@ class BasicMessage : public ::omnetpp::cMessage
     virtual void setType(int type);
     virtual int getSubType() const;
     virtual void setSubType(int subType);
+    virtual int getNodeId() const;
+    virtual void setNodeId(int nodeId);
     virtual int getSpanningTreeIndex() const;
     virtual void setSpanningTreeIndex(int spanningTreeIndex);
     virtual int getSpanningTreeId() const;

@@ -44,6 +44,7 @@ SpanningTree::SpanningTree(){
     maxDepth = 0;
 
     indexChildrenNodes = 0;
+    numConnectedNodes = 0;
 }
 
 void SpanningTree::set_neighbours(Neighbours *n)
@@ -229,7 +230,7 @@ void SpanningTree::handle_message(BasicMessage* msg, int outgoingEdge, omnetpp::
         if(msg->getSubType() == SpanningTree::WEIGHT_REQUEST) {
             handle_weight_request(outgoingEdge, msg->getSpanningTreeId(), msg->getSpanningTreeIndexList());
         } else if(msg->getSubType() == SpanningTree::WEIGHT_REPONSE) {
-            handle_weight_response(msg->getWeightEdgeSpanningTree(), msg->getSpanningTreeIndexList());
+            handle_weight_response(msg->getWeightEdgeSpanningTree(), msg->getSpanningTreeIndexList(), msg->getNodeId());
         } else {
             if(not edgesWeightUpdated){
                 update_initial_queue(msg, outgoingEdge);
@@ -326,7 +327,8 @@ void SpanningTree::handle_spanning_tree_message(BasicMessage *msg, int outgoingE
 
     } else if(msg->getSubType() == SpanningTree::WEIGHT_REPONSE) {
         handle_weight_response(msg->getWeightEdgeSpanningTree(),
-                               msg->getSpanningTreeIndexList());
+                               msg->getSpanningTreeIndexList(),
+                               msg->getNodeId());
 
     }
 }
@@ -338,11 +340,12 @@ void SpanningTree::handle_weight_request(int outgoingEdge, int spanningTreeId, i
     } else {
         weight = spanningTreeId - spanningTreeNodeId;
     }
-    update_message_buf(SpanningTree::weight_response(weight, index, spanningTreeIndex), outgoingEdge);
+    update_message_buf(SpanningTree::weight_response(weight, index, nodeId, spanningTreeIndex), outgoingEdge);
 }
 
-void SpanningTree::handle_weight_response(int weight, int index) {
+void SpanningTree::handle_weight_response(int weight, int index, int nodeId) {
     stateEdges[index].weight = weight;
+    stateEdges[index].nodeId = nodeId;
     sent_requests--;
 
     if(sent_requests == 0) {
@@ -653,6 +656,7 @@ void SpanningTree::update_linked_nodes(LinkedNode *linkedNodes) {
     int k = 0;
     for(int i = 0; i < numConnectedNodes; i++) {
         if(stateEdges[i].state == SpanningTree::EDGESTATE_IN_MST) {
+            (linkedNodes + k)->set_connected_node_id(stateEdges[i].nodeId);
             (linkedNodes + k)->set_connecting_edge(stateEdges[i].outgoingEdge);
             (linkedNodes + k)->set_edge_towards_root(stateEdges[i].edgeTowardsRoot);
             (linkedNodes + k)->set_number_of_children(stateEdges[i].numOfChildren);
@@ -664,6 +668,21 @@ void SpanningTree::update_linked_nodes(LinkedNode *linkedNodes) {
     connectedNeighbours->set_linked_node_updates(true);
     linkedNodesUpdated = true;
     connectedNeighbours->set_num_linked_nodes(k);
+
+}
+
+std::string SpanningTree::state_edges_to_string(void) {
+
+    std::string res = "";
+
+
+    for(int i = 0; i < numConnectedNodes; i++) {
+        char buff[300];
+        sprintf(buff,"edgeState: %d \n outgoingEdge: %d \n edgeTowardsRoot: %d \n numOfChildren: %d \n",stateEdges[i].state, stateEdges[i].outgoingEdge, stateEdges[i].edgeTowardsRoot, stateEdges[i].numOfChildren );
+        res = res + buff;
+    }
+
+    return res;
 
 }
 
@@ -878,13 +897,14 @@ BasicMessage * SpanningTree::weight_request(int spanningTreeId, int indexList, i
     return msg;
 }
 
-BasicMessage * SpanningTree::weight_response(int weight, int indexListRequest, int index) {
+BasicMessage * SpanningTree::weight_response(int weight, int indexListRequest, int nodeId, int index) {
     char msgname[80];
     sprintf(msgname, "weight response: %d", weight);
     BasicMessage *msg = new BasicMessage(msgname);
 
     msg->setType(SpanningTree::MESSAGE_TYPE);
     msg->setSubType(SpanningTree::WEIGHT_REPONSE);
+    msg->setNodeId(nodeId);
     msg->setWeightEdgeSpanningTree(weight);
     msg->setSpanningTreeIndexList(indexListRequest);
 
