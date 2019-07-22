@@ -26,6 +26,7 @@ class BasicNode : public cSimpleModule
         bool leader;
 
         bool firstSend;
+        bool startSimulation;
 
         int pulseTree;
 
@@ -99,6 +100,7 @@ void BasicNode::initialize_parameters()
         nodeId = rand();
     }
 
+    startSimulation = false;
     pulseTree = 0;
 
     // Neighbours
@@ -207,61 +209,103 @@ void BasicNode::handleMessage(cMessage *msg)
 
         start_message_timer();
 
-        bool start_broadcast = true;
+        // Finish Initialization process
 
-        for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
-            if(spanning_trees[i].full_broadcast_finished() == false) {
-                start_broadcast = false;
-            } else if(spanning_trees[i].full_broadcast_finished() and (not spanning_trees[i].get_linked_nodes_updated())) {
-
-            }
-        }
-
-        if(simTime() > 200 and not spanning_trees[0].get_linked_nodes_updated()) {
+        if(simTime() > 200 and not startSimulation) {
             for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
                 spanning_trees[i].update_linked_nodes(connected_neighbours[i].get_linked_nodes());
                 connected_neighbours[i].add_capacities_to_linked_nodes(&linkCapacities[0], 23);
             }
+            startSimulation = true;
         }
 
-//        if(simTime() > 200 and nodeId == 0) {
-//
-//            EV << "\n \n node: " << nodeId << " connectedNeighbours: " << connected_neighbours[0].get_num_linked_nodes();
-//            EV << "node: " << nodeId << " has number of connectedNodes in spanning tree: " << spanning_trees[0].get_num_neighbours();
-//
-//            spanning_trees[0].update_linked_nodes(connected_neighbours[0].get_linked_nodes());
-//
-//            EV << "AFTER update: node: " << nodeId << " spanning_trees[0]: "<< spanning_trees[0].state_edges_to_string() << "\n";
-//            EV << "\n \n node: " << nodeId << " connectedNeighbours: " << connected_neighbours[0].get_num_linked_nodes();
-//       }
+        //
+        // Start the random simulation here
+        //
 
-        if((transaction.get_current_transaction_index() < 1)
-                and nodeId == 1
-                and (simTime() > 205)
-                and not firstSend) {
+        if(startSimulation) {
+            int sendTransactionProbability = rand();
 
-            firstSend = true;
+            // 0.05 % chance of sending
+            if(sendTransactionProbability < 10000000) {
+                int amountProbability = rand() % 100;
+                int amount = 1;
 
-            int send1 = transaction.send(21, 50);
+                if(amountProbability < 5) {
+                    amount = 20;
+                } else if( amountProbability < 30) {
+                    amount = 10;
+                } else if( amountProbability < 60) {
+                    amount = 5;
+                }
 
-            EV << "node: " << nodeId << " has transaction string with capacities: " << transaction.capacities_to_string() << " \n";
+                int nodeProbability = rand() % 100;
+                int receiver = 0;
 
-            // EV << "node: " << nodeId << " neighbour string: \n " << connected_neighbours[0].to_string() << "\n";
-            EV << "\n\n Node " << nodeId <<" has the send: " << send1 << "\n";
-            //<< "\n transaction to string: " << transaction.to_string() << "\n" ;
+                if(nodeProbability < 5) {
+                    if(nodeProbability % 2 == 0) {
+                        receiver = nodeId - 2;
+                    } else {
+                        receiver = nodeId + 2;
+                    }
+                } else if(nodeProbability < 25) {
+                    if(nodeProbability % 2 == 0) {
+                        receiver = nodeId - 3;
+                    } else {
+                        receiver = nodeId + 3;
+                    }
+                } else if(nodeProbability < 45) {
+                    if(nodeProbability % 2 == 0) {
+                        receiver = nodeId - 4;
+                    } else {
+                        receiver = nodeId + 4;
+                    }
+                } else if(nodeProbability < 65) {
+                    if(nodeProbability % 2 == 0) {
+                        receiver = nodeId - 5;
+                    } else {
+                        receiver = nodeId + 5;
+                    }
+                } else if(nodeProbability < 85) {
+                    if(nodeProbability % 2 == 0) {
+                        receiver = nodeId - 6;
+                    } else {
+                        receiver = nodeId + 6;
+                    }
+                } else if(nodeProbability < 95) {
+                    if(nodeProbability % 2 == 0) {
+                        receiver = nodeId - 7;
+                    } else {
+                        receiver = nodeId + 7;
+                    }
+                } else if(nodeProbability < 100) {
+                    if(nodeProbability % 2 == 0) {
+                        receiver = nodeId - 8;
+                    } else {
+                        receiver = nodeId + 8;
+                    }
+                }
+
+                if(receiver < 0) {
+                    receiver = nodeId - receiver;
+                }
+
+                if(receiver > 22) {
+                    receiver = receiver - nodeId;
+                }
+
+                EV << "Node: " << nodeId << " \nSending Amount: " << amount << " \nReceiver: " << receiver << "\n";
+
+                int send = transaction.send(receiver, amount);
+
+            }
+
+            if(transaction.get_current_transaction_index() > 1) {
+
+                EV << "node: " << nodeId << " has transaction string with capacities: " << transaction.capacities_to_string() << " \n delay:" << transaction.delay_to_string() << "\n";
+
+            }
         }
-
-        if((transaction.get_current_transaction_index() < 1)
-                and nodeId == 0
-                and (simTime() > 250)) {
-
-            int send2 = transaction.send(21, 40);
-
-            // EV << "node: " << nodeId << " neighbour string: \n " << connected_neighbours[0].to_string() << "\n";
-
-            //EV << "\n\n Node " << nodeId <<" has the send string: " << send2 << "\n transaction to string: " << transaction.to_string() << "\n" ;
-        }
-
 
         return;
     }

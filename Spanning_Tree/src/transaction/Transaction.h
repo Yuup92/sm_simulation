@@ -11,6 +11,7 @@
 #include "src/connection/Neighbours.h"
 #include "src/transaction/concurrency/ConcurrencyBlocking.h"
 #include "src/connection/LinkedNode.h"
+#include "src/latency/Latency.h"
 
 // Struct that keeps track of which LinkedNodes currently a connection has been established with
 struct transaction_connection{
@@ -81,6 +82,7 @@ class Transaction {
 
         std::string to_string(void);
         std::string capacities_to_string(void);
+        std::string delay_to_string(void);
 
     private:
 
@@ -107,10 +109,11 @@ class Transaction {
         int currentState;
 
         MessageBuffer msgBuf;
-        int msgDelay;
+        double msgDelay;
+        Latency latency;
 
         int transactionConnectionIndex;
-        transaction_connection transactionConnections[30];
+        transaction_connection transactionConnections[3000];
 
         void handle_query_message(int, int, int, int, int);
         void handle_query_accept_message(int);

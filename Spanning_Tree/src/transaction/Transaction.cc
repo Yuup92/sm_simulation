@@ -292,6 +292,13 @@ void Transaction::handle_capacity_error(int index) {
     if(transactionConnections[index].state == Transaction::STATE_SENDING_NODE) {
         remove_transaction(index);
         numberOfReceivedCapacityErrors++;
+
+        if(currentNeighbour < 9) {
+            currentNeighbour++;
+        } else {
+            currentNeighbour = 0;
+        }
+
         // Remove the transaction from the list
         // Or try a different path
     } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
@@ -337,7 +344,8 @@ void Transaction::handle_general_error(int index) {
 //  or add it later to the game somehow the way it works now
 //  is a little shitty
 void Transaction::update_message_buf(BasicMessage *msg, int outgoingEdge) {
-    msgDelay = msgDelay + 0.5;
+    msgDelay = latency.calculate_delay_ms();
+    // msgDelay = msgDelay + 0.5;
     BufferedMessage * bufMsg = new BufferedMessage(msg, outgoingEdge, msgDelay);
     msgBuf.addMessage(bufMsg);
 }
@@ -524,5 +532,10 @@ std::string Transaction::capacities_to_string(void) {
     // bool checkCapacity = connectedNeighbours[currentNeighbour].check_capacity(endNode, amount);
 
     return connectedNeighbours[0].get_all_capacities();
-
 }
+
+std::string Transaction::delay_to_string(void) {
+    return std::to_string(msgDelay);
+}
+
+

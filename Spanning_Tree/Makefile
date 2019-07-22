@@ -37,6 +37,10 @@ OBJS = \
     $O/src/connection/LinkedNode.o \
     $O/src/connection/Neighbours.o \
     $O/src/connection/capacity/LinkCapacity.o \
+    $O/src/latency/Latency.o \
+    $O/src/latency/types/ComputerLatency.o \
+    $O/src/latency/types/CryptographicLatency.o \
+    $O/src/latency/types/NetworkLatency.o \
     $O/src/main/BasicNode.o \
     $O/src/msg/outgoing_buf/BufferedMessage.o \
     $O/src/msg/outgoing_buf/MessageBuffer.o \

@@ -42,7 +42,7 @@ class LinkCapacity {
 
         int numOfPayments;
         int numOfPaymentsPending;
-        pending_payment pendingPayments[20];
+        pending_payment pendingPayments[2000];
         Concurrency concurrency[20];
 
 };
