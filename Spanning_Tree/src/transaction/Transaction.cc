@@ -1,10 +1,18 @@
 #include "src/transaction/Transaction.h"
 
 Transaction::Transaction(){
+    nodeId = -1;
+
+
     msgDelay = 0;
     currentTransactionId = -1;
     currentState = Transaction::STATE_WAITING;
     transactionConnectionIndex = 0;
+
+    numberOfCompletedTransactions = 0;
+    numberOfForwardedTransactions = 0;
+    numberOfForwardedTransactionsCompleted = 0;
+    numberOfTotalTransactions = 0;
 
     numberOfCapacityErrors = 0;
     numberOfReceivedCapacityErrors = 0;
@@ -39,6 +47,43 @@ int Transaction::get_current_transaction_index(void) {
     return transactionConnectionIndex;
 }
 
+
+int Transaction::get_num_completed_transactions(void) {
+    return     numberOfCompletedTransactions;
+}
+
+int Transaction::get_num_forwarded_transactions(void) {
+    return numberOfForwardedTransactions;
+}
+
+int Transaction::get_num_of_total_transactions(void) {
+    return numberOfTotalTransactions;
+}
+
+int Transaction::get_num_forwarded_completed_transactions(void) {
+    return numberOfForwardedTransactionsCompleted;
+}
+
+int Transaction::get_failed_transactions(void) {
+    return numberOfErrors;
+}
+
+int Transaction::get_capacity_failure(void) {
+    return numberOfCapacityErrors;
+}
+
+double Transaction::get_network_delay(void) {
+    return latency.get_network_delay();
+}
+
+double Transaction::get_os_delay(void) {
+   return latency.get_os_delay();
+}
+
+double Transaction::get_crypto_delay(void) {
+    return latency.get_crypto_delay();
+}
+
 int Transaction::send(int endNode, int amount) {
     LinkedNode *node = connectedNeighbours[transactionConnections[transactionConnectionIndex].neighbourhood].get_upstream_linked_node(endNode, amount);
 
@@ -61,6 +106,7 @@ int Transaction::send(int endNode, int amount) {
                                                                 transactionConnections[transactionConnectionIndex].edgeTowardsReceiver);
         // All parameters saved in the index
         transactionConnectionIndex++;
+        numberOfTotalTransactions++;
         return transactionConnections[transactionConnectionIndex].edgeTowardsReceiver;
     } else {
         return 0;
@@ -121,6 +167,7 @@ void Transaction::handle_query_message(int outgoingEdge, int transId, int nId, i
         update_message_buf(Transaction::initial_reply_request(transactionConnections[transactionConnectionIndex].transId),
                                                                transactionConnections[transactionConnectionIndex].edgeTowardsSender);
         transactionConnectionIndex++;
+        numberOfTotalTransactions++;
         // handle next transaction msg
 
     // Message needs to be forwarded
@@ -156,6 +203,8 @@ int Transaction::forward_send(int transactionId, int endNode, int amount, int se
                                                              transactionConnections[transactionConnectionIndex].edgeTowardsReceiver);
         // All parameters saved in the index
         transactionConnectionIndex++;
+        numberOfTotalTransactions++;
+        numberOfForwardedTransactions++;
         return 1;
     } else {
         update_message_buf(Transaction::capacity_error(transactionId), senderEdge);
@@ -240,6 +289,7 @@ void Transaction::handle_close_link(int outgoingEdge, int index) {
 
         transactionConnections[index].linkTowardsSender->update_capacity(transactionConnections[index].transId);
         remove_transaction(index);
+        numberOfCompletedTransactions++;
         return;
     } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
         update_message_buf(Transaction::close_transaction(transactionConnections[index].transId),
@@ -259,6 +309,7 @@ void Transaction::handle_close_link_reply(int index) {
 
         bool decreaseUpdate = transactionConnections[index].linkTowardsReceiver->update_capacity(transactionConnections[index].transId);
         remove_transaction(index);
+        numberOfCompletedTransactions++;
         return;
     } else if(transactionConnections[index].state == Transaction::STATE_FORWARDING_NODE) {
         //Update Capacities
@@ -269,6 +320,8 @@ void Transaction::handle_close_link_reply(int index) {
             update_message_buf(Transaction::confirm_transaction_close(transactionConnections[index].transId),
                                                                         transactionConnections[index].edgeTowardsSender);
             remove_transaction(index);
+            numberOfCompletedTransactions++;
+            numberOfForwardedTransactionsCompleted++;
         } else {
             //TODO
             // figure out which one failed and make sure whole transaction is reset
@@ -344,7 +397,7 @@ void Transaction::handle_general_error(int index) {
 //  or add it later to the game somehow the way it works now
 //  is a little shitty
 void Transaction::update_message_buf(BasicMessage *msg, int outgoingEdge) {
-    msgDelay = latency.calculate_delay_ms();
+    msgDelay = latency.calculate_delay_ms(true);
     // msgDelay = msgDelay + 0.5;
     BufferedMessage * bufMsg = new BufferedMessage(msg, outgoingEdge, msgDelay);
     msgBuf.addMessage(bufMsg);

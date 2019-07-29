@@ -13,6 +13,8 @@ class LinkedNode {
         LinkedNode();
         void update_node(int, int, int, int, int *, bool);
         void update_node(int, int, int, int, int *, bool, LinkCapacity *);
+        void update_node(int, int, int *, bool, int);
+        void update_node(int, int, int, int *, bool);
 
         void set_connected_node_id(int);
         int get_connected_node_id(void);

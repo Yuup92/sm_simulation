@@ -7,7 +7,8 @@ out/gcc-release//src/transaction/Transaction.o: \
  src/connection/LinkedNode.h src/connection/capacity/LinkCapacity.h \
  src/transaction/concurrency/Concurrency.h \
  src/transaction/concurrency/ConcurrencyBlocking.h src/latency/Latency.h \
- src/latency/types/NetworkLatency.h
+ src/latency/types/NetworkLatency.h src/latency/types/ComputerLatency.h \
+ src/latency/types/CryptographicLatency.h
 
 src/transaction/Transaction.h:
 
@@ -32,3 +33,7 @@ src/transaction/concurrency/ConcurrencyBlocking.h:
 src/latency/Latency.h:
 
 src/latency/types/NetworkLatency.h:
+
+src/latency/types/ComputerLatency.h:
+
+src/latency/types/CryptographicLatency.h:

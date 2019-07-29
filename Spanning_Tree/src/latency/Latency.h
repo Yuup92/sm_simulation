@@ -13,6 +13,10 @@ class Latency {
 
         double calculate_delay_ms(bool);
 
+        double get_network_delay(void);
+        double get_os_delay(void);
+        double get_crypto_delay(void);
+
     private:
         int delay;
 

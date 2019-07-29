@@ -10,6 +10,7 @@ class NetworkLatency {
         NetworkLatency();
 
         double calculate_delay_ms(void);
+        double get_delay(void);
 
     private:
         double delay;

@@ -105,6 +105,10 @@ void Neighbours::update_linked_nodes(int index, int outgoingEdge, int state, int
     linkedNodes[index].update_node(outgoingEdge, state, weight, numChild, childList, edgeTowardsRoot);
 }
 
+void Neighbours::update_linked_nodes(int index, int outgoingEdge, int outgoingEdgeId, int numChild, int *childList, bool edgeTowardsRoot) {
+    linkedNodes[index].update_node(outgoingEdge, outgoingEdgeId, numChild, childList, edgeTowardsRoot);
+}
+
 LinkedNode * Neighbours::get_linked_nodes() {
     return &linkedNodes[0];
 }
@@ -228,12 +232,18 @@ bool Neighbours::check_capacity(int nodeId, int amount) {
 
 }
 
+std::string Neighbours::get_save_state(void) {
+    std::string res = "";
+    return res;
+}
+
 std::string Neighbours::to_string(void) {
     std::string res = "";
 
-    res += "Number of linked nodes: " + std::to_string(numLinkedNodes) + "\n";
+    res += "LINKEDNODES:" + std::to_string(numLinkedNodes) + "\n";
 
     for(int i = 0; i < numLinkedNodes; i++) {
+        res += "####\n";
         res += linkedNodes[i].to_string();
     }
 
@@ -249,7 +259,6 @@ std::string Neighbours::get_all_capacities(void) {
     for(int i = 0; i < numLinkedNodes; i++) {
         res = res + "linked node id: " + std::to_string(linkedNodes[i].get_connected_node_id()) + "\n";
         res = res + "  capacity: " + std::to_string(linkedNodes[i].get_capacity()) + "\n";
-
     }
 
     return res;

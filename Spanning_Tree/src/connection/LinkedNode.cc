@@ -26,6 +26,27 @@ void LinkedNode::update_node(int outgoingEdge, int s, int w, int numChild, int *
     edgeTowardsRoot = _edgeTowardsRoot;
 }
 
+void LinkedNode::update_node(int outgoingEdge, int numChild, int *childList, bool _edgeTowardsRoot, int capacity) {
+    connectingEdge = outgoingEdge;
+    numOfChildren = numChild;
+    for(int i = 0; i < numChild; i++) {
+        children[i] = *(childList + i);
+    }
+    //
+    linkCapacity->set_current_capacity(capacity);
+    edgeTowardsRoot = _edgeTowardsRoot;
+}
+
+void LinkedNode::update_node(int outgoingEdge, int outgoingEdgeId, int numChild, int *childList, bool _edgeTowardsRoot) {
+    connectingEdge = outgoingEdge;
+    connectedNodeId = outgoingEdgeId;
+    numOfChildren = numChild;
+    for(int i = 0; i < numChild; i++) {
+        children[i] = *(childList + i);
+    }
+    edgeTowardsRoot = _edgeTowardsRoot;
+}
+
 void LinkedNode::set_connected_node_id(int nodeId) {
     connectedNodeId = nodeId;
 }
@@ -131,21 +152,25 @@ std::string LinkedNode::to_string(void) {
     std::string res = "";
 
     char buff[300];
-    sprintf(buff, "outgoingEdge: %d \n numberOfChildren: %d \n capacity: %d \n", connectingEdge, numOfChildren, linkCapacity->get_current_capacity());
+    sprintf(buff, "OUTGOINGEDGE:%d\nLINKEDNODECONNECTEDTO:%d\nCAPACITY:%d\nCAPACITYCONNECTEDNODEID:%d\nNUMBEROFCHILDREN:%d\n", connectingEdge, connectedNodeId, linkCapacity->get_current_capacity(), linkCapacity->get_connected_node_id(), numOfChildren);
     res = res + buff;
 
     char buf[300];
-    res += "children id's: ";
-    for(int i = 0; i < numOfChildren; i++) {
-        res += std::to_string(children[i]);
-        res += " , ";
+    if(numOfChildren < 1) {
+        res += "NOCHILDREN";
+    } else {
+        res += "CHILDREN:";
+        for(int i = 0; i < numOfChildren; i++) {
+            res += std::to_string(children[i]);
+            res += ";";
+        }
     }
     res += "\n";
 
     if(edgeTowardsRoot) {
-        res += " edge towards root \n";
+        res += "EDGEROOT\n";
     } else {
-        res += " edge not towards root \n";
+        res += "EDGENOTROOT\n";
     }
 
     return res;

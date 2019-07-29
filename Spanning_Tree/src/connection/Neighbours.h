@@ -22,6 +22,7 @@ class Neighbours
         void remove_neighbour_from_random_gate_list(int);
 
         void update_linked_nodes(int, int, int, int, int, int *, bool);
+        void update_linked_nodes(int, int, int, int, int *, bool);
         LinkedNode * get_linked_nodes(void);
         LinkedNode * get_upstream_linked_node(int, int);
         LinkedNode * get_downstream_linked_node(int);
@@ -38,6 +39,8 @@ class Neighbours
         void add_capacities_to_linked_nodes(LinkCapacity*, int);
 
         bool check_capacity(int, int);
+
+        std::string get_save_state(void);
 
         std::string to_string(void);
         std::string get_all_capacities(void);

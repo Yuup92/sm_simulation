@@ -5,7 +5,9 @@ ComputerLatency::ComputerLatency() {
 }
 
 double ComputerLatency::get_delay(void) {
-    return delay;
+    double tmp = delay;
+    delay = 0;
+    return tmp;
 }
 
 double ComputerLatency::calculate_delay_ms(void) {

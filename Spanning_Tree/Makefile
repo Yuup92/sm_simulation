@@ -44,6 +44,8 @@ OBJS = \
     $O/src/main/BasicNode.o \
     $O/src/msg/outgoing_buf/BufferedMessage.o \
     $O/src/msg/outgoing_buf/MessageBuffer.o \
+    $O/src/output/FileWriter.o \
+    $O/src/output/SaveState.o \
     $O/src/sync/NodeClock.o \
     $O/src/transaction/Transaction.o \
     $O/src/transaction/concurrency/Concurrency.o \

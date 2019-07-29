@@ -15,40 +15,19 @@
 
 #include "src/transaction/Transaction.h"
 
+#include "src/output/FileWriter.h"
+#include "src/output/SaveState.h"
+
 using namespace omnetpp;
 
 class BasicNode : public cSimpleModule
 {
-    private:
-        NodeClock clock;
-        int nodeId;
-        int ack_counter;
-        bool leader;
-
-        bool firstSend;
-        bool startSimulation;
-
-        int pulseTree;
-
-        // NUM of trees must be equal to the number of SpanningTree and Neighbours
+    public:
         static const int NUM_OF_TREES = 10;
-        SpanningTree spanning_trees[10];
-        Neighbours connected_neighbours[10];
+        static const int NUM_OF_NODES = 23;
 
-        // Initialize the list of capacity
-        // Ensure that enough is buffered
-        LinkCapacity linkCapacities[30];
-
-
-        LeaderElection leader_election;
-        Transaction transaction;
-
-        cMessage *event;    // pointer to the event object which will be used for timing
-        cMessage *broadcast_tree; // variable to remember the message until its sent back
-
-        virtual void sendMessagesFromBuffer(void);
-
-        virtual std::string parseNodeID(const char* nodeName);
+        BasicNode();
+        virtual ~BasicNode();
 
     protected:
         virtual void initialize() override;
@@ -61,9 +40,39 @@ class BasicNode : public cSimpleModule
         // Starts the search for a leader
         virtual void broadcastLeaderRequest();
 
-    public:
-        BasicNode();
-        virtual ~BasicNode();
+    private:
+        NodeClock clock;
+        int nodeId;
+        int ack_counter;
+        bool leader;
+
+        bool firstSend;
+        bool startSimulation;
+
+        int pulseTree;
+
+        // NUM of trees must be equal to the number of SpanningTree and Neighbours
+
+        SpanningTree spanning_trees[NUM_OF_TREES];
+        Neighbours connected_neighbours[NUM_OF_TREES];
+
+        // Initialize the list of capacity
+        // Ensure that enough is buffered
+        LinkCapacity linkCapacities[30];
+
+        LeaderElection leader_election;
+        Transaction transaction;
+
+        FileWriter fileWriter;
+        SaveState saveState;
+
+        cMessage *event;    // pointer to the event object which will be used for timing
+        cMessage *broadcast_tree; // variable to remember the message until its sent back
+
+        virtual void sendMessagesFromBuffer(void);
+
+        virtual std::string parseNodeID(const char* nodeName);
+
 };
 
 Define_Module(BasicNode);
@@ -84,9 +93,18 @@ BasicNode::~BasicNode()
 void BasicNode::initialize()
 {
     initialize_parameters();
+    std::string total = saveState.loadstate(linkCapacities);
+    for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
+        connected_neighbours[i].add_capacities_to_linked_nodes(&linkCapacities[0], 23);
+    }
     // broadcastLeaderRequest();
     for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
-        spanning_trees[i].wake_up();
+        //spanning_trees[i].wake_up();
+    }
+    if(nodeId == 15) {
+
+        EV <<"Node: " << nodeId << " has total: " << total << "\n";
+
     }
 }
 
@@ -99,6 +117,9 @@ void BasicNode::initialize_parameters()
     } else {
         nodeId = rand();
     }
+
+    fileWriter.set_node_id(nodeId);
+    fileWriter.initialize_file();
 
     startSimulation = false;
     pulseTree = 0;
@@ -115,10 +136,12 @@ void BasicNode::initialize_parameters()
 
     }
 
-    // TODO get transactions to work with connected neighbours
      transaction.set_connected_neighbours(connected_neighbours);
      transaction.set_node_id(nodeId);
 
+     // Save state
+     saveState.set_node_id_and_amount_of_nodes(nodeId, BasicNode::NUM_OF_NODES);
+     saveState.set_neighbours(connected_neighbours, BasicNode::NUM_OF_TREES);
 
 
      //TODO
@@ -211,12 +234,19 @@ void BasicNode::handleMessage(cMessage *msg)
 
         // Finish Initialization process
 
-        if(simTime() > 200 and not startSimulation) {
-            for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
-                spanning_trees[i].update_linked_nodes(connected_neighbours[i].get_linked_nodes());
-                connected_neighbours[i].add_capacities_to_linked_nodes(&linkCapacities[0], 23);
-            }
+        if(simTime() > 1 and not startSimulation) {
+//            for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
+//                spanning_trees[i].update_linked_nodes(connected_neighbours[i].get_linked_nodes());
+//                connected_neighbours[i].add_capacities_to_linked_nodes(&linkCapacities[0], 23);
+//            }
+//            saveState.save();
             startSimulation = true;
+            EV << "noideId: " << nodeId << "connectedneighbours string: " << connected_neighbours[0].to_string() << "\n";
+        }
+
+        if(simTime() > 205) {
+            //int res = saveState.loadstate(linkCapacities);
+            //EV << res;
         }
 
         //
@@ -303,8 +333,22 @@ void BasicNode::handleMessage(cMessage *msg)
             if(transaction.get_current_transaction_index() > 1) {
 
                 EV << "node: " << nodeId << " has transaction string with capacities: " << transaction.capacities_to_string() << " \n delay:" << transaction.delay_to_string() << "\n";
-
             }
+
+            std::string time = simTime().str();
+
+            fileWriter.update_variables(time,
+                                        transaction.get_num_completed_transactions(),
+                                        transaction.get_num_of_total_transactions(),
+                                        transaction.get_num_forwarded_transactions(),
+                                        transaction.get_num_forwarded_completed_transactions(),
+                                        transaction.get_current_transaction_id(),
+                                        transaction.get_failed_transactions(),
+                                        transaction.get_capacity_failure(),
+                                        transaction.get_network_delay(),
+                                        transaction.get_crypto_delay(),
+                                        transaction.get_os_delay());
+
         }
 
         return;

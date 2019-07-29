@@ -1,6 +1,9 @@
 #ifndef COMPUTERLATENCY_H_
 #define COMPUTERLATENCY_H_
 
+#include <stdlib.h>
+#include <random>
+
 class ComputerLatency {
 
     public:

@@ -72,6 +72,18 @@ class Transaction {
         int get_current_transaction_id(void);
         int get_current_transaction_index(void);
 
+        int get_num_completed_transactions(void);
+        int get_num_forwarded_transactions(void);
+        int get_num_of_total_transactions(void);
+        int get_num_forwarded_completed_transactions(void);
+
+        int get_failed_transactions(void);
+        int get_capacity_failure(void);
+
+        double get_network_delay(void);
+        double get_os_delay(void);
+        double get_crypto_delay(void);
+
         // Message handling
         void handle_message(BasicMessage *, int);
         int get_message_count(void);
@@ -90,12 +102,15 @@ class Transaction {
         int concurrencyType;
         int currentTransactionId;
         int pendingTransactionAmount;
-        int senderDirectionEdge;
-        int currentPaymentDirection;
 
         int currentNeighbour;
         int currentNeighbourList[10];
         Neighbours *connectedNeighbours;
+
+        int numberOfCompletedTransactions;
+        int numberOfForwardedTransactions;
+        int numberOfForwardedTransactionsCompleted;
+        int numberOfTotalTransactions;
 
         int numberOfCapacityErrors;
         int numberOfReceivedCapacityErrors;

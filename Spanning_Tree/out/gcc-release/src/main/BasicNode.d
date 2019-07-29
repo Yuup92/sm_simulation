@@ -9,7 +9,9 @@ out/gcc-release//src/main/BasicNode.o: src/main/BasicNode.cc \
  src/alg/spanning_tree/SpanningTree.h \
  src/alg/spanning_tree/QueuedMessage.h src/transaction/Transaction.h \
  src/transaction/concurrency/ConcurrencyBlocking.h src/latency/Latency.h \
- src/latency/types/NetworkLatency.h
+ src/latency/types/NetworkLatency.h src/latency/types/ComputerLatency.h \
+ src/latency/types/CryptographicLatency.h src/output/FileWriter.h \
+ src/output/SaveState.h
 
 /home/yuup/TU_Delft/Thesis/OMNeT/omnetpp-5.4.1/include/omnetpp.h:
 
@@ -42,3 +44,11 @@ src/transaction/concurrency/ConcurrencyBlocking.h:
 src/latency/Latency.h:
 
 src/latency/types/NetworkLatency.h:
+
+src/latency/types/ComputerLatency.h:
+
+src/latency/types/CryptographicLatency.h:
+
+src/output/FileWriter.h:
+
+src/output/SaveState.h:
