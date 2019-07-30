@@ -18,13 +18,14 @@ class FileWriter {
 
         FileWriter(void);
 
-        void set_node_id(int);
+        void set_node_id(int, int);
         void initialize_file(void);
 
-        void update_variables(std::string, int, int, int, int, int, int, int, double, double, double);
+        void update_variables(std::string, int, int, int, int, int, int, int, double, double, double, std::string);
 
     private:
         int nodeId;
+        int amountOfNeighbours;
         std::string fileName;
 
         std::ofstream  myFile;
@@ -42,7 +43,7 @@ class FileWriter {
         int currentNumberOfTransactions[10000];
         int numOfTransactionsFailed[10000];
         int numOfTransactionsFailedCapacity[10000];
-
+        std::string capacities[10000];
         // LinkCapacities, should add it as a string
         void write_to_file(void);
 

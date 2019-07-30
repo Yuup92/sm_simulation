@@ -1,6 +1,12 @@
 #ifndef LINKCAPACITY_H_
 #define LINKCAPACITY_H_
 
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <sys/stat.h>
+
 #include "src/transaction/concurrency/Concurrency.h"
 
 struct pending_payment {
@@ -34,6 +40,7 @@ class LinkCapacity {
         bool update_increase(int);
         bool update_decrease(int);
 
+        std::string to_file(void);
 
     private:
         int connectedNodeId;

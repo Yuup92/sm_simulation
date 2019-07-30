@@ -5,9 +5,10 @@ FileWriter::FileWriter(void) {
     index = 0;
 }
 
-void FileWriter::set_node_id(int id) {
+void FileWriter::set_node_id(int id, int numberNeighbours) {
     nodeId = id;
     fileName = "N_" + std::to_string(id) + ".txt";
+    amountOfNeighbours = numberNeighbours;
 }
 
 void FileWriter::initialize_file(void) {
@@ -22,13 +23,18 @@ void FileWriter::initialize_file(void) {
     // Make the file
     fileName = dir + fileName;
     myFile.open(fileName.c_str(), std::ios_base::app);
-    myFile << "time, tCompleted, tStarted, tForwarded, currentTransactions, tFailed, tTimedout, nDelay, cDelay, osDelay\n";
+    myFile << "time, tCompleted, tStarted, tForwarded, currentTransactions, tFailed, tTimedout, nDelay, cDelay, osDelay, numLinkedNeighbours, ";
+    for(int i = 0; i < amountOfNeighbours; i++) {
+        myFile << "id, capacity, virtualCap, numOfpayments, numOfPaymentsPending,";
+    }
+    myFile <<"\n";
+
     myFile.close();
 }
 
 void FileWriter::update_variables(std::string t, int tCompleted, int tStarted, int tForwarded,
                                     int tCompletedForwarded, int curT, int tFailed, int cFailed,
-                                    double nDelay, double cDelay, double oDelay) {
+                                    double nDelay, double cDelay, double oDelay, std::string cap) {
 
     time[index] = t;
 
@@ -42,6 +48,7 @@ void FileWriter::update_variables(std::string t, int tCompleted, int tStarted, i
     networkDelay[index] = nDelay;
     cryptoDelay[index] = cDelay;
     osDelay[index] = oDelay;
+    capacities[index] = cap;
 
     index++;
 
@@ -63,7 +70,9 @@ void FileWriter::write_to_file(void) {
         res = res + std::to_string(numOfTransactionsFailed[index]) + ",";
         res = res + std::to_string(networkDelay[index]) + ",";
         res = res + std::to_string(cryptoDelay[index]) + ",";
-        res = res + std::to_string(osDelay[index]) + "\n";
+        res = res + std::to_string(osDelay[index]) + ",";
+        res = res + std::to_string(amountOfNeighbours) + ",";
+        res = res + capacities[index] + "/n";
 
         myFile << res;
     }

@@ -123,3 +123,16 @@ bool LinkCapacity::update_decrease(int amount) {
         return false;
     }
 }
+
+
+std::string LinkCapacity::to_file(void) {
+    std::string res = std::to_string(connectedNodeId) + ",";
+    res += std::to_string(capacity) + ",";
+    res += std::to_string(virtualCapacity) + ",";
+
+    res += std::to_string(numOfPayments) + ",";
+    res += std::to_string(numOfPaymentsPending) + ",";
+
+
+    return res;
+}

@@ -73,6 +73,7 @@ class BasicNode : public cSimpleModule
 
         virtual std::string parseNodeID(const char* nodeName);
 
+        // void run_simulation(void);
 };
 
 Define_Module(BasicNode);
@@ -93,19 +94,15 @@ BasicNode::~BasicNode()
 void BasicNode::initialize()
 {
     initialize_parameters();
-    std::string total = saveState.loadstate(linkCapacities);
-    for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
-        connected_neighbours[i].add_capacities_to_linked_nodes(&linkCapacities[0], 23);
-    }
+//    std::string total = saveState.loadstate(linkCapacities);
+//    for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
+//        connected_neighbours[i].add_capacities_to_linked_nodes(&linkCapacities[0], 23);
+//    }
     // broadcastLeaderRequest();
-    for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
-        //spanning_trees[i].wake_up();
-    }
-    if(nodeId == 15) {
+//    for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
+//        spanning_trees[i].wake_up();
+//    }
 
-        EV <<"Node: " << nodeId << " has total: " << total << "\n";
-
-    }
 }
 
 void BasicNode::initialize_parameters()
@@ -118,8 +115,8 @@ void BasicNode::initialize_parameters()
         nodeId = rand();
     }
 
-    fileWriter.set_node_id(nodeId);
-    fileWriter.initialize_file();
+//    fileWriter.set_node_id(nodeId, gateSize("out"));
+//    fileWriter.initialize_file();
 
     startSimulation = false;
     pulseTree = 0;
@@ -226,133 +223,43 @@ void BasicNode::handleMessage(cMessage *msg)
     {
         delete msg;
         sendMessagesFromBuffer();
-        for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
-            spanning_trees[i].check_queued_messages();
-        }
+//        for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
+//            spanning_trees[i].check_queued_messages();
+//        }
 
         start_message_timer();
 
         // Finish Initialization process
 
-        if(simTime() > 1 and not startSimulation) {
+//        if(simTime() > 1 and not startSimulation) {
 //            for(int i = 0; i < BasicNode::NUM_OF_TREES; i++) {
 //                spanning_trees[i].update_linked_nodes(connected_neighbours[i].get_linked_nodes());
 //                connected_neighbours[i].add_capacities_to_linked_nodes(&linkCapacities[0], 23);
 //            }
 //            saveState.save();
-            startSimulation = true;
-            EV << "noideId: " << nodeId << "connectedneighbours string: " << connected_neighbours[0].to_string() << "\n";
-        }
+//            startSimulation = true;
+//            EV << "noideId: " << nodeId << "connectedneighbours string: " << connected_neighbours[0].to_string() << "\n";
+//        }
 
-        if(simTime() > 205) {
+//        if(simTime() > 205) {
             //int res = saveState.loadstate(linkCapacities);
             //EV << res;
-        }
+//        }
 
         //
         // Start the random simulation here
         //
 
-        if(startSimulation) {
-            int sendTransactionProbability = rand();
 
-            // 0.05 % chance of sending
-            if(sendTransactionProbability < 10000000) {
-                int amountProbability = rand() % 100;
-                int amount = 1;
+//        if(startSimulation and false) {
+//            run_simulation();
+//        }
 
-                if(amountProbability < 5) {
-                    amount = 20;
-                } else if( amountProbability < 30) {
-                    amount = 10;
-                } else if( amountProbability < 60) {
-                    amount = 5;
-                }
-
-                int nodeProbability = rand() % 100;
-                int receiver = 0;
-
-                if(nodeProbability < 5) {
-                    if(nodeProbability % 2 == 0) {
-                        receiver = nodeId - 2;
-                    } else {
-                        receiver = nodeId + 2;
-                    }
-                } else if(nodeProbability < 25) {
-                    if(nodeProbability % 2 == 0) {
-                        receiver = nodeId - 3;
-                    } else {
-                        receiver = nodeId + 3;
-                    }
-                } else if(nodeProbability < 45) {
-                    if(nodeProbability % 2 == 0) {
-                        receiver = nodeId - 4;
-                    } else {
-                        receiver = nodeId + 4;
-                    }
-                } else if(nodeProbability < 65) {
-                    if(nodeProbability % 2 == 0) {
-                        receiver = nodeId - 5;
-                    } else {
-                        receiver = nodeId + 5;
-                    }
-                } else if(nodeProbability < 85) {
-                    if(nodeProbability % 2 == 0) {
-                        receiver = nodeId - 6;
-                    } else {
-                        receiver = nodeId + 6;
-                    }
-                } else if(nodeProbability < 95) {
-                    if(nodeProbability % 2 == 0) {
-                        receiver = nodeId - 7;
-                    } else {
-                        receiver = nodeId + 7;
-                    }
-                } else if(nodeProbability < 100) {
-                    if(nodeProbability % 2 == 0) {
-                        receiver = nodeId - 8;
-                    } else {
-                        receiver = nodeId + 8;
-                    }
-                }
-
-                if(receiver < 0) {
-                    receiver = nodeId - receiver;
-                }
-
-                if(receiver > 22) {
-                    receiver = receiver - nodeId;
-                }
-
-                EV << "Node: " << nodeId << " \nSending Amount: " << amount << " \nReceiver: " << receiver << "\n";
-
-                int send = transaction.send(receiver, amount);
-
-            }
-
-            if(transaction.get_current_transaction_index() > 1) {
-
-                EV << "node: " << nodeId << " has transaction string with capacities: " << transaction.capacities_to_string() << " \n delay:" << transaction.delay_to_string() << "\n";
-            }
-
-            std::string time = simTime().str();
-
-            fileWriter.update_variables(time,
-                                        transaction.get_num_completed_transactions(),
-                                        transaction.get_num_of_total_transactions(),
-                                        transaction.get_num_forwarded_transactions(),
-                                        transaction.get_num_forwarded_completed_transactions(),
-                                        transaction.get_current_transaction_id(),
-                                        transaction.get_failed_transactions(),
-                                        transaction.get_capacity_failure(),
-                                        transaction.get_network_delay(),
-                                        transaction.get_crypto_delay(),
-                                        transaction.get_os_delay());
-
-        }
-
-        return;
     }
+
+
+
+
 
     BasicMessage * basicmsg = dynamic_cast<BasicMessage*> (msg);
 
@@ -384,3 +291,109 @@ std::string BasicNode::parseNodeID(const char* nodeName)
 
    return node_ID;
 }
+
+//void BasicNode::run_simulation(void) {
+//
+//    int sendTransactionProbability = rand();
+//
+//    // 0.05 % chance of sending
+//    if(sendTransactionProbability < 10000000) {
+//        int amountProbability = rand() % 100;
+//        int amount = 1;
+//
+//        if(amountProbability < 5) {
+//            amount = 20;
+//        } else if( amountProbability < 30) {
+//            amount = 10;
+//        } else if( amountProbability < 60) {
+//            amount = 5;
+//        }
+//
+//        int nodeProbability = rand() % 100;
+//        int receiver = 0;
+//
+//        if(nodeProbability < 5) {
+//            if(nodeProbability % 2 == 0) {
+//                receiver = nodeId - 2;
+//            } else {
+//                receiver = nodeId + 2;
+//            }
+//        } else if(nodeProbability < 25) {
+//            if(nodeProbability % 2 == 0) {
+//                receiver = nodeId - 3;
+//            } else {
+//                receiver = nodeId + 3;
+//            }
+//        } else if(nodeProbability < 45) {
+//            if(nodeProbability % 2 == 0) {
+//                receiver = nodeId - 4;
+//            } else {
+//                receiver = nodeId + 4;
+//            }
+//        } else if(nodeProbability < 65) {
+//            if(nodeProbability % 2 == 0) {
+//                receiver = nodeId - 5;
+//            } else {
+//                receiver = nodeId + 5;
+//            }
+//        } else if(nodeProbability < 85) {
+//            if(nodeProbability % 2 == 0) {
+//                receiver = nodeId - 6;
+//            } else {
+//                receiver = nodeId + 6;
+//            }
+//        } else if(nodeProbability < 95) {
+//            if(nodeProbability % 2 == 0) {
+//                receiver = nodeId - 7;
+//            } else {
+//                receiver = nodeId + 7;
+//            }
+//        } else if(nodeProbability < 100) {
+//            if(nodeProbability % 2 == 0) {
+//                receiver = nodeId - 8;
+//            } else {
+//                receiver = nodeId + 8;
+//            }
+//        }
+//
+//        if(receiver < 0) {
+//            receiver = nodeId - receiver;
+//        }
+//
+//        if(receiver > 22) {
+//            receiver = receiver - nodeId;
+//        }
+//
+//        EV << "Node: " << nodeId << " \nSending Amount: " << amount << " \nReceiver: " << receiver << "\n";
+//
+//        int send = transaction.send(receiver, amount);
+//
+//    }
+//
+//    if(transaction.get_current_transaction_index() > 1) {
+//
+//            EV << "node: " << nodeId << " has transaction string with capacities: " << transaction.capacities_to_string() << " \n delay:" << transaction.delay_to_string() << "\n";
+//    }
+//
+//    std::string time = simTime().str();
+//
+//    //Gather capacities on the lines
+//    std::string capacities = "";
+////    for(int i = 0; i < gateSize("out"); i++) {
+////        capacities += linkCapacities[i].to_file();
+////    }
+//
+//    fileWriter.update_variables(time,
+//                                transaction.get_num_completed_transactions(),
+//                                transaction.get_num_of_total_transactions(),
+//                                transaction.get_num_forwarded_transactions(),
+//                                transaction.get_num_forwarded_completed_transactions(),
+//                                transaction.get_current_transaction_id(),
+//                                transaction.get_failed_transactions(),
+//                                transaction.get_capacity_failure(),
+//                                transaction.get_network_delay(),
+//                                transaction.get_crypto_delay(),
+//                                transaction.get_os_delay(),
+//                                capacities);
+//
+//}
