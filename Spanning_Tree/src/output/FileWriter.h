@@ -14,7 +14,7 @@
 
 class FileWriter {
     public:
-        const int static BUFFER = 10;
+        const int static BUFFER = 1000;
 
         FileWriter(void);
 
